@@ -1,0 +1,639 @@
+body {
+  margin: 0;
+  background-color: #1f4e5f;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+.intro {
+  position: absolute;
+  z-index: 20;
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  animation: preloader 1.5s 2s ease forwards;
+}
+
+.intro-1 {
+  font-size: 20vh;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+}
+
+.intro-1 {
+  font-size: 20vh;
+}
+
+.intro-2 {
+  font-size: 10vh;
+  margin-left: -2.2vw;
+}
+
+.intro-3 {
+  font-size: 10vh;
+}
+
+@keyframes preloader {
+  to {
+    margin-left: -200vw;
+  }
+}
+
+.left {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.l-1 {
+  height: 17%;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.l-1-1 {
+  width: 15%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.moon1 {
+  height: 50%;
+  bottom: 0;
+}
+
+.l-1-2 {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.moon2 {
+  height: 75%;
+  bottom: 0;
+}
+
+.l-1-3 {
+  width: 25%;
+  height: 100%;
+}
+
+.moon3 {
+  height: 100%;
+}
+.l-1-4 {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.moon4 {
+  height: 75%;
+  bottom: 0;
+}
+
+.l-1-5 {
+  width: 15%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.moon5 {
+  height: 50%;
+  bottom: 0;
+}
+
+.l-2 {
+  height: 10%;
+  width: 80%;
+  font-size: 4.5vh;
+  line-height: 10vh;
+  color: #d5e7ea;
+}
+
+.l-3 {
+  height: 15%;
+  width: 80%;
+  background-color: #d5e7ea;
+  border-radius: 50px;
+  color: #1f4e5f;
+  font-weight: 800;
+  font-size: 12vh;
+  display: flex;
+  justify-content: center;
+  line-height: 15vh;
+}
+
+.l-3-1 {
+  padding-right: 4vw;
+}
+
+.l-3-2 {
+  margin-top: -1vh;
+}
+
+.l-3-3 {
+  padding-left: 4vw;
+}
+
+.l-4 {
+  height: 17%;
+  width: 80%;
+  color: #d5e7ea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.l-5 {
+  height: 17%;
+  width: 80%;
+  color: #d5e7ea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 3.5vh;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.text {
+  font-size: 2.4vh;
+}
+
+.source {
+  font-size: 2.2vh;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.l-6 {
+  height: 15%;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.l-6-1,
+.l-6-5 {
+  color: #3b6773;
+}
+
+.l-6-3 {
+  color: #d5e7ea;
+}
+
+.tri {
+  font-size: 4vh;
+  width: 10%;
+}
+
+.rec {
+  width: 35%;
+  height: 65%;
+  background-color: #d5e7ea;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #3b6773;
+}
+
+.l6-title {
+  font-size: 3.3vh;
+}
+
+.l6-description {
+  font-size: 2.2vh;
+  font-style: italic;
+  font-weight: light;
+}
+
+.right {
+  width: 50%;
+  height: 100%;
+  background-color: #d5e7ea;
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+  color: white;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 3.5vw;
+  line-height: 7vh;
+  position: relative;
+}
+
+.r-text {
+  font-weight: bold;
+}
+
+.sabahImgNormal {
+  position: absolute;
+  width: 35vw;
+  top: 5%;
+  opacity: 1;
+  transition: opacity 1s;
+
+  /* animation: sabahImgNormal 1s 1s forwards; */
+}
+
+@keyframes sabahImgNormal {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes sabahImgNormalDeactivate {
+  to {
+    opacity: 1;
+  }
+}
+
+.sabahImgActive {
+  position: absolute;
+  width: 40vw;
+  top: 3.4%;
+  opacity: 0;
+  transition: opacity 1s;
+
+  /* animation: sabahImgActive 1s 1s forwards; */
+}
+
+@keyframes sabahImgActive {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sabahImgDeactivate {
+  to {
+    opacity: 0;
+  }
+}
+
+.sabahText {
+  position: absolute;
+  line-height: 12vh;
+  border-radius: 60px;
+  height: 13%;
+  width: 32%;
+  top: 5.1%;
+  right: 38%;
+  font-weight: bold;
+  transition: top 0.5s, right 0.5s, font-weight 0.5s;
+}
+
+.sabahTextActivate {
+  height: 14%;
+  width: 37%;
+  top: 3.5%;
+  right: 43%;
+  line-height: 14vh;
+}
+
+@keyframes sabahTextAnimationDeactivate {
+  to {
+    height: 13%;
+    width: 32%;
+    top: 5.1%;
+    right: 38%;
+  }
+}
+
+.sabahTime {
+  position: absolute;
+  top: 14.2%;
+  right: 4%;
+  font-weight: normal;
+  transition: font-weight 0.5s, top 0.5s, right 0.5s;
+}
+
+.ogleImgNormal {
+  position: absolute;
+  width: 35vw;
+  top: 25vh;
+  right: 0%;
+  opacity: 1;
+  animation-duration: 1s;
+
+  /* animation: ogleImgNormal 1s 1s forwards; */
+}
+
+@keyframes ogleImgNormal {
+  to {
+    opacity: 0;
+  }
+}
+
+.ogleImgActive {
+  position: absolute;
+  width: 40vw;
+  top: 23.1%;
+  opacity: 0;
+  /* animation: ogleImgActive 1s 1s forwards; */
+}
+
+@keyframes ogleImgActive {
+  to {
+    opacity: 1;
+  }
+}
+
+.ogleText {
+  position: absolute;
+  line-height: 12vh;
+  border-radius: 60px;
+  height: 11%;
+  width: 33%;
+  top: 24.5%;
+  right: 38%;
+  background-color: red;
+  opacity: 0.5;
+  /* animation: ogleTextAnimation 1s 1s forwards; */
+}
+
+@keyframes ogleTextAnimation {
+  to {
+    height: 14%;
+    width: 37%;
+    top: 23.2%;
+    right: 43%;
+    line-height: 14vh;
+  }
+}
+
+.ogleTime {
+  position: absolute;
+  top: 30.5%;
+  right: 4%;
+  font-weight: normal;
+}
+
+/* ikindi start */
+
+.ikindiImgNormal {
+  position: absolute;
+  opacity: 1;
+  height: 21%;
+  top: 44%;
+
+  /* animation: ogleImgNormal 1s 1s forwards; */
+}
+
+@keyframes ikindiImgNormal {
+  to {
+    opacity: 0;
+  }
+}
+
+.ikindiImgActive {
+  position: absolute;
+  width: 40vw;
+  top: 43.1%;
+  opacity: 0;
+  /* animation: ikindiImgActive 1s 1s forwards; */
+}
+
+@keyframes ikindiImgActive {
+  to {
+    opacity: 1;
+  }
+}
+
+.ikindiText {
+  position: absolute;
+  line-height: 13.5vh;
+  border-radius: 60px;
+  height: 13%;
+  width: 32%;
+  top: 43.2%;
+  right: 38%;
+
+  /* animation: ikindiTextAnimation 1s 1s forwards; */
+}
+
+@keyframes ikindiTextAnimation {
+  to {
+    height: 14%;
+    width: 37%;
+    top: 43.3%;
+    right: 43%;
+    line-height: 14vh;
+  }
+}
+
+.ikindiTime {
+  position: absolute;
+  top: 46.7%;
+  right: 4%;
+  font-weight: normal;
+}
+
+/* aksam start */
+
+.aksamImgNormal {
+  position: absolute;
+  width: 35vw;
+  top: 61.2%;
+  opacity: 1;
+  /* animation: aksamImgNormal 1s 1s forwards; */
+}
+
+@keyframes aksamImgNormal {
+  to {
+    opacity: 0;
+  }
+}
+
+.aksamImgActive {
+  position: absolute;
+  width: 40vw;
+  top: 60.5%;
+  opacity: 0;
+  /* animation: aksamImgActive 1s 1s forwards; */
+}
+
+@keyframes aksamImgActive {
+  to {
+    opacity: 1;
+  }
+}
+
+.aksamText {
+  position: absolute;
+  line-height: 13.5vh;
+  border-radius: 60px;
+  height: 13%;
+  width: 32%;
+  top: 62.8%;
+  right: 38%;
+
+  /* animation: aksamTextAnimation 1s 1s forwards; */
+}
+
+@keyframes aksamTextAnimation {
+  to {
+    height: 14%;
+    width: 37%;
+    top: 63.2%;
+    right: 43%;
+    line-height: 14vh;
+  }
+}
+
+.aksamTime {
+  position: absolute;
+  top: 62.7%;
+  right: 4%;
+  font-weight: normal;
+}
+
+/* yatsi start  */
+
+.yatsiImgNormal {
+  position: absolute;
+  width: 35vw;
+  bottom: 2%;
+  opacity: 1;
+  /* animation: yatsiImgNormal 1s 1s forwards; */
+}
+
+@keyframes yatsiImgNormal {
+  to {
+    opacity: 0;
+  }
+}
+
+.yatsiImgActive {
+  position: absolute;
+  width: 40vw;
+  bottom: 0%;
+  opacity: 0;
+  /* animation: aksamImgActive 1s 1s forwards; */
+}
+
+@keyframes yatsiImgActive {
+  to {
+    opacity: 1;
+  }
+}
+
+.yatsiText {
+  position: absolute;
+  line-height: 6vw;
+  border-radius: 60px;
+  height: 6vw;
+  width: 32%;
+  top: 84.5vh;
+  right: 38%;
+  background-color: red;
+  opacity: 0.5;
+  /* animation: aksamTextAnimation 1s 1s forwards; */
+}
+
+@keyframes yatsiTextAnimation {
+  to {
+    height: 14%;
+    width: 37%;
+    top: 82.5%;
+    right: 43%;
+    line-height: 14vh;
+  }
+}
+
+.yatsiTime {
+  position: absolute;
+  top: 78.7%;
+  right: 4%;
+  font-weight: normal;
+}
+
+@keyframes timeAnimation {
+  to {
+    right: 6%;
+    font-weight: bold;
+  }
+}
+
+@keyframes timeAnimationSabah {
+  to {
+    right: 6%;
+    font-weight: bold;
+    top: 14.7%;
+  }
+}
+
+@keyframes timeAnimationSabahDeactivate {
+  to {
+    top: 14.2%;
+    right: 4%;
+    font-weight: normal;
+  }
+}
+
+@keyframes timeAnimationOgle {
+  to {
+    right: 6%;
+    font-weight: bold;
+    top: 30.7%;
+  }
+}
+
+@keyframes timeAnimationIkindi {
+  to {
+    right: 6%;
+    font-weight: bold;
+    top: 46.7%;
+  }
+}
+
+@keyframes timeAnimationAksam {
+  to {
+    right: 6%;
+    font-weight: bold;
+    top: 62.7%;
+  }
+}
+
+@keyframes timeAnimationYatsi {
+  to {
+    right: 6%;
+    font-weight: bold;
+    top: 78.2%;
+  }
+}
