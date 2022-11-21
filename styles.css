@@ -9,6 +9,9 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
+* {
+  overflow: hidden;
+}
 .intro {
   position: absolute;
   z-index: 20;
@@ -130,9 +133,12 @@ body {
 .l-2 {
   height: 10%;
   width: 80%;
-  font-size: 4.5vh;
+  font-size: 4vh;
   line-height: 10vh;
   color: #d5e7ea;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .l-3 {
@@ -264,56 +270,27 @@ body {
 
 .sabahImgNormal {
   position: absolute;
-  width: 35vw;
+  width: 37vw;
   top: 5%;
   opacity: 1;
   transition: opacity 1s;
-
-  /* animation: sabahImgNormal 1s 1s forwards; */
-}
-
-@keyframes sabahImgNormal {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes sabahImgNormalDeactivate {
-  to {
-    opacity: 1;
-  }
 }
 
 .sabahImgActive {
   position: absolute;
-  width: 40vw;
-  top: 3.4%;
+  width: 44vw;
+  top: 1.4%;
   opacity: 0;
-  transition: opacity 1s;
-
-  /* animation: sabahImgActive 1s 1s forwards; */
-}
-
-@keyframes sabahImgActive {
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes sabahImgDeactivate {
-  to {
-    opacity: 0;
-  }
 }
 
 .sabahText {
   position: absolute;
-  line-height: 12vh;
+  line-height: 6vw;
   border-radius: 60px;
-  height: 13%;
-  width: 32%;
-  top: 5.1%;
-  right: 38%;
+  height: 6vw;
+  width: 34%;
+  top: 5.3%;
+  right: 40%;
   font-weight: bold;
   transition: top 0.5s, right 0.5s, font-weight 0.5s;
 }
@@ -337,54 +314,35 @@ body {
 
 .sabahTime {
   position: absolute;
-  top: 14.2%;
+  top: 12.2%;
   right: 4%;
-  font-weight: normal;
+  line-height: 5.15vw;
   transition: font-weight 0.5s, top 0.5s, right 0.5s;
 }
 
 .ogleImgNormal {
   position: absolute;
-  width: 35vw;
-  top: 25vh;
+  width: 37vw;
+  top: 24.8%;
   right: 0%;
   opacity: 1;
-  animation-duration: 1s;
-
-  /* animation: ogleImgNormal 1s 1s forwards; */
-}
-
-@keyframes ogleImgNormal {
-  to {
-    opacity: 0;
-  }
 }
 
 .ogleImgActive {
   position: absolute;
-  width: 40vw;
-  top: 23.1%;
+  width: 44vw;
+  top: 23%;
   opacity: 0;
-  /* animation: ogleImgActive 1s 1s forwards; */
-}
-
-@keyframes ogleImgActive {
-  to {
-    opacity: 1;
-  }
 }
 
 .ogleText {
   position: absolute;
-  line-height: 12vh;
+  line-height: 6vw;
   border-radius: 60px;
-  height: 11%;
-  width: 33%;
-  top: 24.5%;
-  right: 38%;
-  background-color: red;
-  opacity: 0.5;
-  /* animation: ogleTextAnimation 1s 1s forwards; */
+  height: 6vw;
+  width: 34%;
+  top: 25.2%;
+  right: 40%;
 }
 
 @keyframes ogleTextAnimation {
@@ -399,8 +357,9 @@ body {
 
 .ogleTime {
   position: absolute;
-  top: 30.5%;
+  top: 29.8%;
   right: 4%;
+  line-height: 5.15vw;
   font-weight: normal;
 }
 
@@ -409,41 +368,25 @@ body {
 .ikindiImgNormal {
   position: absolute;
   opacity: 1;
-  height: 21%;
-  top: 44%;
-
-  /* animation: ogleImgNormal 1s 1s forwards; */
-}
-
-@keyframes ikindiImgNormal {
-  to {
-    opacity: 0;
-  }
+  width: 37vw;
+  top: 43.5%;
 }
 
 .ikindiImgActive {
   position: absolute;
-  width: 40vw;
-  top: 43.1%;
+  width: 44vw;
+  top: 42.4%;
   opacity: 0;
-  /* animation: ikindiImgActive 1s 1s forwards; */
-}
-
-@keyframes ikindiImgActive {
-  to {
-    opacity: 1;
-  }
 }
 
 .ikindiText {
   position: absolute;
-  line-height: 13.5vh;
+  line-height: 6vw;
   border-radius: 60px;
-  height: 13%;
-  width: 32%;
-  top: 43.2%;
-  right: 38%;
-
+  height: 6vw;
+  width: 34%;
+  top: 44.2%;
+  right: 40%;
   /* animation: ikindiTextAnimation 1s 1s forwards; */
 }
 
@@ -459,8 +402,9 @@ body {
 
 .ikindiTime {
   position: absolute;
-  top: 46.7%;
+  top: 45%;
   right: 4%;
+  line-height: 5.3vw;
   font-weight: normal;
 }
 
@@ -468,42 +412,26 @@ body {
 
 .aksamImgNormal {
   position: absolute;
-  width: 35vw;
-  top: 61.2%;
+  width: 37vw;
+  top: 60%;
   opacity: 1;
-  /* animation: aksamImgNormal 1s 1s forwards; */
-}
-
-@keyframes aksamImgNormal {
-  to {
-    opacity: 0;
-  }
 }
 
 .aksamImgActive {
   position: absolute;
-  width: 40vw;
-  top: 60.5%;
+  width: 44vw;
+  top: 59%;
   opacity: 0;
-  /* animation: aksamImgActive 1s 1s forwards; */
-}
-
-@keyframes aksamImgActive {
-  to {
-    opacity: 1;
-  }
 }
 
 .aksamText {
   position: absolute;
-  line-height: 13.5vh;
+  line-height: 6vw;
   border-radius: 60px;
-  height: 13%;
-  width: 32%;
-  top: 62.8%;
-  right: 38%;
-
-  /* animation: aksamTextAnimation 1s 1s forwards; */
+  height: 6vw;
+  width: 34%;
+  top: 63.3%;
+  right: 40%;
 }
 
 @keyframes aksamTextAnimation {
@@ -518,8 +446,9 @@ body {
 
 .aksamTime {
   position: absolute;
-  top: 62.7%;
+  top: 61.2%;
   right: 4%;
+  line-height: 5.15vw;
   font-weight: normal;
 }
 
@@ -527,30 +456,16 @@ body {
 
 .yatsiImgNormal {
   position: absolute;
-  width: 35vw;
-  bottom: 2%;
+  width: 37vw;
+  bottom: 1.6%;
   opacity: 1;
-  /* animation: yatsiImgNormal 1s 1s forwards; */
-}
-
-@keyframes yatsiImgNormal {
-  to {
-    opacity: 0;
-  }
 }
 
 .yatsiImgActive {
   position: absolute;
-  width: 40vw;
-  bottom: 0%;
+  width: 44vw;
+  bottom: -2.5%;
   opacity: 0;
-  /* animation: aksamImgActive 1s 1s forwards; */
-}
-
-@keyframes yatsiImgActive {
-  to {
-    opacity: 1;
-  }
 }
 
 .yatsiText {
@@ -558,11 +473,9 @@ body {
   line-height: 6vw;
   border-radius: 60px;
   height: 6vw;
-  width: 32%;
-  top: 84.5vh;
-  right: 38%;
-  background-color: red;
-  opacity: 0.5;
+  width: 34%;
+  bottom: 5.7vh;
+  right: 40%;
   /* animation: aksamTextAnimation 1s 1s forwards; */
 }
 
@@ -578,7 +491,8 @@ body {
 
 .yatsiTime {
   position: absolute;
-  top: 78.7%;
+  top: 78.5%;
+  line-height: 5.3vw;
   right: 4%;
   font-weight: normal;
 }
@@ -635,5 +549,43 @@ body {
     right: 6%;
     font-weight: bold;
     top: 78.2%;
+  }
+}
+
+.imgNormalAnimation {
+  animation: imgNormal 4s 2s forwards;
+}
+
+.imgActiveAnimation {
+  animation: imgActive 4s 2s forwards;
+}
+
+@keyframes imgNormal {
+  0% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0;
+  }
+  55% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes imgActive {
+  0% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }

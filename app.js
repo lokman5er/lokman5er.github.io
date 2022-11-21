@@ -1,86 +1,113 @@
+updateClock();
 
-const data = [
-    {
-        "sabah": "03:28",
-        "ogle": "12:20"
+const data = [];
+const starterDayPrayers = [];
+var now = new Date();
+
+var prayerTimesForToday = []
+
+fetch('https://ezanvakti.herokuapp.com/vakitler/11023')
+    .then(res => res.json())
+    .then(json => {
+        for (let i = 0; i < json.length; i++) {
+
+            data.push({
+                sabah: json[i]['Imsak'],
+                ogle: json[i]['Ogle'],
+                ikindi: json[i]['Ikindi'],
+                aksam: json[i]['Aksam'],
+                yatsi: json[i]['Yatsi'],
+                ayinSekli: json[i]['AyinSekliURL'],
+                hicriTarih: json[i]['HicriTarihUzun']
+            })
+
+
+        }
+    })
+    .then(() => {
+        updateText();
+    })
+    .then(() => {
+        whatIsNextPrayer();
+    })
+//https://ezanvakti.herokuapp.com/vakitler/11023
+
+
+function whatIsNextPrayer() {
+    var prayerCounter = 0;
+
+    currentHours = now.getHours();
+    if (currentHours < 10) {
+        currentHours = "0" + currentHours;
     }
-]
+    currentMinutes = now.getMinutes();
+    if (currentMinutes < 10) {
+        currentMinutes = "0" + currentMinutes;
+    }
+    currentTime = currentHours + ":" + currentMinutes;
 
-var sabahHour, sabahMinute, ogleHour, ogleMinute;
 
-function transformData(data) {
-    sabahT = data[0]["sabah"];
-    sabahH = sabahT.substring(0, 2);
-    sabahHour = parseInt(sabahT);
-    sabahM = sabahT.substring(3, 5);
-    sabahMinute = parseInt(sabahM);
+    while (true) {
+        if (currentTime < todaysPrayerTimes[prayerCounter] || prayerCounter == todaysPrayerTimes.length - 1) {
+            //this is the next prayer
+            if (prayerCounter == todaysPrayerTimes.length - 1 && todaysPrayerTimes[prayerCounter] < currentTime) {
+                animateImg(prayerCounter);
+            } else if (prayerCounter == todaysPrayerTimes.length - 1 && todaysPrayerTimes[prayerCounter] > currentTime) {
+                animateImg(prayerCounter - 1);
+            } else {
+                animateImg(prayerCounter - 1);
+            }
+            break;
+        }
+        prayerCounter++;
+    }
 }
 
-transformData(data);
 
-var now = new Date();
-hours = now.getHours();
-minutes = now.getMinutes();
-seconds = now.getSeconds();
-seconds++;
-if (hours < 10) {
-    hoursString = "0" + hours;
-} else hoursString = hours;
-if (minutes < 10) {
-    minutesString = "0" + minutes;
-} else minutesString = minutes;
-document.querySelector('.l-3-1').innerHTML = hoursString
-document.querySelector('.l-3-3').innerHTML = minutesString
 
-// ? how to sync this with exact ms?
+
+dataCounter = 0;
+
+dateDay = now.getDay();
+dateMonth = now.getMonth();
+dateYear = now.getFullYear();
+
+//needed to start in exact second
 setTimeout(function () {
-    setInterval(function () {
-        seconds++;
-        changed = false;
 
-        //let time run
-        if (seconds == 60) {
-            minutes++;
-            seconds = 0;
-            changed = true;
-        }
-        if (minutes == 60) {
-            hours++;
-            minutes = 0;
-            changed = true;
-        }
-        if (hours == 24) {
-            hours = 0;
-            changed = true;
-        }
+    updateClock();
 
-        //update html only when change appears
-        if (changed) {
+    runEveryMinute();
 
-            if (hours < 10) {
-                hoursString = "0" + hours;
-            } else hoursString = hours;
+}, (60000 - now.getMilliseconds() - now.getSeconds() * 1000))
 
-            if (minutes < 10) {
-                minutesString = "0" + minutes;
-            } else minutesString = minutes;
+var interval = 60000;
+var adjustedInterval = interval;
+var expectedCycleTime = 0;
 
-            document.querySelector('.l-3-1').innerHTML = hoursString;
-            document.querySelector('.l-3-3').innerHTML = minutesString;
+function runEveryMinute() {
+    var now2 = Date.now()
+    updateClock();
+    checkIfNextPrayer();
+    if (expectedCycleTime == 0) {
+        expectedCycleTime = now2 + interval;
+    }
+    else {
+        adjustedInterval = interval - (now2 - expectedCycleTime);
+        expectedCycleTime += interval;
+    }
 
-            if (hours == sabahHour && minutes == sabahMinute) {
-                sabahActiveAnimation();
-            }
-        }
+    // function calls itself after delay of adjustedInterval
+    setTimeout(function () {
+        runEveryMinute();
+    }, adjustedInterval);
+}
 
-        //check if next prayer is
+var hours, minutes;
 
-    }, 1000)
-}, 1000 - now.getMilliseconds())
+function updateClock() {
 
-function doDate() {
-
-    var now = new Date();
+    now = new Date();
     hours = now.getHours();
     if (hours < 10) {
         hours = "0" + hours;
@@ -92,98 +119,191 @@ function doDate() {
     document.querySelector('.l-3-1').innerHTML = hours
     document.querySelector('.l-3-3').innerHTML = minutes
 
-}
-
-// setInterval(doDate, 1000);
-
-const sabahImgNormal = document.querySelector('.sabahImgNormal')
-const sabahImgActive = document.querySelector('.sabahImgActive')
-const sabahText = document.querySelector('.sabahText')
-const sabahTime = document.querySelector('.sabahTime')
-
-const ogleImgNormal = document.querySelector('.ogleImgNormal')
-const ogleImgActive = document.querySelector('.ogleImgActive')
-const ogleText = document.querySelector('.ogleText')
-const ogleTime = document.querySelector('.ogleTime')
-
-const ikindiImgNormal = document.querySelector('.ikindiImgNormal')
-const ikindiImgActive = document.querySelector('.ikindiImgActive')
-const ikindiText = document.querySelector('.ikindiText')
-const ikindiTime = document.querySelector('.ikindiTime')
-
-const aksamImgNormal = document.querySelector('.aksamImgNormal')
-const aksamImgActive = document.querySelector('.aksamImgActive')
-const aksamText = document.querySelector('.aksamText')
-const aksamTime = document.querySelector('.aksamTime')
-
-const yatsiImgNormal = document.querySelector('.yatsiImgNormal')
-const yatsiImgActive = document.querySelector('.yatsiImgActive')
-const yatsiText = document.querySelector('.yatsiText')
-const yatsiTime = document.querySelector('.yatsiTime')
-
-sabahTest = data[0]["sabah"];
-hoursSabah = sabahTest.substring(0, 2);
-minutesSabah = sabahTest.substring(3, 5);
-sabahTime.innerText = hoursSabah + " : " + minutesSabah
-
-function sabahActiveAnimation() {
-    sabahImgNormal.style.opacity = 0;
-    sabahImgActive.style.opacity = 1;
-    sabahTime.style.fontWeight = "bold";
-    sabahTime.style.top = "15.7%";
-    sabahTime.style.right = "6%";
-    sabahText.style.top = "5.1%";
-    sabahText.style.right = "45%";
-    sabahText.style.fontWeight = "bold";
-
+    if (hours == "00" && minutes == "00") updateText();
 }
 
 
-// setTimeout(sabahActiveAnimation, 1500)
-function sabahDeactivateAnimation() {
-    sabahImgNormal.style.opacity = "sabahImgNormalDeactivate 1s linear forwards";
-    // sabahImgActive.style.animation = "sabahImgDeactivate 1s linear forwards";
-    // sabahText.style.animation = "sabahTextAnimationDeactivate linear forwards";
-    // sabahTime.style.animation = "timeAnimationSabahDeactivate linear forwards";
+const dateNormal = document.querySelector('.dateNormal');
+const monthNormal = document.querySelector('.monthNormal');
+const yearNormal = document.querySelector('.yearNormal');
+
+const dateHicri = document.querySelector('.dateHicri');
+const monthHicri = document.querySelector('.monthHicri');
+const yearHicri = document.querySelector('.yearHicri');
+
+const sabahTime = document.querySelector('.sabahTime');
+const ogleTime = document.querySelector('.ogleTime');
+const ikindiTime = document.querySelector('.ikindiTime');
+const aksamTime = document.querySelector('.aksamTime');
+const yatsiTime = document.querySelector('.yatsiTime');
+
+var todaysPrayerTimes = []
+
+function updateText() {
+    sabahRaw = calcSabah(data[dataCounter]['sabah']);
+    ogleRaw = data[dataCounter]['ogle'];
+    ikindiRaw = data[dataCounter]['ikindi'];
+    aksamRaw = data[dataCounter]['aksam'];
+    yatsiRaw = data[dataCounter]['yatsi'];
+
+    todaysPrayerTimes.push(sabahRaw, ogleRaw, ikindiRaw, aksamRaw, yatsiRaw);
+
+    sabahTime.innerHTML = sabahRaw.substring(0, 2) + " : " + sabahRaw.substring(3, 5);
+    ogleTime.innerHTML = ogleRaw.substring(0, 2) + " : " + ogleRaw.substring(3, 5);
+    ikindiTime.innerHTML = ikindiRaw.substring(0, 2) + " : " + ikindiRaw.substring(3, 5);
+    aksamTime.innerHTML = aksamRaw.substring(0, 2) + " : " + aksamRaw.substring(3, 5);
+    yatsiTime.innerHTML = yatsiRaw.substring(0, 2) + " : " + yatsiRaw.substring(3, 5);
+
+    hicriRaw = data[dataCounter]['hicriTarih'];
+    hicriInt = hicriRaw.match(/\d+/g)
+    hicriStr = hicriRaw.match(/[\u00C0-\u017Fa-zA-Z']+/g).join('')
+
+    dateNormal.innerText = now.getDate();
+    monthNormal.innerHTML = monthsTurkish[now.getMonth()];
+    yearNormal.innerHTML = now.getFullYear();
+
+    dateHicri.innerText = hicriInt[0];
+    monthHicri.innerHTML = hicriStr;
+    yearHicri.innerHTML = hicriInt[1];
+
+};
+
+function calcSabah(time) {
+    let hr = parseInt(time.substring(0, 2));
+    let mn = parseInt(time.substring(3, 5));
+
+    mn = mn + 30;
+
+    if (mn > 59) {
+        hr++;
+        dif = mn - 60;
+        mn = dif;
+    }
+
+    if (mn < 10) {
+        mn = "0" + mn
+    }
+
+    if (hr < 10) {
+        hr = "0" + hr
+    }
+    return hr + ":" + mn;
 }
 
-function ogleActiveAnimation() {
-    ogleImgNormal.style.animation = "ogleImgNormal 1s forwards";
-    ogleImgActive.style.animation = "ogleImgActive 1s forwards";
-    ogleText.style.animation = "ogleTextAnimation 0.5s linear forwards";
-    ogleTime.style.animation = "timeAnimationOgle 0.5s linear forwards";
+monthsGerman = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+monthsTurkish = ["Ocak‎", "Şubat‎", "Mart‎", "Nisan‎", "Mayıs‎", "Haziran‎", "Temmuz‎", "Ağustos‎", "Eylül‎", "Ekim‎", "Kasım‎", "Aralık‎"]
+
+prayerNamesTR = ["Sabah", "Ögle", "Ikindi", "Aksam", "Yatsi"]
+prayerNamesTR = ["Morgen", "Mittag", "Nachmittag", "Abend", "Nacht"]
+prayerNamesTR = ["صلاة الفجر", "صلاة الظهر", "صلاة العصر", "aaصلاة العشاء", "dصلاة الليل"]
+
+prayerNames = [{
+    tr: "Sabah",
+    gr: "Morgen",
+    ar: "صلاة الفجر"
+}, {
+    tr: "Ögle",
+    gr: "Mittag",
+    ar: "صلاة الظهر"
+}, {
+    tr: "ikindi",
+    gr: "Nachmittag",
+    ar: "صلاة العصر"
+}, {
+    tr: "Aksam",
+    gr: "Abend",
+    ar: "صلاة المغرب"
+}, {
+    tr: "Yatsi",
+    gr: "Nacht",
+    ar: "صلاة العشاء"
+}]
+
+var prayerText = []
+
+prayerText.push(
+    document.querySelector('.sabahText'),
+    document.querySelector('.ogleText'),
+    document.querySelector('.ikindiText'),
+    document.querySelector('.aksamText'),
+    document.querySelector('.yatsiText'),
+)
+
+var imgNormal = []
+
+imgNormal.push(
+    document.querySelector('.sabahImgNormal'),
+    document.querySelector('.ogleImgNormal'),
+    document.querySelector('.ikindiImgNormal'),
+    document.querySelector('.aksamImgNormal'),
+    document.querySelector('.yatsiImgNormal')
+)
+
+var imgActive = []
+
+imgActive.push(
+    document.querySelector('.sabahImgActive'),
+    document.querySelector('.ogleImgActive'),
+    document.querySelector('.ikindiImgActive'),
+    document.querySelector('.aksamImgActive'),
+    document.querySelector('.yatsiImgActive')
+)
+
+
+function animateImg(idx) {
+    imgNormal[idx].classList.remove('imgNormalAnimation')
+    imgActive[idx].classList.remove('imgActiveAnimation')
+    void imgNormal[idx].offsetWidth;
+    void imgActive[idx].offsetWidth;
+    imgNormal[idx].classList.add('imgNormalAnimation')
+    imgActive[idx].classList.add('imgActiveAnimation')
+
+    setTimeout(() => {
+        imgNormal[idx].style.animationPlayState = "paused";
+        imgActive[idx].style.animationPlayState = "paused";
+
+    }, 4000)
 }
 
-function ikindiActiveAnimation() {
-    ikindiImgNormal.style.animation = "ikindiImgNormal 1s forwards";
-    ikindiImgActive.style.animation = "ikindiImgActive 1s forwards";
-    ikindiText.style.animation = "ikindiTextAnimation 0.5s linear forwards";
-    ikindiTime.style.animation = "timeAnimationIkindi 0.5s linear forwards";
+// animateImg(0)
+// animateImg(1)
+// animateImg(2)
+// animateImg(3)
+
+function deAnimateImg(idx) {
+    imgNormal[idx].style.animationPlayState = "running";
+    imgActive[idx].style.animationPlayState = "running";
+}
+// function animateIkindi() {
+//     ikindiImgNormal.classList.add('imgNormalAnimation')
+//     ikindiImgActive.classList.add('imgActiveAnimation')
+//     setTimeout(() => {
+//         ikindiImgNormal.style.animationPlayState = "paused";
+//         ikindiImgActive.style.animationPlayState = "paused";
+
+//         setTimeout(() => {
+//             ikindiImgNormal.style.animationPlayState = "running";
+//             ikindiImgActive.style.animationPlayState = "running";
+
+//         }, 8000)
+//     }, 4000)
+// }
+
+
+
+function checkIfNextPrayer() {
+    const currentTime2 = hours + ":" + minutes;
+
+    if (todaysPrayerTimes.indexOf(currentTime2) !== -1) {
+        let idx = todaysPrayerTimes.indexOf(currentTime2);
+        animateImg(idx);
+        deAnimateImg(idx - 1);
+    }
+
 }
 
-function aksamActiveAnimation() {
-    aksamImgNormal.style.animation = "aksamImgNormal 1s forwards";
-    aksamImgActive.style.animation = "aksamImgActive 1s forwards";
-    aksamText.style.animation = "aksamTextAnimation 0.5s linear forwards";
-    aksamTime.style.animation = "timeAnimationAksam 0.5s linear forwards";
-}
-
-function yatsiActiveAnimation() {
-    yatsiImgNormal.style.animation = "yatsiImgNormal 1s forwards";
-    yatsiImgActive.style.animation = "yatsiImgActive 1s forwards";
-    yatsiText.style.animation = "yatsiTextAnimation 0.5s linear forwards";
-    yatsiTime.style.animation = "timeAnimationYatsi 0.5s linear forwards";
-}
-
-
-
-// setTimeout(sabahActiveAnimation, 1000);
-// setTimeout(ogleActiveAnimation, 5000);
-// setTimeout(ikindiActiveAnimation, 5000);
-// setTimeout(aksamActiveAnimation, 5000);
-// setTimeout(yatsiActiveAnimation, 5000);
-
-// sabahActiveAnimation();
-
-
-
+const ay = document.querySelector('.l-1-3');
+const right = document.querySelector('.right')
+ay.addEventListener('click', () => {
+    right.requestPictureInPicture().catch(err => { console.log(err) })
+})
