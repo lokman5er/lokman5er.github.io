@@ -1,0 +1,103 @@
+[
+    {
+        "date": "21.11.2022",
+        "tr": "test test test",
+        "de": "test deutsch ts",
+        "ar": ""
+    }, { 
+        "date": "23.01.2023",
+        "tr": "test test 2",
+        "de": "test deutsch ts",
+        "ar": "arabic test"
+    }, {
+        "date": "23.01.2023",
+        "tr": "Üç Aylarin Başlangici",
+        "de": "Beginn der 3 Monate",
+        "ar": ""
+    }, {
+        "date": "26.01.2023",
+        "tr": "Regaib Kandili",
+        "de": "Regabi Fest",
+        "ar": ""
+    }, {
+        "date": "17.02.2023",
+        "tr": "Mirac Kandili",
+        "de": "Mirac Fest",
+        "ar": ""
+    }, {
+        "date": "06.03.2023",
+        "tr": "Berat Kandili",
+        "de": "Berat Fest",
+        "ar": ""
+    }, {
+        "date": "23.03.2023",
+        "tr": "Ramazan Başlangici",
+        "de": "Start von Ramandan",
+        "ar": ""
+    }, {
+        "date": "17.04.2023",
+        "tr": "Kadir Gecesi",
+        "de": "Nacht des Kadir",
+        "ar": ""
+    }, {
+        "date": "20.04.2023",
+        "tr": "Arefe",
+        "de": "",
+        "ar": ""
+    }, {
+        "date": "21.04.2023",
+        "tr": "Ramazan Bayrami (1. Gün)",
+        "de": "Ramadan Fest (1. Tag)",
+        "ar": ""
+    }, {
+        "date": "22.04.2023",
+        "tr": "Ramazan Bayrami (2. Gün)",
+        "de": "Ramadan Fest (2. Tag)",
+        "ar": ""
+    }, {
+        "date": "23.04.2023",
+        "tr": "Ramazan Bayrami (3. Gün)",
+        "de": "Ramadan Fest (3. Tag)",
+        "ar": ""
+    }, {
+        "date": "27.06.2023",
+        "tr": "Arefe",
+        "de": "",
+        "ar": ""
+    }, {
+        "date": "28.06.2023",
+        "tr": "Kurban Bayrami (1. Gün)",
+        "de": "Opferfest (1. Tag)",
+        "ar": ""
+    }, {
+        "date": "29.06.2023",
+        "tr": "Kurban Bayrami (2. Gün)",
+        "de": "Opferfest (2. Tag)",
+        "ar": ""
+    }, {
+        "date": "30.06.2023",
+        "tr": "Kurban Bayrami (3. Gün)",
+        "de": "Opferfest (3. Tag)",
+        "ar": ""
+    }, {
+        "date": "01.07.2023",
+        "tr": "Kurban Bayrami (4. Gün)",
+        "de": "Opferfest (4. Tag)",
+        "ar": ""
+    }, {
+        "date": "19.07.2023",
+        "tr": "Hicri Yilbaşi",
+        "de": "Islamisches Neujahr",
+        "ar": ""
+    }, {
+        "date": "28.07.2023",
+        "tr": "Aşure Günü",
+        "de": "Tag der Aschure",
+        "ar": ""
+    }, {
+        "date": "26.09.2023",
+        "tr": "Mevlid Kandili",
+        "de": "Mevlid Fest",
+        "ar": ""
+    }
+]

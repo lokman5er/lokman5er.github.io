@@ -6,7 +6,7 @@ var now = new Date();
 
 var prayerTimesForToday = []
 
-fetch('https://ezanvakti.herokuapp.com/vakitler/11023')
+fetch('')
     .then(res => res.json())
     .then(json => {
         for (let i = 0; i < json.length; i++) {
@@ -65,12 +65,15 @@ function whatIsNextPrayer() {
 
 
 
+Date.prototype.withoutTime = function () {
+    var d = new Date(this);
+    d.setHours(0, 0, 0, 0);
+    return d;
+}
 
 dataCounter = 0;
 
-dateDay = now.getDay();
-dateMonth = now.getMonth();
-dateYear = now.getFullYear();
+
 
 //needed to start in exact second
 setTimeout(function () {
@@ -119,7 +122,10 @@ function updateClock() {
     document.querySelector('.l-3-1').innerHTML = hours
     document.querySelector('.l-3-3').innerHTML = minutes
 
-    if (hours == "00" && minutes == "00") updateText();
+    if (hours == "00" && minutes == "00") {
+        updateText();
+        updateImportantDates();
+    }
 }
 
 
@@ -193,9 +199,15 @@ function calcSabah(time) {
 monthsGerman = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
 monthsTurkish = ["Ocak‎", "Şubat‎", "Mart‎", "Nisan‎", "Mayıs‎", "Haziran‎", "Temmuz‎", "Ağustos‎", "Eylül‎", "Ekim‎", "Kasım‎", "Aralık‎"]
 
-prayerNamesTR = ["Sabah", "Ögle", "Ikindi", "Aksam", "Yatsi"]
-prayerNamesTR = ["Morgen", "Mittag", "Nachmittag", "Abend", "Nacht"]
-prayerNamesTR = ["صلاة الفجر", "صلاة الظهر", "صلاة العصر", "aaصلاة العشاء", "dصلاة الليل"]
+prayerNamesTr = ["SABAH", "ÖĞLE", "İKİNDİ", "AKŞAM", "YATSI"]
+prayerNamesDe = ["Morgen", "Mittag", "Nachmittag", "Abend", "Nacht"]
+prayerNamesAr = [
+    "الفجر",
+    "الظهر",
+    "العصر",
+    "المغرب",
+    "العشاء"
+]
 
 prayerNames = [{
     tr: "Sabah",
@@ -303,7 +315,150 @@ function checkIfNextPrayer() {
 }
 
 const ay = document.querySelector('.l-1-3');
-const right = document.querySelector('.right')
 ay.addEventListener('click', () => {
-    right.requestPictureInPicture().catch(err => { console.log(err) })
+    console.log("a")
 })
+
+var importantDatesCounter = 0;
+
+const importantDate1 = document.querySelector('#box1')
+
+const importantDate1Text = document.querySelector('.l-6-2-2')
+const importantDate2Text = document.querySelector('.l-6-4-2')
+
+const importantDate1Day = document.querySelector('#importantDate1Day')
+const importantDate2Day = document.querySelector('#importantDate2Day')
+
+const importantDate1Month = document.querySelector('#importantDate1Month')
+const importantDate2Month = document.querySelector('#importantDate2Month')
+
+const importantDate1Year = document.querySelector('#importantDate1Year')
+const importantDate2Year = document.querySelector('#importantDate2Year')
+
+//function to show important dates 
+function updateImportantDates() {
+
+    importantDate1.style.backgroundColor = '#d5e7ea'
+    importantDate1.style.color = '#1f4e5f'
+    fetch("importantDates.json")
+        .then(response => response.json())
+        .then(json => getNextImportantDate(json))
+
+    function getNextImportantDate(arr) {
+        for (let i = 0; i < arr.length; i++) {
+            let jsonYear = arr[i]['date'].slice(6, 10);
+            let jsonMonth = arr[i]['date'].slice(3, 5);
+            let jsonDay = arr[i]['date'].slice(0, 2);
+
+            let jsonDate = new Date(`${jsonYear}-${jsonMonth}-${jsonDay}`);
+
+            if (now.withoutTime() - jsonDate.withoutTime() == 0) {
+                importantDate1.style.backgroundColor = '#3db6c4'
+                importantDate1.style.color = 'white'
+            }
+
+            if (now.withoutTime() <= jsonDate.withoutTime()) {
+                importantDatesCounter = i
+                importantDate1Text.innerText = arr[i]['tr']
+                importantDate2Text.innerText = arr[i + 1]['tr']
+
+                let importantDate1Date = arr[i]['date']
+                let importantDate2Date = arr[i + 1]['date']
+
+                importantDate1Day.innerText = importantDate1Date.slice(0, 2)
+                importantDate1Month.innerText = importantDate1Date.slice(3, 5)
+                importantDate1Year.innerText = importantDate1Date.slice(6, 10)
+
+                importantDate2Day.innerText = importantDate2Date.slice(0, 2)
+                importantDate2Month.innerText = importantDate2Date.slice(3, 5)
+                importantDate2Year.innerText = importantDate2Date.slice(6, 10)
+
+                console.log(arr[i]['tr'])
+                break;
+            }
+
+        }
+    }
+
+}
+
+//get importantDatesCounter 
+//
+
+updateImportantDates();
+
+
+language = "tr"
+
+//1. set opacity to 0
+//2. change text
+//3. set opacity to 1
+setInterval(() => {
+    if (language == "tr") {
+        //de
+
+        changeText(prayerNamesDe, "de")
+
+        language = "de"
+    } else if (language == "de") {
+        //ar
+        changeText(prayerNamesAr, "ar")
+
+
+        language = "ar"
+    } else {
+        //tr
+        changeText(prayerNamesTr)
+
+        language = "tr"
+
+    }
+}, 30000)
+
+function changeText(lang, chngSize) {
+
+    prayerText[0].style.opacity = 0;
+    prayerText[1].style.opacity = 0;
+    prayerText[2].style.opacity = 0;
+    prayerText[3].style.opacity = 0;
+    prayerText[4].style.opacity = 0;
+
+    setTimeout(() => {
+
+        prayerText[0].innerText = lang[0];
+        prayerText[1].innerText = lang[1];
+        prayerText[2].innerText = lang[2];
+        prayerText[3].innerText = lang[3];
+        prayerText[4].innerText = lang[4];
+
+        if (chngSize === "de") {
+            prayerText[0].style.fontSize = "2vw"
+            prayerText[1].style.fontSize = "2vw"
+            prayerText[2].style.fontSize = "2vw"
+            prayerText[3].style.fontSize = "2vw"
+            prayerText[4].style.fontSize = "2vw"
+
+            prayerText[1].style.letterSpacing = "0.1rem"
+            prayerText[2].style.letterSpacing = "0.1rem"
+
+        } else if (chngSize === "ar") {
+            prayerText[0].style.fontSize = "3.5vw"
+            prayerText[1].style.fontSize = "3.5vw"
+            prayerText[2].style.fontSize = "3.5vw"
+            prayerText[3].style.fontSize = "3.5vw"
+            prayerText[4].style.fontSize = "3.5vw"
+
+
+            prayerText[1].style.letterSpacing = "normal"
+            prayerText[2].style.letterSpacing = "normal"
+        }
+
+        prayerText[0].style.opacity = 1;
+        prayerText[1].style.opacity = 1;
+        prayerText[2].style.opacity = 1;
+        prayerText[3].style.opacity = 1;
+        prayerText[4].style.opacity = 1;
+        prayerText[5].style.opacity = 1;
+    }, 1000)
+}
+

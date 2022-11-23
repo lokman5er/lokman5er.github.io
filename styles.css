@@ -292,7 +292,7 @@ body {
   top: 5.3%;
   right: 40%;
   font-weight: bold;
-  transition: top 0.5s, right 0.5s, font-weight 0.5s;
+  transition: top 0.5s, right 0.5s, font-weight 0.5s, opacity 1s;
 }
 
 .sabahTextActivate {
@@ -343,6 +343,7 @@ body {
   width: 34%;
   top: 25.2%;
   right: 40%;
+  transition: opacity 1s;
 }
 
 @keyframes ogleTextAnimation {
@@ -387,6 +388,7 @@ body {
   width: 34%;
   top: 44.2%;
   right: 40%;
+  transition: opacity 1s;
   /* animation: ikindiTextAnimation 1s 1s forwards; */
 }
 
@@ -432,6 +434,7 @@ body {
   width: 34%;
   top: 63.3%;
   right: 40%;
+  transition: opacity 1s;
 }
 
 @keyframes aksamTextAnimation {
@@ -474,8 +477,10 @@ body {
   border-radius: 60px;
   height: 6vw;
   width: 34%;
-  bottom: 5.7vh;
+  bottom: 4.7vh;
   right: 40%;
+  transition: opacity 1s;
+
   /* animation: aksamTextAnimation 1s 1s forwards; */
 }
 
