@@ -6,35 +6,46 @@ var now = new Date();
 
 var prayerTimesForToday = []
 
-fetch('')
-    .then(res => res.json())
-    .then(json => {
-        for (let i = 0; i < json.length; i++) {
 
-            data.push({
-                sabah: json[i]['Imsak'],
-                ogle: json[i]['Ogle'],
-                ikindi: json[i]['Ikindi'],
-                aksam: json[i]['Aksam'],
-                yatsi: json[i]['Yatsi'],
-                ayinSekli: json[i]['AyinSekliURL'],
-                hicriTarih: json[i]['HicriTarihUzun']
-            })
+// fetch('https://ezanvakti.herokuapp.com/vakitler/11023')
+//     .then(res => res.json())
+//     .then(json => {
+//         for (let i = 0; i < json.length; i++) {
+
+//             data.push({
+//                 sabah: json[i]['Imsak'],
+//                 ogle: json[i]['Ogle'],
+//                 ikindi: json[i]['Ikindi'],
+//                 aksam: json[i]['Aksam'],
+//                 yatsi: json[i]['Yatsi'],
+//                 ayinSekli: json[i]['AyinSekliURL'],
+//                 hicriTarih: json[i]['HicriTarihUzun']
+//             })
 
 
-        }
-    })
-    .then(() => {
-        updateText();
-    })
-    .then(() => {
-        whatIsNextPrayer();
-    })
+//         }
+//         console.log(`data:`, data)
+//     })
+// .then(() => {
+//     updateText();
+// })
+// .then(() => {
+//     whatIsNextPrayer();
+// })
 //https://ezanvakti.herokuapp.com/vakitler/11023
+
+fetch("prayerTimes.json")
+    .then(response => response.json())
+    .then(json => {
+        data.push(json[0])
+        console.log(`data`, data)
+    })
+
 
 
 function whatIsNextPrayer() {
     var prayerCounter = 0;
+
 
     currentHours = now.getHours();
     if (currentHours < 10) {
@@ -51,11 +62,13 @@ function whatIsNextPrayer() {
         if (currentTime < todaysPrayerTimes[prayerCounter] || prayerCounter == todaysPrayerTimes.length - 1) {
             //this is the next prayer
             if (prayerCounter == todaysPrayerTimes.length - 1 && todaysPrayerTimes[prayerCounter] < currentTime) {
-                animateImg(prayerCounter);
+                activateSvg(ogleSVG, ".ogle")
             } else if (prayerCounter == todaysPrayerTimes.length - 1 && todaysPrayerTimes[prayerCounter] > currentTime) {
-                animateImg(prayerCounter - 1);
+                console.log(2)
+
             } else {
-                animateImg(prayerCounter - 1);
+                activateSvg(sabahSVG, ".sabah")
+
             }
             break;
         }
@@ -154,11 +167,11 @@ function updateText() {
 
     todaysPrayerTimes.push(sabahRaw, ogleRaw, ikindiRaw, aksamRaw, yatsiRaw);
 
-    sabahTime.innerHTML = sabahRaw.substring(0, 2) + " : " + sabahRaw.substring(3, 5);
-    ogleTime.innerHTML = ogleRaw.substring(0, 2) + " : " + ogleRaw.substring(3, 5);
-    ikindiTime.innerHTML = ikindiRaw.substring(0, 2) + " : " + ikindiRaw.substring(3, 5);
-    aksamTime.innerHTML = aksamRaw.substring(0, 2) + " : " + aksamRaw.substring(3, 5);
-    yatsiTime.innerHTML = yatsiRaw.substring(0, 2) + " : " + yatsiRaw.substring(3, 5);
+    updateTimeSvg(sabahSVG, sabahRaw);
+    updateTimeSvg(ogleSVG, ogleRaw);
+    updateTimeSvg(ikindiSVG, ikindiRaw);
+    updateTimeSvg(aksamSVG, aksamRaw);
+    updateTimeSvg(yatsiSVG, yatsiRaw);
 
     hicriRaw = data[dataCounter]['hicriTarih'];
     hicriInt = hicriRaw.match(/\d+/g)
@@ -173,6 +186,13 @@ function updateText() {
     yearHicri.innerHTML = hicriInt[1];
 
 };
+
+function updateTimeSvg(el, raw) {
+    el.querySelector('.hour1').innerHTML = raw.substring(0, 1)
+    el.querySelector('.hour2').innerHTML = raw.substring(1, 2)
+    el.querySelector('.minute1').innerHTML = raw.substring(3, 4)
+    el.querySelector('.minute2').innerHTML = raw.substring(4, 5)
+}
 
 function calcSabah(time) {
     let hr = parseInt(time.substring(0, 2));
@@ -196,9 +216,16 @@ function calcSabah(time) {
     return hr + ":" + mn;
 }
 
-monthsGerman = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
-monthsTurkish = ["Ocak‎", "Şubat‎", "Mart‎", "Nisan‎", "Mayıs‎", "Haziran‎", "Temmuz‎", "Ağustos‎", "Eylül‎", "Ekim‎", "Kasım‎", "Aralık‎"]
-
+monthsDe = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
+monthsTurkish = ["Oca‎k", "Şubat‎", "Mart‎", "Nisan‎", "Mayıs‎", "Haziran‎", "Temmuz‎", "Ağustos‎", "Eylül‎", "Ekim‎", "Kasım‎", "Aralık‎"]
+monthsTurkish1 = ["Oca‎", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki‎", "Kas", "Ara"]
+monthsAr = [
+    "الفجر",
+    "الظهر",
+    "العصر",
+    "المغرب",
+    "العشاء"
+]
 prayerNamesTr = ["SABAH", "ÖĞLE", "İKİNDİ", "AKŞAM", "YATSI"]
 prayerNamesDe = ["Morgen", "Mittag", "Nachmittag", "Abend", "Nacht"]
 prayerNamesAr = [
@@ -210,106 +237,32 @@ prayerNamesAr = [
 ]
 
 prayerNames = [{
-    tr: "Sabah",
-    gr: "Morgen",
-    ar: "صلاة الفجر"
+    tr: "SABAH",
+    de: "MORGEN",
+    ar: "الفجر"
 }, {
-    tr: "Ögle",
-    gr: "Mittag",
-    ar: "صلاة الظهر"
+    tr: "ÖĞLE",
+    de: "MITTAG",
+    ar: "الظهر"
 }, {
-    tr: "ikindi",
-    gr: "Nachmittag",
-    ar: "صلاة العصر"
+    tr: "İKİNDİ",
+    de: "NACHMITTAG",
+    ar: "العصر"
 }, {
-    tr: "Aksam",
-    gr: "Abend",
-    ar: "صلاة المغرب"
+    tr: "AKŞAM",
+    de: "ABEND",
+    ar: "المغرب"
 }, {
-    tr: "Yatsi",
-    gr: "Nacht",
-    ar: "صلاة العشاء"
+    tr: "YATSI",
+    de: "NACHT",
+    ar: "العشاء"
 }]
-
-var prayerText = []
-
-prayerText.push(
-    document.querySelector('.sabahText'),
-    document.querySelector('.ogleText'),
-    document.querySelector('.ikindiText'),
-    document.querySelector('.aksamText'),
-    document.querySelector('.yatsiText'),
-)
-
-var imgNormal = []
-
-imgNormal.push(
-    document.querySelector('.sabahImgNormal'),
-    document.querySelector('.ogleImgNormal'),
-    document.querySelector('.ikindiImgNormal'),
-    document.querySelector('.aksamImgNormal'),
-    document.querySelector('.yatsiImgNormal')
-)
-
-var imgActive = []
-
-imgActive.push(
-    document.querySelector('.sabahImgActive'),
-    document.querySelector('.ogleImgActive'),
-    document.querySelector('.ikindiImgActive'),
-    document.querySelector('.aksamImgActive'),
-    document.querySelector('.yatsiImgActive')
-)
-
-
-function animateImg(idx) {
-    imgNormal[idx].classList.remove('imgNormalAnimation')
-    imgActive[idx].classList.remove('imgActiveAnimation')
-    void imgNormal[idx].offsetWidth;
-    void imgActive[idx].offsetWidth;
-    imgNormal[idx].classList.add('imgNormalAnimation')
-    imgActive[idx].classList.add('imgActiveAnimation')
-
-    setTimeout(() => {
-        imgNormal[idx].style.animationPlayState = "paused";
-        imgActive[idx].style.animationPlayState = "paused";
-
-    }, 4000)
-}
-
-// animateImg(0)
-// animateImg(1)
-// animateImg(2)
-// animateImg(3)
-
-function deAnimateImg(idx) {
-    imgNormal[idx].style.animationPlayState = "running";
-    imgActive[idx].style.animationPlayState = "running";
-}
-// function animateIkindi() {
-//     ikindiImgNormal.classList.add('imgNormalAnimation')
-//     ikindiImgActive.classList.add('imgActiveAnimation')
-//     setTimeout(() => {
-//         ikindiImgNormal.style.animationPlayState = "paused";
-//         ikindiImgActive.style.animationPlayState = "paused";
-
-//         setTimeout(() => {
-//             ikindiImgNormal.style.animationPlayState = "running";
-//             ikindiImgActive.style.animationPlayState = "running";
-
-//         }, 8000)
-//     }, 4000)
-// }
-
-
 
 function checkIfNextPrayer() {
     const currentTime2 = hours + ":" + minutes;
 
     if (todaysPrayerTimes.indexOf(currentTime2) !== -1) {
         let idx = todaysPrayerTimes.indexOf(currentTime2);
-        animateImg(idx);
-        deAnimateImg(idx - 1);
     }
 
 }
@@ -345,6 +298,7 @@ function updateImportantDates() {
         .then(json => getNextImportantDate(json))
 
     function getNextImportantDate(arr) {
+
         for (let i = 0; i < arr.length; i++) {
             let jsonYear = arr[i]['date'].slice(6, 10);
             let jsonMonth = arr[i]['date'].slice(3, 5);
@@ -366,14 +320,13 @@ function updateImportantDates() {
                 let importantDate2Date = arr[i + 1]['date']
 
                 importantDate1Day.innerText = importantDate1Date.slice(0, 2)
-                importantDate1Month.innerText = importantDate1Date.slice(3, 5)
+                importantDate1Month.innerText = monthsDe[0]
                 importantDate1Year.innerText = importantDate1Date.slice(6, 10)
 
                 importantDate2Day.innerText = importantDate2Date.slice(0, 2)
                 importantDate2Month.innerText = importantDate2Date.slice(3, 5)
                 importantDate2Year.innerText = importantDate2Date.slice(6, 10)
 
-                console.log(arr[i]['tr'])
                 break;
             }
 
@@ -383,82 +336,238 @@ function updateImportantDates() {
 }
 
 //get importantDatesCounter 
-//
 
 updateImportantDates();
 
 
-language = "tr"
-
 //1. set opacity to 0
 //2. change text
 //3. set opacity to 1
+
+
+
+var rndCounter = 0
 setInterval(() => {
-    if (language == "tr") {
-        //de
-
-        changeText(prayerNamesDe, "de")
-
-        language = "de"
-    } else if (language == "de") {
-        //ar
-        changeText(prayerNamesAr, "ar")
+    importantDate1Month.innerText = monthsTurkish1[rndCounter];
+    rndCounter++
+    if (rndCounter == monthsTurkish1.length) rndCounter = 0
+}, 3000)
 
 
-        language = "ar"
-    } else {
-        //tr
-        changeText(prayerNamesTr)
 
-        language = "tr"
+var a = document.querySelector('.ogle')
 
-    }
-}, 30000)
 
-function changeText(lang, chngSize) {
 
-    prayerText[0].style.opacity = 0;
-    prayerText[1].style.opacity = 0;
-    prayerText[2].style.opacity = 0;
-    prayerText[3].style.opacity = 0;
-    prayerText[4].style.opacity = 0;
+
+function activateSvg(el, elClass) {
+    const stop1 = el.querySelector('#stop1');
+    const stop2 = el.querySelector('#stop2');
+    const style = el.querySelector('#style');
+
+    document.querySelector(elClass).style.opacity = "0"
 
     setTimeout(() => {
 
-        prayerText[0].innerText = lang[0];
-        prayerText[1].innerText = lang[1];
-        prayerText[2].innerText = lang[2];
-        prayerText[3].innerText = lang[3];
-        prayerText[4].innerText = lang[4];
+        document.querySelector(elClass).style.width = "43vw"
 
-        if (chngSize === "de") {
-            prayerText[0].style.fontSize = "2vw"
-            prayerText[1].style.fontSize = "2vw"
-            prayerText[2].style.fontSize = "2vw"
-            prayerText[3].style.fontSize = "2vw"
-            prayerText[4].style.fontSize = "2vw"
+        let topDistance = parseFloat(getComputedStyle(document.querySelector(elClass)).top)
+        console.log(topDistance)
+        topDistance = topDistance * 0.55
+        console.log(topDistance)
+        document.querySelector(elClass).style.top = `${topDistance}px`
+        document.querySelector(elClass).style.opacity = "1"
 
-            prayerText[1].style.letterSpacing = "0.1rem"
-            prayerText[2].style.letterSpacing = "0.1rem"
-
-        } else if (chngSize === "ar") {
-            prayerText[0].style.fontSize = "3.5vw"
-            prayerText[1].style.fontSize = "3.5vw"
-            prayerText[2].style.fontSize = "3.5vw"
-            prayerText[3].style.fontSize = "3.5vw"
-            prayerText[4].style.fontSize = "3.5vw"
-
-
-            prayerText[1].style.letterSpacing = "normal"
-            prayerText[2].style.letterSpacing = "normal"
-        }
-
-        prayerText[0].style.opacity = 1;
-        prayerText[1].style.opacity = 1;
-        prayerText[2].style.opacity = 1;
-        prayerText[3].style.opacity = 1;
-        prayerText[4].style.opacity = 1;
-        prayerText[5].style.opacity = 1;
     }, 1000)
+
+    d3.select(stop1)
+        .transition()
+        .delay(1000)
+        .attr('stop-color', "#11b6c4")
+
+    d3.select(stop2)
+        .transition()
+        .delay(1000)
+        .attr('stop-color', "#0c7f82")
+
+    d3.select(style)
+        .transition()
+        .delay(1000)
+        .duration(0)
+        .text(".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}.cls-4{fill:#0c7f82;}")
+
 }
+
+
+
+setTimeout(() => {
+    const ogleSvg = a.contentDocument;
+
+    const ogleText = ogleSvg.querySelector('.ogleText');
+    const ogleStyle = ogleSvg.querySelector('#ogleStyle');
+    const stop1 = ogleSvg.querySelector('#stop1');
+    const stop2 = ogleSvg.querySelector('#stop2');
+
+
+    document.querySelector(".ogle").style.opacity = "0"
+
+    setTimeout(() => {
+
+        document.querySelector(".ogle").style.width = "43vw"
+        // document.querySelector(".ogle").style.top = "23.5%"
+        document.querySelector(".ogle").style.opacity = "1"
+
+    }, 1000)
+
+    d3.select(stop1)
+        .transition()
+        .delay(1000)
+        .attr('stop-color', "#11b6c4")
+
+    d3.select(stop2)
+        .transition()
+        .delay(1000)
+        .attr('stop-color', "#0c7f82")
+
+    d3.select(ogleStyle)
+        .transition()
+        .delay(1000)
+        .duration(0)
+        .text(".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}.cls-4{fill:#0c7f82;}")
+
+
+}, 1000000)
+
+const actvStyle = [
+    ".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}.cls-4{fill:#0c7f82;}",
+    ".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}.cls-4{fill:#0c7f82;}",
+    ".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}",
+    ".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}.cls-4{fill:#0c7f82;}",
+    ".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}.cls-4{fill:#0c7f82;}"
+]
+
+const actvStop1 = "#11b6c4"
+const actvStop2 = "#0c7f82"
+
+var namazText = []
+namazTimesSvg = []
+
+var sabahSVG, ogleSVG, ikindiSVG, aksamSVG, yatsiSVG;
+setTimeout(() => {
+    const sabahSvg = document.querySelector('.sabah')
+    sabahSVG = sabahSvg.contentDocument;
+
+    const ogleSvg = document.querySelector('.ogle')
+    ogleSVG = ogleSvg.contentDocument;
+
+    const ikindiSvg = document.querySelector('.ikindi')
+    ikindiSVG = ikindiSvg.contentDocument;
+
+    const aksamSvg = document.querySelector('.aksam')
+    aksamSVG = aksamSvg.contentDocument;
+
+    const yatsiSvg = document.querySelector('.yatsi')
+    yatsiSVG = yatsiSvg.contentDocument;
+
+
+    namazText.push(
+        sabahSVG.querySelector('.text'),
+        ogleSVG.querySelector('.text'),
+        ikindiSVG.querySelector('.text'),
+        aksamSVG.querySelector('.text'),
+        yatsiSVG.querySelector('.text')
+    )
+
+
+    updateText();
+    whatIsNextPrayer();
+
+}, 4000)
+
+prayerLng = 0
+
+setInterval(() => {
+
+    if (prayerLng == 0) {
+
+        d3.selectAll(namazText)
+            .transition()
+            .duration(750)
+            .style("opacity", "0")
+
+            .transition()
+            .duration(750)
+            .delay(10)
+            .style("opacity", "1")
+
+        setTimeout(() => {
+            namazText[0].innerHTML = prayerNames[0]["ar"]
+            namazText[1].innerHTML = prayerNames[1]["ar"]
+            namazText[2].innerHTML = prayerNames[2]["ar"]
+            namazText[3].innerHTML = prayerNames[3]["ar"]
+            namazText[4].innerHTML = prayerNames[4]["ar"]
+        }, 751)
+
+        prayerLng++
+    } else if (prayerLng == 1) {
+
+
+
+        d3.selectAll(namazText)
+            .transition()
+            .duration(750)
+            .style("opacity", "0")
+
+            .transition()
+            .duration(0)
+            .attr("font-size", "2.8em")
+
+            .transition()
+            .duration(750)
+            .delay(10)
+            .style("opacity", "1")
+
+        setTimeout(() => {
+            namazText[0].innerHTML = prayerNames[0]["de"]
+            namazText[1].innerHTML = prayerNames[1]["de"]
+            namazText[2].innerHTML = prayerNames[2]["de"]
+            namazText[3].innerHTML = prayerNames[3]["de"]
+            namazText[4].innerHTML = prayerNames[4]["de"]
+
+            namazText[1].setAttribute("letter-spacing", "0.04em")
+            namazText[2].setAttribute("letter-spacing", "0.04em")
+        }, 751)
+
+        prayerLng++
+    } else {
+        d3.selectAll(namazText)
+            .transition()
+            .duration(750)
+            .style("opacity", "0")
+
+            .transition()
+            .duration(0)
+            .attr("font-size", "5em")
+
+            .transition()
+            .duration(750)
+            .delay(10)
+            .style("opacity", "1")
+
+        setTimeout(() => {
+            namazText[0].innerHTML = prayerNames[0]["tr"]
+            namazText[1].innerHTML = prayerNames[1]["tr"]
+            namazText[2].innerHTML = prayerNames[2]["tr"]
+            namazText[3].innerHTML = prayerNames[3]["tr"]
+            namazText[4].innerHTML = prayerNames[4]["tr"]
+
+            namazText[1].setAttribute("letter-spacing", "normal")
+            namazText[2].setAttribute("letter-spacing", "normal")
+        }, 751)
+
+        prayerLng = 0
+    }
+
+
+}, 20000)
 
