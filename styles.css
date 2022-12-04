@@ -27,7 +27,7 @@ body {
 }
 
 .intro-1 {
-  font-size: 20vh;
+  font-size: 10vw;
   height: 60vh;
   display: flex;
   align-items: center;
@@ -133,7 +133,7 @@ body {
 .l-2 {
   height: 10%;
   width: 80%;
-  font-size: 4vh;
+  font-size: 2vw;
   line-height: 10vh;
   color: #d5e7ea;
   display: flex;
@@ -148,7 +148,7 @@ body {
   border-radius: 50px;
   color: #1f4e5f;
   font-weight: 800;
-  font-size: 12vh;
+  font-size: 7vw;
   display: flex;
   justify-content: center;
   line-height: 15vh;
@@ -187,17 +187,17 @@ body {
 }
 
 .title {
-  font-size: 3.5vh;
+  font-size: 2vw;
   font-weight: bold;
   text-transform: uppercase;
 }
 
 .text {
-  font-size: 2.4vh;
+  font-size: 1.5vw;
 }
 
 .source {
-  font-size: 2.2vh;
+  font-size: 1.5vw;
   font-weight: bold;
   font-style: italic;
 }
@@ -220,7 +220,7 @@ body {
 }
 
 .tri {
-  font-size: 4vh;
+  font-size: 2vw;
   width: 10%;
 }
 
@@ -237,11 +237,11 @@ body {
 }
 
 .l6-title {
-  font-size: 3.3vh;
+  font-size: 2.1vw;
 }
 
 .l6-description {
-  font-size: 2.2vh;
+  font-size: 1.3vw;
   font-style: italic;
   font-weight: light;
 }
@@ -273,7 +273,7 @@ body {
   width: 37vw;
   top: 5%;
   opacity: 1;
-  transition: opacity 1s ease;
+  transition: 0.65s ease;
   /* background-color: red; */
 }
 
@@ -283,7 +283,7 @@ body {
   top: 24.7%;
   right: 0%;
   opacity: 1;
-  transition: opacity 1s ease;
+  transition: 0.65s ease;
 
   /* background-color: rgb(242, 0, 255); */
 }
@@ -294,16 +294,15 @@ body {
   width: 37vw;
   top: 44.4%;
   /* background-color: rgb(55, 0, 255); */
-  z-index: 4;
-  transition: opacity 1s ease;
+  transition: 0.65s ease;
 }
 
 .aksam {
   position: absolute;
   width: 37vw;
-  top: 61.9%;
+  top: 61%;
   opacity: 1;
-  transition: opacity 1s ease;
+  transition: 0.65s ease;
 
   /* background-color: rgb(138, 138, 138); */
 }
@@ -313,7 +312,7 @@ body {
   width: 37vw;
   top: 76.2%;
   opacity: 1;
-  transition: opacity 1s ease;
+  transition: 0.65s ease;
 
   /* background-color: red; */
 }

@@ -57,17 +57,23 @@ function whatIsNextPrayer() {
     }
     currentTime = currentHours + ":" + currentMinutes;
 
+    console.log(`todaysPrayerTimes`, todaysPrayerTimes)
 
     while (true) {
         if (currentTime < todaysPrayerTimes[prayerCounter] || prayerCounter == todaysPrayerTimes.length - 1) {
             //this is the next prayer
-            if (prayerCounter == todaysPrayerTimes.length - 1 && todaysPrayerTimes[prayerCounter] < currentTime) {
-                activateSvg(ogleSVG, ".ogle")
-            } else if (prayerCounter == todaysPrayerTimes.length - 1 && todaysPrayerTimes[prayerCounter] > currentTime) {
-                console.log(2)
+            if (prayerCounter == todaysPrayerTimes.length - 1 && currentTime < todaysPrayerTimes[prayerCounter]) {
+                animateSvg(3)
+
+            } else if (prayerCounter == todaysPrayerTimes.length - 1 && currentTime > todaysPrayerTimes[prayerCounter]) {
+                animateSvg(4)
 
             } else {
-                activateSvg(sabahSVG, ".sabah")
+                if (prayerCounter == 0) {
+                    animateSvg(prayerCounter)
+                } else {
+                    animateSvg(prayerCounter - 1)
+                }
 
             }
             break;
@@ -105,6 +111,8 @@ function runEveryMinute() {
     var now2 = Date.now()
     updateClock();
     checkIfNextPrayer();
+
+
     if (expectedCycleTime == 0) {
         expectedCycleTime = now2 + interval;
     }
@@ -150,11 +158,7 @@ const dateHicri = document.querySelector('.dateHicri');
 const monthHicri = document.querySelector('.monthHicri');
 const yearHicri = document.querySelector('.yearHicri');
 
-const sabahTime = document.querySelector('.sabahTime');
-const ogleTime = document.querySelector('.ogleTime');
-const ikindiTime = document.querySelector('.ikindiTime');
-const aksamTime = document.querySelector('.aksamTime');
-const yatsiTime = document.querySelector('.yatsiTime');
+
 
 var todaysPrayerTimes = []
 
@@ -226,15 +230,7 @@ monthsAr = [
     "المغرب",
     "العشاء"
 ]
-prayerNamesTr = ["SABAH", "ÖĞLE", "İKİNDİ", "AKŞAM", "YATSI"]
-prayerNamesDe = ["Morgen", "Mittag", "Nachmittag", "Abend", "Nacht"]
-prayerNamesAr = [
-    "الفجر",
-    "الظهر",
-    "العصر",
-    "المغرب",
-    "العشاء"
-]
+
 
 prayerNames = [{
     tr: "SABAH",
@@ -259,18 +255,15 @@ prayerNames = [{
 }]
 
 function checkIfNextPrayer() {
-    const currentTime2 = hours + ":" + minutes;
+    let currentTime = hours + ":" + minutes;
 
-    if (todaysPrayerTimes.indexOf(currentTime2) !== -1) {
-        let idx = todaysPrayerTimes.indexOf(currentTime2);
+    if (todaysPrayerTimes.indexOf(currentTime) !== -1) {
+        let idx = todaysPrayerTimes.indexOf(currentTime);
+        animateSvg(idx)
     }
 
 }
 
-const ay = document.querySelector('.l-1-3');
-ay.addEventListener('click', () => {
-    console.log("a")
-})
 
 var importantDatesCounter = 0;
 
@@ -292,7 +285,7 @@ const importantDate2Year = document.querySelector('#importantDate2Year')
 function updateImportantDates() {
 
     importantDate1.style.backgroundColor = '#d5e7ea'
-    importantDate1.style.color = '#1f4e5f'
+    importantDate1.style.color = '#3b6773'
     fetch("importantDates.json")
         .then(response => response.json())
         .then(json => getNextImportantDate(json))
@@ -340,12 +333,9 @@ function updateImportantDates() {
 updateImportantDates();
 
 
-//1. set opacity to 0
-//2. change text
-//3. set opacity to 1
 
 
-
+//testing for important date animation
 var rndCounter = 0
 setInterval(() => {
     importantDate1Month.innerText = monthsTurkish1[rndCounter];
@@ -355,103 +345,146 @@ setInterval(() => {
 
 
 
-var a = document.querySelector('.ogle')
 
 
+function animateSvg(idx) {
+    switch (idx) {
+        case 0:
+            el = sabahSVG;
+            elClass = '.sabah';
+            topVl = '2%'
+            //following are for deactivating the active status
+            dEl = yatsiSVG;
+            dElClass = '.yatsi';
+            dTopVl = '76.2%'
+            break;
+        case 1:
+            el = ogleSVG;
+            elClass = '.ogle';
+            topVl = '23%'
 
+            dEl = sabahSVG;
+            dElClass = '.sabah';
+            dTopVl = '5%'
+            break;
+        case 2:
+            el = ikindiSVG;
+            elClass = '.ikindi';
+            topVl = '43%';
 
-function activateSvg(el, elClass) {
-    const stop1 = el.querySelector('#stop1');
-    const stop2 = el.querySelector('#stop2');
-    const style = el.querySelector('#style');
+            dEl = ogleSVG;
+            dElClass = '.ogle';
+            dTopVl = '24.7%'
+            break;
+        case 3:
+            el = aksamSVG;
+            elClass = '.aksam';
+            topVl = '60%';
 
-    document.querySelector(elClass).style.opacity = "0"
+            dEl = ikindiSVG;
+            dElClass = '.ikindi';
+            dTopVl = '44.4%'
+            break;
+        case 4:
+            el = yatsiSVG;
+            elClass = '.yatsi';
+            topVl = '77%';
 
-    setTimeout(() => {
+            dEl = aksamSVG;
+            dElClass = '.aksam';
+            dTopVl = '61%'
+            break;
+    }
 
-        document.querySelector(elClass).style.width = "43vw"
+    const s1 = el.querySelectorAll('#s1')
+    const s2 = el.querySelector('#s2')
+    const s3 = el.querySelector('#s3')
+    const s4 = el.querySelector('#s4')
 
-        let topDistance = parseFloat(getComputedStyle(document.querySelector(elClass)).top)
-        console.log(topDistance)
-        topDistance = topDistance * 0.55
-        console.log(topDistance)
-        document.querySelector(elClass).style.top = `${topDistance}px`
-        document.querySelector(elClass).style.opacity = "1"
+    const stop1 = el.querySelector('#stop1')
+    const stop2 = el.querySelector('#stop2')
 
-    }, 1000)
+    d3.selectAll(s1)
+        .transition()
+        .duration(1000)
+        .attr("fill", "#11b6c4")
+
+    d3.select(s2)
+        .transition()
+        .duration(1000)
+        .attr("fill", "url(#linear-gradient)")
+
+    d3.select(s3)
+        .transition()
+        .duration(1000)
+        .attr("fill", "url(#linear-gradient-2)")
+
+    d3.select(s4)
+        .transition()
+        .duration(1000)
+        .attr("fill", "#0c7f82")
 
     d3.select(stop1)
         .transition()
-        .delay(1000)
-        .attr('stop-color', "#11b6c4")
+        .duration(1000)
+        .attr("stop-color", "#11b6c4")
 
     d3.select(stop2)
         .transition()
-        .delay(1000)
-        .attr('stop-color', "#0c7f82")
+        .duration(1000)
+        .attr("stop-color", "#0c7f82")
 
-    d3.select(style)
+    document.querySelector(elClass).style.width = "42.5vw"
+    document.querySelector(elClass).style.top = topVl
+
+    //deactive animation
+    const dS1 = dEl.querySelectorAll('#s1')
+    const dS2 = dEl.querySelector('#s2')
+    const dS3 = dEl.querySelector('#s3')
+    const dS4 = dEl.querySelector('#s4')
+
+    const dStop1 = dEl.querySelector('#stop1')
+    const dStop2 = dEl.querySelector('#stop2')
+
+    d3.selectAll(dS1)
         .transition()
-        .delay(1000)
-        .duration(0)
-        .text(".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}.cls-4{fill:#0c7f82;}")
+        .duration(1000)
+        .attr("fill", "#2c7291")
 
+    d3.select(dS2)
+        .transition()
+        .duration(1000)
+        .attr("fill", "url(#linear-gradient)")
+
+    d3.select(dS3)
+        .transition()
+        .duration(1000)
+        .attr("fill", "url(#linear-gradient-2)")
+
+    d3.select(dS4)
+        .transition()
+        .duration(1000)
+        .attr("fill", "#1f5260")
+
+    d3.select(dStop1)
+        .transition()
+        .duration(1000)
+        .attr("stop-color", "#2c7291")
+
+    d3.select(dStop2)
+        .transition()
+        .duration(1000)
+        .attr("stop-color", "#1f5260")
+
+    document.querySelector(dElClass).style.width = "37vw"
+    document.querySelector(dElClass).style.top = dTopVl
 }
 
 
 
-setTimeout(() => {
-    const ogleSvg = a.contentDocument;
-
-    const ogleText = ogleSvg.querySelector('.ogleText');
-    const ogleStyle = ogleSvg.querySelector('#ogleStyle');
-    const stop1 = ogleSvg.querySelector('#stop1');
-    const stop2 = ogleSvg.querySelector('#stop2');
-
-
-    document.querySelector(".ogle").style.opacity = "0"
-
-    setTimeout(() => {
-
-        document.querySelector(".ogle").style.width = "43vw"
-        // document.querySelector(".ogle").style.top = "23.5%"
-        document.querySelector(".ogle").style.opacity = "1"
-
-    }, 1000)
-
-    d3.select(stop1)
-        .transition()
-        .delay(1000)
-        .attr('stop-color', "#11b6c4")
-
-    d3.select(stop2)
-        .transition()
-        .delay(1000)
-        .attr('stop-color', "#0c7f82")
-
-    d3.select(ogleStyle)
-        .transition()
-        .delay(1000)
-        .duration(0)
-        .text(".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}.cls-4{fill:#0c7f82;}")
-
-
-}, 1000000)
-
-const actvStyle = [
-    ".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}.cls-4{fill:#0c7f82;}",
-    ".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}.cls-4{fill:#0c7f82;}",
-    ".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}",
-    ".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}.cls-4{fill:#0c7f82;}",
-    ".cls-1{fill:#11b6c4;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}.cls-4{fill:#0c7f82;}"
-]
-
-const actvStop1 = "#11b6c4"
-const actvStop2 = "#0c7f82"
-
 var namazText = []
-namazTimesSvg = []
 
+//get the text element inside svg for prayer names
 var sabahSVG, ogleSVG, ikindiSVG, aksamSVG, yatsiSVG;
 setTimeout(() => {
     const sabahSvg = document.querySelector('.sabah')
@@ -484,8 +517,10 @@ setTimeout(() => {
 
 }, 4000)
 
-prayerLng = 0
 
+
+prayerLng = 0
+//change text every 20s
 setInterval(() => {
 
     if (prayerLng == 0) {

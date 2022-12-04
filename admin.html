@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namaz Vakitleri</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="admin.js" defer></script>
+    <link rel="stylesheet" href="admin.css" />
+
+</head>
+<body>
+    <div class="card">
+        
+        Registration
+        <form id="reg-form">
+            <input type="username" placeholder="username" autocomplete="off" id="r-username">
+            <input type="password" placeholder="passwort" autocomplete="off" id="r-password">
+            <input type="number" placeholder="url parameter" autocomplete="off" id="r-url-para">
+
+            <input type="submit" value="Register">
+        </form>
+
+        Login
+
+        <form id="log-form">
+            <input type="username" placeholder="username" autocomplete="off" id="l-username">
+            <input type="password" placeholder="passwort" autocomplete="off" id="l-password">
+            <input type="submit" value="Login">
+
+        </form>
+
+        Change Password
+        <form id="change-pw-form">
+            <input type="password" placeholder="new password" autocomplete="off" id="c-pw-password">
+            <input type="submit" value="Change Password">
+
+        </form>
+
+    </div>
+
+    <div class="announcements">
+        <h2>Announcements</h2>
+        <button id="an-button">Add new announcement</button>
+
+        <form class="new-announcement" id="new-an">
+            <h3>Text</h3>
+            <h4>Türkisch</h4>
+            <input type="text" id="new-tr" placeholder="türkisch" class="an-input" oninput="enableSubmitButton()">
+            
+            <h4>Arabisch</h4>
+            <input type="text" id="new-ar" placeholder="arabisch" class="an-input" oninput="enableSubmitButton()">
+            
+            <h4>Deutsch</h4>
+            <input type="text" id="new-de" placeholder="deutsch" class="an-input" oninput="enableSubmitButton()">
+
+            <h4>Start Date</h4>
+            <input type="date" id="start-date" class="an-input">
+
+            <h4>End Date</h4>
+            <input type="date" id="end-date"  class="an-input">
+
+            <input type="submit" id="an-submit"  value="Add" disabled>
+
+        </form>
+
+        <table bgcolor="grey" width="90%">
+            <thead>
+                <tr>
+                    <th>Nr.</th>
+                    <th>Türkce</th>
+                    <th>Arabca</th>
+                    <th>Almanca</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Delete</th>
+                </tr>
+
+            </thead>
+            <tbody id="table-body">
+                
+            </tbody>
+              <!-- <tr>
+                <td>Alfreds Futterkiste</td>
+                <td>Maria Anders</td>
+                <td>Germany</td>
+              </tr>
+              <tr>
+                <td>Centro comercial Moctezuma</td>
+                <td>Francisco Chang</td>
+                <td>Mexico</td>
+              </tr> -->
+        </table>
+        <button class="getAll">GET ALL</button>
+    </div>
+</body>
+</html>

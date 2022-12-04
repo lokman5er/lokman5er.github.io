@@ -11,12 +11,11 @@
          <stop id="stop2" offset="1" stop-color="#1f5260"/>
       </linearGradient>
    </defs>
-   <title>Artboard 9</title>
-   <rect class="cls-1" x="386.98" width="388.94" height="108.21"/>
-   <path class="cls-2" d="M431,22.29h0A54.11,54.11,0,0,0,343.5,85.93h0l91.2,142.42,103.69-75.41Z"/>
-   <path class="cls-3" d="M441.09,54.11A54.1,54.1,0,0,0,358.26,8.26l0,0-100.61,65L339.19,176.4,424.3,93.27A54,54,0,0,0,441.09,54.11Z"/>
-   <path class="cls-4" d="M337,173.6a65.72,65.72,0,0,1-39.05,12.8H70a66,66,0,0,1,0-132H286.8L257.63,73.21Z"/>
-   <path class="cls-1" d="M293.92,62.37H66a66,66,0,0,0,0,132H293.92a66,66,0,0,0,0-132Z"/>
+   <rect id="s1" fill="#2c7291" x="386.98" width="388.94" height="108.21"/>
+   <path id="s2" fill="url(#linear-gradient)" d="M431,22.29h0A54.11,54.11,0,0,0,343.5,85.93h0l91.2,142.42,103.69-75.41Z"/>
+   <path id="s3" fill="url(#linear-gradient-2)" d="M441.09,54.11A54.1,54.1,0,0,0,358.26,8.26l0,0-100.61,65L339.19,176.4,424.3,93.27A54,54,0,0,0,441.09,54.11Z"/>
+   <path id="s4" fill="#1f5260"  d="M337,173.6a65.72,65.72,0,0,1-39.05,12.8H70a66,66,0,0,1,0-132H286.8L257.63,73.21Z"/>
+   <path id="s1" fill="#2c7291" d="M293.92,62.37H66a66,66,0,0,0,0,132H293.92a66,66,0,0,0,0-132Z"/>
    <text text-anchor="middle" dominant-baseline="middle" x="180" y="135" font-size="5em" fill="white" font-weight="bold" class="text" style="font-family: Montserrat, sans-serif">YATSI</text> 
         <text text-anchor="middle" x="535" y="80" font-size="4.5em" fill="white" font-weight="normal" class="hour1" style="font-family: Montserrat, sans-serif">0</text> 
         <text text-anchor="middle" x="582" y="80" font-size="4.5em" fill="white" font-weight="normal" class="hour2" style="font-family: Montserrat, sans-serif">0</text> 

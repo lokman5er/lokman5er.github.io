@@ -12,10 +12,10 @@
          <stop id="stop2" offset="1" stop-color="#1f5260"/>
       </linearGradient>
    </defs>
-   <rect class="cls-1" x="386.98" y="12.31" width="388.94" height="108.21"/>
-   <path class="cls-2" d="M430.21,34.4h0a54.44,54.44,0,0,0-88.06,64h0L433.9,241.73l104.34-75.87Z"/>
-   <path class="cls-3" d="M440.33,66.42a54.44,54.44,0,0,0-48.47-54.11h0L299.54.4v132l92.32-11.91h0A54.43,54.43,0,0,0,440.33,66.42Z"/>
-   <path class="cls-1" d="M358.67,66.42A66.4,66.4,0,0,0,294.07.05V0H66.42a66.42,66.42,0,1,0,0,132.83c.39,0,.77,0,1.16,0H291.09c.39,0,.77,0,1.16,0l1.17,0h.65A66.41,66.41,0,0,0,358.67,66.42Z"/>
+   <rect id="s1" fill="#2c7291" x="386.98" y="12.31" width="388.94" height="108.21"/>
+   <path id="s2" fill="url(#linear-gradient)" d="M430.21,34.4h0a54.44,54.44,0,0,0-88.06,64h0L433.9,241.73l104.34-75.87Z"/>
+   <path id="s3" fill="url(#linear-gradient-2)" d="M440.33,66.42a54.44,54.44,0,0,0-48.47-54.11h0L299.54.4v132l92.32-11.91h0A54.43,54.43,0,0,0,440.33,66.42Z"/>
+   <path id="s1" fill="#2c7291" d="M358.67,66.42A66.4,66.4,0,0,0,294.07.05V0H66.42a66.42,66.42,0,1,0,0,132.83c.39,0,.77,0,1.16,0H291.09c.39,0,.77,0,1.16,0l1.17,0h.65A66.41,66.41,0,0,0,358.67,66.42Z"/>
     <text text-anchor="middle" dominant-baseline="middle" x="180" y="73" font-size="5em" fill="white" font-weight="bold" class="text" style="font-family: Montserrat, sans-serif">İKİNDİ</text> 
         <text text-anchor="middle" x="535" y="92" font-size="4.5em" fill="white" font-weight="normal" class="hour1" style="font-family: Montserrat, sans-serif">0</text> 
         <text text-anchor="middle" x="582" y="92" font-size="4.5em" fill="white" font-weight="normal" class="hour2" style="font-family: Montserrat, sans-serif">0</text> 
