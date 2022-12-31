@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <script src="admin.js" defer></script>
     <link rel="stylesheet" href="admin.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
 
 </head>
 <body>
@@ -41,31 +42,147 @@
     </div>
 
     <div class="announcements">
-        <h2>Announcements</h2>
-        <button id="an-button">Add new announcement</button>
+        <h1 class="title">DUYURULAR</h1>
+        <div class="an-mid">
+            <div class="an-mid-left">
 
-        <form class="new-announcement" id="new-an">
-            <h3>Text</h3>
-            <h4>Türkisch</h4>
-            <input type="text" id="new-tr" placeholder="türkisch" class="an-input" oninput="enableSubmitButton()">
-            
-            <h4>Arabisch</h4>
-            <input type="text" id="new-ar" placeholder="arabisch" class="an-input" oninput="enableSubmitButton()">
-            
-            <h4>Deutsch</h4>
-            <input type="text" id="new-de" placeholder="deutsch" class="an-input" oninput="enableSubmitButton()">
+                <form class="new-announcement" id="new-an">
 
-            <h4>Start Date</h4>
-            <input type="date" id="start-date" class="an-input">
+                    <div class="dates">
+                        <div class="startDate">
+                            <span class="dt-title">başlangıç ​​tarihi</span>
+                            <input type="date" id="start-date" class="an-input date-input">
+                        </div>
 
-            <h4>End Date</h4>
-            <input type="date" id="end-date"  class="an-input">
+                        <div class="endDate">
+                            <span class="dt-title">bitiş tarihi</span>
+                            <input type="date" id="end-date" class="an-input date-input">
+                        </div>
+                    </div>
 
-            <input type="submit" id="an-submit"  value="Add" disabled>
+                    <div class="an-mid-left-title">Türkçe</div>
+                    <textarea type="text" id="new-tr" placeholder="türkisch" class="an-input" oninput="enableSubmitButton()"></textarea>
+                    
+                    <div class="an-mid-left-title">Arapça</div>
+                    <textarea type="text" id="new-ar" placeholder="arabisch" class="an-input" oninput="enableSubmitButton()"></textarea>
+                    
+                    <div class="an-mid-left-title">Almanca</div>
+                    <textarea type="text" id="new-de" placeholder="deutsch" class="an-input" oninput="enableSubmitButton()"></textarea>
+        
+                    
+        
+                    <input type="submit" id="an-submit"  value="DUYURUYU EKLE" disabled>
+        
+                </form>
 
-        </form>
+            </div>
 
-        <table bgcolor="grey" width="90%">
+            <div class="an-mid-right">
+                <div class="an-list">
+                    <div class="an-item">
+
+                        <div class="an-item-1">
+                            <span class="an-item-dates">20.02.2023 - 21.02.2023</span>
+                            <span class="an-item-delete">SIL <i class="fa fa-trash-alt"></i>
+                            </span>
+                        </div>
+
+                        <div class="an-item-2">
+                            <div class="an-item-container">
+                                <strong class="an-item-pre">TR:</strong>
+                                <span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit unde accusantium, quas pariatur quidem rerum totam molestias ut eaque veniam amet, adipisci eos! Placeat reiciendis excepturi maxime? At, tempora id. Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eos quaerat eum delectus et, voluptatum qui, exercitationem sequi beatae quam minus ipsum vitae maiores quia incidunt possimus molestiae, explicabo vero!</span>
+                            </div>
+                            <div class="seperator">
+                                <div class="s-1">⬥</div>
+                                <div class="s-2"></div>
+                                <div class="s-3">⬥</div>
+                            </div>
+                        </div>
+
+                        <div class="an-item-3">
+                            <div class="an-item-container">
+                                <strong class="an-item-pre">AR:</strong>
+                                <span> Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eos quaerat eum delectus et, voluptatum qui, exercitationem sequi beatae quam minus ipsum vitae maiores quia incidunt possimus molestiae, explicabo vero!</span>
+
+                            </div>
+
+                            <div class="seperator">
+                                <div class="s-1">⬥</div>
+                                <div class="s-2"></div>
+                                <div class="s-3">⬥</div>
+                            </div>
+                        </div>
+
+                        <div class="an-item-4">
+                            <div class="an-item-container">
+                                <strong class="an-item-pre">DE:</strong>
+                                <span> Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eos quaerat eum delectus et, voluptatum qui, exercitationem sequi beatae quam minus ipsum vitae maiores quia incidunt possimus molestiae, explicabo vero!</span>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="an-item">
+
+                        <div class="an-item-1">
+                            <span class="an-item-dates">20.02.2023 - 21.02.2023</span>
+                            <span class="an-item-delete">SIL <i class="fa fa-trash-alt"></i>
+                            </div>
+
+                        <div class="an-item-2">
+                            <div class="an-item-container">
+                                <strong class="an-item-pre">TR:</strong>
+                                <span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit unde accusantium, quas pariatur quidem rerum totam molestias ut eaque veniam amet, adipisci eos! Placeat reiciendis excepturi maxime? At, tempora id. Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eos quaerat eum delectus et, voluptatum qui, exercitationem sequi beatae quam minus ipsum vitae maiores quia incidunt possimus molestiae, explicabo vero!</span>
+                            </div>
+                            <div class="seperator">
+                                <div class="s-1">
+                                    ⬥
+                                </div>
+                                <div class="s-2"></div>
+                                <div class="s-3">⬥</div>
+                            </div>
+                        </div>
+
+                        <div class="an-item-3">
+                            <div class="an-item-container">
+                                <strong class="an-item-pre">AR:</strong>
+                                <span> Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eos quaerat eum delectus et, voluptatum qui, exercitationem sequi beatae quam minus ipsum vitae maiores quia incidunt possimus molestiae, explicabo vero!</span>
+
+                            </div>
+
+                            <div class="seperator">
+                                <div class="s-1">
+                                    ⬥
+                                </div>
+                                <div class="s-2"></div>
+                                <div class="s-3">⬥</div>
+                            </div>
+                        </div>
+
+                        <div class="an-item-4">
+                            <div class="an-item-container">
+                                <strong class="an-item-pre">DE:</strong>
+                                <span> Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eos quaerat eum delectus et, voluptatum qui, exercitationem sequi beatae quam minus ipsum vitae maiores quia incidunt possimus molestiae, explicabo vero!</span>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    
+                    
+
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-bar">
+            <button class="b-1" disabled>DUYURULAR</button>
+            <button class="b-2" >EKLE</button>
+        </div>        
+
+        <!-- <table bgcolor="grey" width="90%">
             <thead>
                 <tr>
                     <th>Nr.</th>
@@ -80,7 +197,9 @@
             </thead>
             <tbody id="table-body">
                 
-            </tbody>
+            </tbody> -->
+
+
               <!-- <tr>
                 <td>Alfreds Futterkiste</td>
                 <td>Maria Anders</td>
@@ -91,8 +210,14 @@
                 <td>Francisco Chang</td>
                 <td>Mexico</td>
               </tr> -->
-        </table>
+
+
+        <!-- </table>
         <button class="getAll">GET ALL</button>
+    
+        <button onClick="getPrayerTimes()">get prayer times</button> -->
+
     </div>
+
 </body>
 </html>

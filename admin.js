@@ -87,23 +87,7 @@ async function changePassword(event) {
 
 }
 
-var newAnHidden = true
-const anButton = document.getElementById('an-button')
-const newAn = document.getElementById('new-an')
-anButton.addEventListener('click', () => {
-    if (newAnHidden) {
-        newAn.style.display = "inline"
-        newAn.style.visibility = "visible"
-        newAnHidden = false
-        anButton.innerText = "Cancel"
 
-    } else {
-        newAn.style.display = "none"
-        newAn.style.visibility = "hidden"
-        newAnHidden = true
-        anButton.innerText = "Add new announcement"
-    }
-})
 
 const anForm = document.getElementById('new-an')
 
@@ -225,3 +209,47 @@ async function deletePressed(el) {
 
 
 }
+
+async function getPrayerTimes() {
+    const token = localStorage.getItem('token')
+    fetch(`http://localhost:9999/api/getPrayerTimes?token=${token}`)
+        .then((data) => { return data.json() })
+        .then((data) => { console.log(data) })
+    console.log("test3")
+}
+
+
+const buttonAns = document.querySelector('.b-1')
+const buttonNewAn = document.querySelector('.b-2')
+const newAn = document.querySelector('.an-mid-left')
+const anList = document.querySelector('.an-mid-right')
+const title = document.querySelector('.title')
+
+buttonNewAn.addEventListener('click', () => {
+    buttonAns.removeAttribute("disabled");
+    buttonNewAn.setAttribute("disabled", "");
+    anList.style.display = "none";
+    newAn.style.display = "block";
+    title.innerText = "YENI DUYURU"
+})
+
+
+buttonAns.addEventListener('click', () => {
+    buttonNewAn.removeAttribute("disabled");
+    buttonAns.setAttribute("disabled", "");
+    anList.style.display = "block";
+    newAn.style.display = "none";
+    title.innerText = "DUYURULAR"
+})
+
+
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 830) {
+        newAn.style.display = '';
+        anList.style.display = '';
+    } else {
+        buttonNewAn.removeAttribute("disabled");
+        buttonAns.setAttribute("disabled", "");
+    }
+});

@@ -9,6 +9,11 @@ body {
   font-family: "Montserrat", sans-serif;
   color: white;
   font-weight: 500;
+  background-color: #1f4e5e;
+}
+
+* {
+  font-family: "Montserrat", sans-serif;
 }
 
 .card {
@@ -30,15 +35,11 @@ form {
 }
 
 input {
-  width: 60%;
-  height: 3vh;
-  font-size: 2vh;
-  padding: 0.5vh 0;
-  margin: 1vh 0;
+  background-color: #d4e7e8;
 }
 
 .announcements {
-  background-color: black;
+  background-color: #1f4e5e;
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -46,31 +47,376 @@ input {
   align-items: center;
   flex-direction: column;
   position: absolute;
+  overflow: hidden;
 }
 
 .an-input {
-  width: 60vw;
+  width: 80%;
+  height: 12.35vh;
+  border-radius: 15px;
+  border: 0px;
   margin: 0;
-}
-
-h4 {
-  margin: 1vh 0;
+  font-size: 1rem;
+  background-color: #d4e7e8;
+  resize: none;
 }
 
 .new-announcement {
-  font-size: 1rem;
-  display: none;
+  font-size: 1.4rem;
+}
+
+.title {
+  font-size: 5vh;
+  letter-spacing: 0.04em;
+  height: 10vh;
+  padding-top: 1vh;
+}
+
+.an-mid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100vw;
+  height: 90vh;
+}
+
+.an-mid-left {
+  width: 39%;
+  height: 90%;
+}
+
+.dates {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 80%;
+  margin-left: 10%;
+  font-size: 2.2vh;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.date-input {
+  margin: 0.5vh 0 0 0;
+  border-radius: 20px;
+  border: 0px;
+  height: 4vh;
+  width: 12vw;
+  min-width: 110px;
+  color: #1f4e5e;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+}
+
+text {
+  text-transform: uppercase;
+  font-style: italic;
+  font-size: 1.2rem;
+}
+
+textarea {
+  padding: 8px 8px 8px 12px;
+  color: #1f4e5e;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+}
+
+.an-mid-left-title {
+  text-transform: uppercase;
+  font-style: italic;
+  margin: 2vh 0 0.8vh 0;
+  width: 60%;
+  margin-left: 15%;
+  text-align: left;
+  font-size: 2.2vh;
+}
+
+#an-submit {
+  background-color: #d4e7e8;
+  border: 0px;
+  border-radius: 15px;
+  height: 5vh;
+  width: auto;
+  margin-top: 3vh;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1f4e5e;
+  padding: 0 3%;
+}
+
+.an-mid-right {
+  width: 61%;
+  height: 90%;
+}
+
+.an-list {
+  background-color: #d4e7e8;
+  height: 100%;
+  width: 94%;
+  border-radius: 15px;
+  padding: 1vh 0 0 1vh;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+textarea,
+input {
+  outline: none;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #d4e7e8;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #497c8e;
+  border-radius: 15px;
+}
+
+.an-item {
+  background-color: #1f4e5e;
+  height: auto;
+  width: 99%;
+  border-radius: 15px;
+  font-size: 2vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-bottom: 1vh;
+  margin-bottom: 1vh;
+}
+
+.an-item-1 {
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-style: italic;
+  font-weight: 300;
+}
+
+.an-item-dates {
+  background-color: #3f6673;
+  width: auto;
+  border-bottom-right-radius: 15px;
+  border-top-left-radius: 15px;
+  padding: 1vh 1vw 1vh 1vw;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  width: 12%;
+  height: 5%;
+  margin-left: -0.4%;
+  border-radius: 25px;
+  opacity: 0;
+}
+
+input[type="date"] {
+  display: block;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1.7;
+}
+
+.an-item-delete {
+  background-color: #3f6673;
+  border-bottom-left-radius: 15px;
+  border-top-right-radius: 15px;
+  padding: 1vh 3vw 1vh 3vw;
+  font-style: normal;
+}
+
+.fa {
+  margin-left: 1vw;
+}
+
+.an-item-container {
+  width: 94%;
+  margin: 1vh 0 1vh 3%;
+}
+
+.seperator {
+  width: 97%;
+  margin-left: 1.5%;
+  margin-top: 0.5%;
+  height: 1vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.8vh;
+}
+
+.s-1 {
+  margin-right: -0.3vw;
+}
+
+.s-2 {
+  background-color: white;
+  height: 0.2vh;
+  width: 100%;
+  margin-top: -0.25vh;
+}
+
+.s-3 {
+  margin-left: -0.3vw;
+}
+
+.nav-bar {
   visibility: hidden;
 }
 
-table {
-  margin: 3vh 0;
-}
+@media (max-width: 830px) {
+  .title {
+    position: fixed;
+    top: -3.5vh;
+    background-color: #1f4e5e;
+    width: 100vw;
+    text-align: center;
+    height: 10vh;
+    line-height: 1.8;
+  }
 
-thead,
-tbody,
-tr,
-td,
-th {
-  border: 1px solid white;
+  .nav-bar {
+    visibility: visible;
+    width: 100%;
+    display: flex;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    box-shadow: 0 -5px 40px 1px rgb(0, 0, 0, 0.85);
+    position: fixed;
+    bottom: -0.1%;
+    background-color: #1f4e5e;
+  }
+
+  .b-1,
+  .b-2 {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 6vh;
+    padding-bottom: 0.8vh;
+    background-color: #114050;
+    border: 0px;
+    color: white;
+    font-size: 2vh;
+    font-weight: bold;
+    cursor: pointer;
+    padding-top: 0.5vh;
+  }
+
+  .b-1 {
+    border-top-left-radius: 15px;
+  }
+
+  .b-2 {
+    border-top-right-radius: 15px;
+  }
+
+  .b-2:disabled,
+  .b-1:disabled {
+    color: rgba(255, 255, 255, 0.5);
+    background-color: #377185;
+    font-weight: normal;
+  }
+
+  .an-mid {
+    display: block;
+    height: auto;
+    padding: 2vh 0 7vh 0;
+  }
+
+  .an-mid-left {
+    width: 100vw;
+    height: 80vh;
+    display: none;
+  }
+
+  .an-mid-right {
+    width: 99vw;
+    margin-left: 4vw;
+  }
+
+  .an-list {
+    background-color: #1f4e5e;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .an-item {
+    background-color: #d4e7e8;
+    color: #1f4e5e;
+    margin-bottom: 5vh;
+  }
+
+  .an-item-dates,
+  .an-item-delete {
+    background-color: #b4d6e1;
+    color: #1f4e5e;
+    padding: 1vh 4vw;
+  }
+
+  .s-1,
+  .s-3 {
+    color: #1f4e5e;
+  }
+
+  .s-2 {
+    background-color: #1f4e5e;
+    margin-top: -0.22vh;
+  }
+
+  .s-1 {
+    margin-right: -2vw;
+  }
+
+  .s-3 {
+    margin-left: -2vw;
+  }
+
+  body {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: auto;
+    position: relative;
+  }
+
+  .announcements {
+    height: auto;
+    position: absolute;
+    top: 10vh;
+  }
+
+  .card {
+    display: none;
+  }
+
+  .dates {
+    align-items: space-between;
+  }
+
+  .date-input {
+    width: 35vw;
+    font-size: 2.1vh;
+  }
+
+  .dt-title {
+    font-size: 1.6vh;
+  }
+
+  .an-mid-left-title {
+    width: 80vw;
+    margin-left: 10vw;
+    text-align: center;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    width: 34.5%;
+  }
 }
