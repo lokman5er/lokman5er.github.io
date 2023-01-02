@@ -14,35 +14,48 @@
 <body>
     <div class="card">
         
-        Registration
+        <!-- Registration
         <form id="reg-form">
             <input type="username" placeholder="username" autocomplete="off" id="r-username">
             <input type="password" placeholder="passwort" autocomplete="off" id="r-password">
             <input type="number" placeholder="url parameter" autocomplete="off" id="r-url-para">
 
             <input type="submit" value="Register">
-        </form>
+        </form> -->
 
-        Login
 
         <form id="log-form">
-            <input type="username" placeholder="username" autocomplete="off" id="l-username">
-            <input type="password" placeholder="passwort" autocomplete="off" id="l-password">
-            <input type="submit" value="Login">
+            <h1 class="log-form-title">LOG IN</h1>
+            <span class="log-form-username">KULLANICI ADI</span>
+            <input type="username" placeholder="Kullanıcı adı" autocomplete="off" id="l-username">
+            <span class="log-form-password">PAROLA</span>
+            <input type="password" placeholder="Parola" autocomplete="off" id="l-password">
+            <input id="submit-login" type="submit" value="LOG IN" disabled>
 
         </form>
 
-        Change Password
+        <!-- Change Password
         <form id="change-pw-form">
             <input type="password" placeholder="new password" autocomplete="off" id="c-pw-password">
             <input type="submit" value="Change Password">
 
-        </form>
+        </form> -->
 
     </div>
 
     <div class="announcements">
-        <h1 class="title">DUYURULAR</h1>
+        <div class="title">
+            <h1 class="title-tr">
+                DUYURULAR
+            </h1>
+                
+            <button class="logout">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#d4e7e8" height="25px" width="25px" version="1.1" id="Capa_1" viewBox="0 0 384.971 384.971" xml:space="preserve">
+                    <path stroke="#d4e7e8" stroke-width="20" d="M180.455,360.91H24.061V24.061h156.394c6.641,0,12.03-5.39,12.03-12.03s-5.39-12.03-12.03-12.03H12.03    C5.39,0.001,0,5.39,0,12.031V372.94c0,6.641,5.39,12.03,12.03,12.03h168.424c6.641,0,12.03-5.39,12.03-12.03    C192.485,366.299,187.095,360.91,180.455,360.91z" />
+                    <path stroke="#d4e7e8" stroke-width="10" d="M381.481,184.088l-83.009-84.2c-4.704-4.752-12.319-4.74-17.011,0c-4.704,4.74-4.704,12.439,0,17.179l62.558,63.46H96.279    c-6.641,0-12.03,5.438-12.03,12.151c0,6.713,5.39,12.151,12.03,12.151h247.74l-62.558,63.46c-4.704,4.752-4.704,12.439,0,17.179    c4.704,4.752,12.319,4.752,17.011,0l82.997-84.2C386.113,196.588,386.161,188.756,381.481,184.088z" stroke-width="6"/>
+                </svg>
+            </button>
+        </div>
         <div class="an-mid">
             <div class="an-mid-left">
 
@@ -61,13 +74,13 @@
                     </div>
 
                     <div class="an-mid-left-title">Türkçe</div>
-                    <textarea type="text" id="new-tr" placeholder="türkisch" class="an-input" oninput="enableSubmitButton()"></textarea>
+                    <textarea type="text" id="new-tr" placeholder="türkisch" class="an-input" ></textarea>
                     
                     <div class="an-mid-left-title">Arapça</div>
-                    <textarea type="text" id="new-ar" placeholder="arabisch" class="an-input" oninput="enableSubmitButton()"></textarea>
+                    <textarea type="text" id="new-ar" placeholder="arabisch" class="an-input"></textarea>
                     
                     <div class="an-mid-left-title">Almanca</div>
-                    <textarea type="text" id="new-de" placeholder="deutsch" class="an-input" oninput="enableSubmitButton()"></textarea>
+                    <textarea type="text" id="new-de" placeholder="deutsch" class="an-input" ></textarea>
         
                     
         
@@ -79,101 +92,11 @@
 
             <div class="an-mid-right">
                 <div class="an-list">
-                    <div class="an-item">
-
-                        <div class="an-item-1">
-                            <span class="an-item-dates">20.02.2023 - 21.02.2023</span>
-                            <span class="an-item-delete">SIL <i class="fa fa-trash-alt"></i>
-                            </span>
-                        </div>
-
-                        <div class="an-item-2">
-                            <div class="an-item-container">
-                                <strong class="an-item-pre">TR:</strong>
-                                <span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit unde accusantium, quas pariatur quidem rerum totam molestias ut eaque veniam amet, adipisci eos! Placeat reiciendis excepturi maxime? At, tempora id. Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eos quaerat eum delectus et, voluptatum qui, exercitationem sequi beatae quam minus ipsum vitae maiores quia incidunt possimus molestiae, explicabo vero!</span>
-                            </div>
-                            <div class="seperator">
-                                <div class="s-1">⬥</div>
-                                <div class="s-2"></div>
-                                <div class="s-3">⬥</div>
-                            </div>
-                        </div>
-
-                        <div class="an-item-3">
-                            <div class="an-item-container">
-                                <strong class="an-item-pre">AR:</strong>
-                                <span> Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eos quaerat eum delectus et, voluptatum qui, exercitationem sequi beatae quam minus ipsum vitae maiores quia incidunt possimus molestiae, explicabo vero!</span>
-
-                            </div>
-
-                            <div class="seperator">
-                                <div class="s-1">⬥</div>
-                                <div class="s-2"></div>
-                                <div class="s-3">⬥</div>
-                            </div>
-                        </div>
-
-                        <div class="an-item-4">
-                            <div class="an-item-container">
-                                <strong class="an-item-pre">DE:</strong>
-                                <span> Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eos quaerat eum delectus et, voluptatum qui, exercitationem sequi beatae quam minus ipsum vitae maiores quia incidunt possimus molestiae, explicabo vero!</span>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="an-item">
-
-                        <div class="an-item-1">
-                            <span class="an-item-dates">20.02.2023 - 21.02.2023</span>
-                            <span class="an-item-delete">SIL <i class="fa fa-trash-alt"></i>
-                            </div>
-
-                        <div class="an-item-2">
-                            <div class="an-item-container">
-                                <strong class="an-item-pre">TR:</strong>
-                                <span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit unde accusantium, quas pariatur quidem rerum totam molestias ut eaque veniam amet, adipisci eos! Placeat reiciendis excepturi maxime? At, tempora id. Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eos quaerat eum delectus et, voluptatum qui, exercitationem sequi beatae quam minus ipsum vitae maiores quia incidunt possimus molestiae, explicabo vero!</span>
-                            </div>
-                            <div class="seperator">
-                                <div class="s-1">
-                                    ⬥
-                                </div>
-                                <div class="s-2"></div>
-                                <div class="s-3">⬥</div>
-                            </div>
-                        </div>
-
-                        <div class="an-item-3">
-                            <div class="an-item-container">
-                                <strong class="an-item-pre">AR:</strong>
-                                <span> Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eos quaerat eum delectus et, voluptatum qui, exercitationem sequi beatae quam minus ipsum vitae maiores quia incidunt possimus molestiae, explicabo vero!</span>
-
-                            </div>
-
-                            <div class="seperator">
-                                <div class="s-1">
-                                    ⬥
-                                </div>
-                                <div class="s-2"></div>
-                                <div class="s-3">⬥</div>
-                            </div>
-                        </div>
-
-                        <div class="an-item-4">
-                            <div class="an-item-container">
-                                <strong class="an-item-pre">DE:</strong>
-                                <span> Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eos quaerat eum delectus et, voluptatum qui, exercitationem sequi beatae quam minus ipsum vitae maiores quia incidunt possimus molestiae, explicabo vero!</span>
-
-                            </div>
-
-                        </div>
-                    </div>
-
                     
-                    
-
                 </div>
+                
+                <div class="impressum">Impressum: Lokman Beser</div>
+
             </div>
         </div>
 
@@ -181,41 +104,6 @@
             <button class="b-1" disabled>DUYURULAR</button>
             <button class="b-2" >EKLE</button>
         </div>        
-
-        <!-- <table bgcolor="grey" width="90%">
-            <thead>
-                <tr>
-                    <th>Nr.</th>
-                    <th>Türkce</th>
-                    <th>Arabca</th>
-                    <th>Almanca</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Delete</th>
-                </tr>
-
-            </thead>
-            <tbody id="table-body">
-                
-            </tbody> -->
-
-
-              <!-- <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-              </tr>
-              <tr>
-                <td>Centro comercial Moctezuma</td>
-                <td>Francisco Chang</td>
-                <td>Mexico</td>
-              </tr> -->
-
-
-        <!-- </table>
-        <button class="getAll">GET ALL</button>
-    
-        <button onClick="getPrayerTimes()">get prayer times</button> -->
 
     </div>
 
