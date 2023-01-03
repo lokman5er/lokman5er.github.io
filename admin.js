@@ -18,6 +18,12 @@ const anSubmit = document.getElementById('an-submit');
 const loginView = document.querySelector('.card')
 const announcementsView = document.querySelector('.announcements')
 
+// Get reference for popup to show error messages
+const popupTitle = document.querySelector('.popup-title')
+const popupText = document.querySelector('.popup-text')
+
+const popupContainer = document.querySelector('.popup-container')
+const popupButton = document.querySelector('.popup-button')
 
 if (localStorage.getItem('token')) {
     loginView.style.display = "none"
@@ -60,8 +66,7 @@ async function login(event) {
 
 
     // If the request was successful, store the returned token in local storage
-    // and show a success alert
-    // Otherwise, show an error alert with the error message
+    // Otherwise, show an error with the error message
     if (result.status === 'ok') {
         loginView.style.display = "none"
         announcementsView.style.display = "block"
@@ -71,46 +76,14 @@ async function login(event) {
         //load the right announcements data with api
         updateTable()
     } else {
-        alert(result.error);
+        popupContainer.style.display = "flex"
+        popupText.innerText = result.error
     }
 
     document.getElementById('l-username').value = '';
     document.getElementById('l-password').value = '';
 }
 
-{
-    // Event listener for the change password form's submit event
-    // changePasswordForm.addEventListener('submit', changePassword);
-
-    // // Function to handle the submission of the change password form
-    // async function changePassword(event) {
-    //     // Prevent the default form submission behavior
-    //     event.preventDefault();
-
-    //     // Get the value of the password input field
-    //     const password = document.getElementById('c-pw-password').value;
-
-    //     // Send a POST request to the server to change the user's password
-    //     const result = await sendRequest('http://localhost:9999/api/change-password', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             newpassword: password,
-    //             token: localStorage.getItem('token')
-    //         })
-    //     });
-
-    //     // If the request was successful, show a success alert
-    //     // Otherwise, show an error alert with the error message
-    //     if (result.status === 'ok') {
-    //         alert('Success');
-    //     } else {
-    //         alert(result.error);
-    //     }
-    // }
-}
 
 // Set the current date as the minimum value for the start and end date fields
 startDateEl.valueAsDate = new Date();
@@ -126,7 +99,6 @@ startDateEl.addEventListener('change', () => {
     }
     // Set the minimum value for the end date field to the start date
     endDateEl.setAttribute('min', startDateEl.value);
-    console.log(startDateEl.value);
 });
 
 // Event listener for the new announcement form's submit event
@@ -136,8 +108,6 @@ anForm.addEventListener('submit', newAnnouncement);
 async function newAnnouncement(event) {
     // Prevent the default form submission behavior
     event.preventDefault();
-
-    console.log("submit clicked")
 
     // Get the values of the input fields
     const anTr1 = anTr.value;
@@ -165,13 +135,16 @@ async function newAnnouncement(event) {
         })
     });
 
-
-
     // If the request was successful, show a success alert
     // Otherwise, show an error alert with the error message
     if (result.status === 'ok') {
+        popupContainer.style.display = "flex"
+        popupTitle.innerText = "SUCCESS"
+        popupText.innerText = "Duyuru başarıyla eklendi."
     } else {
-        alert(result.error);
+        popupContainer.style.display = "flex"
+        popupContainer.style.position = "absolute"
+        popupText.innerText = result.error
     }
 
     updateTable();
@@ -420,8 +393,7 @@ impressumA.addEventListener('click', () => {
     }
 })
 
-const popupContainer = document.querySelector('.popup-container')
-const popupButton = document.querySelector('.popup-button')
+
 
 popupContainer.addEventListener('click', event => {
     if (event.target === popupContainer || event.target === popupButton) {

@@ -378,7 +378,8 @@ input[type="date"] {
 }
 
 .popup-container {
-  position: relative;
+  position: absolute;
+  z-index: 5;
   background-color: rgba(255, 255, 255, 0.488);
   backdrop-filter: blur(10px);
   width: 100vw;
@@ -396,8 +397,8 @@ input[type="date"] {
   background-color: #1f4e5e;
   color: #d4e7e8;
   width: 25vw;
-  min-width: 300px;
-  padding: 1vh 2vw 3.5vh 2vw;
+  min-width: 280px;
+  padding: 1vh 2vw 4.5vh 2vw;
   border-radius: 15px;
 }
 
@@ -409,6 +410,7 @@ input[type="date"] {
 
 .popup-text {
   text-align: center;
+  padding-bottom: 1vh;
 }
 
 .popup-button {
@@ -423,6 +425,10 @@ input[type="date"] {
 }
 
 @media (max-width: 830px) {
+  .popup-container {
+    position: absolute;
+    top: 0;
+  }
   .title {
     position: fixed;
     top: -3.5vh;
@@ -592,13 +598,9 @@ input[type="date"] {
   .title-tr {
     top: 10px;
   }
-
-  .popup-container {
-    position: relative;
-  }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 400) {
   .title-tr {
     width: 92vw;
   }
