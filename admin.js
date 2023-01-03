@@ -18,6 +18,7 @@ const anSubmit = document.getElementById('an-submit');
 const loginView = document.querySelector('.card')
 const announcementsView = document.querySelector('.announcements')
 
+
 if (localStorage.getItem('token')) {
     loginView.style.display = "none"
     announcementsView.style.display = "block"
@@ -31,41 +32,6 @@ async function sendRequest(url, options) {
     return fetch(url, options)
         .then((res) => res.json());
 }
-
-// Event listener for the register form's submit event
-// form.addEventListener('submit', registerUser);
-
-// // Function to handle the submission of the register form
-// async function registerUser(event) {
-//     // Prevent the default form submission behavior
-//     event.preventDefault();
-
-//     // Get the values of the input fields
-//     const username = document.getElementById('r-username').value;
-//     const password = document.getElementById('r-password').value;
-//     const urlPara = document.getElementById('r-url-para').value;
-
-//     // Send a POST request to the server to register a new user
-//     const result = await sendRequest('http://localhost:9999/api/register', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//             username,
-//             password,
-//             urlPara
-//         })
-//     });
-
-//     // If the request was successful, show a success alert
-//     // Otherwise, show an error alert with the error message
-//     if (result.status === 'ok') {
-//         alert('Success');
-//     } else {
-//         alert(result.error);
-//     }
-// }
 
 // Event listener for the login form's submit event
 loginForm.addEventListener('submit', login);
@@ -439,3 +405,26 @@ buttonLogout.addEventListener('click', () => {
     loginView.style.display = "block"
     announcementsView.style.display = "none"
 })
+
+
+const impressumA = document.querySelector('.a-impressum')
+const impressumContainer = document.querySelector('.impressum-container')
+var containerCollapsed = true
+impressumA.addEventListener('click', () => {
+    if (containerCollapsed) {
+        impressumContainer.style.display = "block"
+        containerCollapsed = !containerCollapsed
+    } else {
+        impressumContainer.style.display = "none"
+        containerCollapsed = !containerCollapsed
+    }
+})
+
+const popupContainer = document.querySelector('.popup-container')
+const popupButton = document.querySelector('.popup-button')
+
+popupContainer.addEventListener('click', event => {
+    if (event.target === popupContainer || event.target === popupButton) {
+        popupContainer.style.display = 'none';
+    }
+});
