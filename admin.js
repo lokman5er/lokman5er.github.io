@@ -26,9 +26,28 @@ const popupContainer = document.querySelector('.popup-container')
 const popupButton = document.querySelector('.popup-button')
 
 if (localStorage.getItem('token')) {
-    loginView.style.display = "none"
-    announcementsView.style.display = "block"
-    updateTable();
+    checkToken();
+}
+
+async function checkToken() {
+    const token = localStorage.getItem('token')
+    const result = await sendRequest(`http://localhost:9999/api/check-token?token=${token}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (result.status === 'ok') {
+        loginView.style.display = "none"
+        announcementsView.style.display = "block"
+        updateTable();
+
+    } else {
+        localStorage.removeItem('token')
+        loginView.style.display = "block"
+        announcementsView.style.display = "none"
+    }
+
 }
 
 // Helper function to send a request to the server
@@ -142,6 +161,7 @@ async function newAnnouncement(event) {
         popupTitle.innerText = "SUCCESS"
         popupText.innerText = "Duyuru başarıyla eklendi."
     } else {
+        popupTitle.innerText = "ERROR"
         popupContainer.style.display = "flex"
         popupContainer.style.position = "absolute"
         popupText.innerText = result.error
@@ -164,6 +184,8 @@ window.addEventListener('resize', () => {
         // Remove the 'display' CSS attribute from both elements
         newAn.style.display = '';
         anList.style.display = '';
+
+        title.innerText = "DUYURULAR"
     } else {
         buttonNewAn.removeAttribute("disabled");
         buttonAns.setAttribute("disabled", "");
@@ -305,7 +327,7 @@ function updateTable() {
 
                         <div class="an-item-1">
                             <span class="an-item-dates" startDate="${start}">${start} - ${end}</span>
-                            <span onclick="deletePressed(data${idx})" class="an-item-delete">SIL <i class="fa fa-trash-alt"></i>
+                            <span onclick="deletePressed(data${idx})" class="an-item-delete">SIL <i class="fa fa-trash-o" aria-hidden="true"></i>
                             </span>
                         </div>
 
@@ -390,6 +412,19 @@ impressumA.addEventListener('click', () => {
     } else {
         impressumContainer.style.display = "none"
         containerCollapsed = !containerCollapsed
+    }
+})
+
+const impressumA1 = document.querySelector('.a-impressum-1')
+const impressumContainer1 = document.querySelector('.impressum-container-1')
+var containerCollapsed1 = true
+impressumA1.addEventListener('click', () => {
+    if (containerCollapsed1) {
+        impressumContainer1.style.display = "block"
+        containerCollapsed1 = !containerCollapsed1
+    } else {
+        impressumContainer1.style.display = "none"
+        containerCollapsed1 = !containerCollapsed1
     }
 })
 

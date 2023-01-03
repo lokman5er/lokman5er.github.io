@@ -138,21 +138,23 @@ input {
 .title-tr {
   font-size: 5vh;
   letter-spacing: 0.04em;
-  position: absolute;
   float: center;
   width: 100vw;
-  top: 5px;
+  line-height: 1.5;
+  margin-top: 0;
+  display: inline;
+  text-align: center;
 }
 
 .logout {
-  top: 33px;
-  right: 20px;
   background-color: transparent;
   border: none;
-  display: inline;
-  float: right;
-  margin-right: 1vw;
+  font-size: 5vh;
+  color: white;
+  line-height: 0;
   position: absolute;
+  top: 5vh;
+  right: 2vw;
 }
 
 .an-mid {
@@ -326,8 +328,9 @@ input[type="date"] {
   font-style: normal;
 }
 
-.fa {
+.fa-trash-o {
   margin-left: 1vw;
+  font-size: 4vh;
 }
 
 .an-item-container {
@@ -347,18 +350,19 @@ input[type="date"] {
 }
 
 .s-1 {
-  margin-right: -0.3vw;
+  margin-right: -1%;
 }
 
 .s-2 {
   background-color: white;
   height: 0.2vh;
   width: 100%;
-  margin-top: -0.25vh;
+  margin-top: -0.05%;
 }
 
 .s-3 {
-  margin-left: -0.3vw;
+  margin-left: -1%;
+  margin-top: -0.05%;
 }
 
 .nav-bar {
@@ -375,6 +379,7 @@ input[type="date"] {
 
 .impressum-container {
   display: none;
+  padding-bottom: 3vh;
 }
 
 .popup-container {
@@ -384,7 +389,7 @@ input[type="date"] {
   backdrop-filter: blur(10px);
   width: 100vw;
   height: 100vh;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 }
@@ -424,19 +429,40 @@ input[type="date"] {
   cursor: pointer;
 }
 
+.impressum-1 {
+  display: none;
+}
+
 @media (max-width: 830px) {
   .popup-container {
     position: absolute;
     top: 0;
   }
+
   .title {
-    position: fixed;
-    top: -3.5vh;
     background-color: #1f4e5e;
+    /* background-color: red; */
     width: 100vw;
-    text-align: center;
-    height: 10vh;
-    line-height: 1.8;
+    height: 7vh;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    line-height: 0;
+    padding-top: 3.5vh;
+  }
+
+  .title-tr {
+    padding-top: 3vh;
+    padding-left: 1.5vw;
+  }
+
+  .logout {
+    background-color: transparent;
+    border: none;
+    padding-right: 2vw;
+    color: white;
+    position: unset;
   }
 
   .nav-bar {
@@ -486,11 +512,27 @@ input[type="date"] {
     display: block;
     height: auto;
     padding: 2vh 0 7vh 0;
+    margin-top: 10vh;
   }
 
   .an-mid-left {
     width: 100vw;
-    height: 80vh;
+    height: 110vh;
+    display: none;
+  }
+
+  #an-submit {
+    margin-top: 3vh;
+    padding: 0vh 5vw;
+  }
+
+  .impressum-1 {
+    margin-top: 6vh;
+    display: block;
+    font-size: 2vh;
+  }
+
+  .impressum-container-1 {
     display: none;
   }
 
@@ -531,15 +573,16 @@ input[type="date"] {
 
   .s-2 {
     background-color: #1f4e5e;
-    margin-top: -0.22vh;
   }
 
   .s-1 {
-    margin-right: -2vw;
+    margin-right: -1%;
+    margin-top: 0.2%;
   }
 
   .s-3 {
-    margin-left: -2vw;
+    margin-left: -1%;
+    margin-top: 0.2%;
   }
 
   body {
@@ -552,7 +595,7 @@ input[type="date"] {
   .announcements {
     height: auto;
     position: absolute;
-    top: 10vh;
+    top: 0;
   }
 
   .dates {
@@ -582,26 +625,5 @@ input[type="date"] {
     position: static;
     width: 100vw;
     text-align: center;
-  }
-
-  .logout {
-    top: 49px;
-    right: 0px;
-    background-color: transparent;
-    border: none;
-    display: inline;
-    float: right;
-    margin-right: 1vw;
-    position: absolute;
-  }
-
-  .title-tr {
-    top: 10px;
-  }
-}
-
-@media (max-width: 400) {
-  .title-tr {
-    width: 92vw;
   }
 }
