@@ -1,7 +1,8 @@
+const httpsUrl = "http://localhost:9999"
+//port 9999
+
 // Get references to the forms on the page
-// const form = document.getElementById('reg-form');
 const loginForm = document.getElementById('log-form');
-// const changePasswordForm = document.getElementById('change-pw-form');
 const anForm = document.getElementById('new-an');
 
 // Get references to the input fields for the new announcement form
@@ -14,7 +15,7 @@ const anDe = document.getElementById('new-de');
 // Get reference to the submit button for the new announcement form
 const anSubmit = document.getElementById('an-submit');
 
-//different Views
+// Different Views
 const loginView = document.querySelector('.card')
 const announcementsView = document.querySelector('.announcements')
 
@@ -31,7 +32,7 @@ if (localStorage.getItem('token')) {
 
 async function checkToken() {
     const token = localStorage.getItem('token')
-    const result = await sendRequest(`http://localhost:9999/api/check-token?token=${token}`, {
+    const result = await sendRequest(`${httpsUrl}/api/check-token?token=${token}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -58,21 +59,23 @@ async function sendRequest(url, options) {
         .then((res) => res.json());
 }
 
+// document.getElementById('submit-login').addEventListener('click', () => { loginForm.submit() });
 // Event listener for the login form's submit event
-loginForm.addEventListener('submit', login);
+loginForm.addEventListener('submit', login)
 
 // Function to handle the submission of the login form
 async function login(event) {
+    console.log("test345")
     // Prevent the default form submission behavior
-    event.preventDefault();
+    event.preventDefault()
 
     // Get the values of the input fields
-    const username = document.getElementById('l-username').value;
-    const password = document.getElementById('l-password').value;
+    const username = document.getElementById('l-username').value
+    const password = document.getElementById('l-password').value
 
 
     // Send a POST request to the server to login
-    const result = await sendRequest('http://localhost:9999/api/login', {
+    const result = await sendRequest(`${httpsUrl}/api/login/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -89,8 +92,7 @@ async function login(event) {
     if (result.status === 'ok') {
         loginView.style.display = "none"
         announcementsView.style.display = "block"
-        console.log('Got the token: ', result.data);
-        localStorage.setItem('token', result.data);
+        localStorage.setItem('token', result.data)
 
         //load the right announcements data with api
         updateTable()
@@ -99,8 +101,8 @@ async function login(event) {
         popupText.innerText = result.error
     }
 
-    document.getElementById('l-username').value = '';
-    document.getElementById('l-password').value = '';
+    document.getElementById('l-username').value = ''
+    document.getElementById('l-password').value = ''
 }
 
 
@@ -110,7 +112,7 @@ endDateEl.valueAsDate = new Date();
 startDateEl.setAttribute('min', startDateEl.value);
 endDateEl.setAttribute('min', startDateEl.value);
 
-// Event listener for the start date field's change event
+// Event listener for the date field's change event
 startDateEl.addEventListener('change', () => {
     // If the end date is earlier than the start date, set the end date to the start date
     if (endDateEl.value < startDateEl.value) {
@@ -123,10 +125,17 @@ startDateEl.addEventListener('change', () => {
 // Event listener for the new announcement form's submit event
 anForm.addEventListener('submit', newAnnouncement);
 
+var newAnSuccessfull = false;
 // Function to handle the submission of the new announcement form
 async function newAnnouncement(event) {
     // Prevent the default form submission behavior
     event.preventDefault();
+
+    if (!localStorage.getItem('token')) {
+        loginView.style.display = "block"
+        announcementsView.style.display = "none"
+        return null;
+    }
 
     // Get the values of the input fields
     const anTr1 = anTr.value;
@@ -137,7 +146,7 @@ async function newAnnouncement(event) {
 
 
     // Send a POST request to the server to create a new announcement
-    const result = await sendRequest('http://localhost:9999/api/new-an', {
+    const result = await sendRequest(`${httpsUrl}/api/new-an`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -157,9 +166,21 @@ async function newAnnouncement(event) {
     // If the request was successful, show a success alert
     // Otherwise, show an error alert with the error message
     if (result.status === 'ok') {
+        newAnSuccessfull = true
         popupContainer.style.display = "flex"
         popupTitle.innerText = "SUCCESS"
         popupText.innerText = "Duyuru başarıyla eklendi."
+        anTr.value = ""
+        anAr.value = ""
+        anDe.value = ""
+        startDateEl.valueAsDate = new Date();
+        endDateEl.valueAsDate = new Date();
+        startDateEl.setAttribute('min', startDateEl.value);
+        endDateEl.setAttribute('min', startDateEl.value);
+    } else if (result.status === 'expired') {
+        localStorage.removeItem('token')
+        loginView.style.display = "block"
+        announcementsView.style.display = "none"
     } else {
         popupTitle.innerText = "ERROR"
         popupContainer.style.display = "flex"
@@ -170,7 +191,6 @@ async function newAnnouncement(event) {
     updateTable();
 }
 
-var loggedIn = false;
 
 
 // Event listener for the window's resize event
@@ -195,12 +215,7 @@ window.addEventListener('resize', () => {
 });
 
 
-if (loggedIn) {
-    if (window.innerWidth < 830) {
-        loginView.style.display = "none"
-        announcementsView.style.display = "block"
-    }
-}
+
 
 function updateSubmitButtonLogin() {
     //Get the values of the input fields;
@@ -225,6 +240,7 @@ const passwordInput = document.getElementById('l-password');
 usernameInput.addEventListener('input', updateSubmitButtonLogin);
 passwordInput.addEventListener('input', updateSubmitButtonLogin);
 
+//for new announcement
 function updateSubmitButton() {
     // Get the values of the input fields
     const anTr = document.getElementById('new-tr').value;
@@ -243,8 +259,6 @@ function updateSubmitButton() {
     }
 }
 
-
-
 const anTrInput = document.getElementById('new-tr');
 const anArInput = document.getElementById('new-ar');
 const anDeInput = document.getElementById('new-de');
@@ -253,7 +267,6 @@ anTrInput.addEventListener('input', updateSubmitButton);
 anArInput.addEventListener('input', updateSubmitButton);
 anDeInput.addEventListener('input', updateSubmitButton);
 
-
 const buttonAns = document.querySelector('.b-1')
 const buttonNewAn = document.querySelector('.b-2')
 const newAn = document.querySelector('.an-mid-left')
@@ -261,6 +274,7 @@ const anList = document.querySelector('.an-mid-right')
 const title = document.querySelector('.title-tr')
 
 buttonNewAn.addEventListener('click', () => {
+    announcementsView.scrollTop = 0;
     buttonAns.removeAttribute("disabled");
     buttonNewAn.setAttribute("disabled", "");
     anList.style.display = "none";
@@ -269,31 +283,36 @@ buttonNewAn.addEventListener('click', () => {
 })
 
 
-buttonAns.addEventListener('click', () => {
+buttonAns.addEventListener('click', allAnsClicked)
+
+function allAnsClicked() {
+    announcementsView.scrollTop = 0;
     buttonNewAn.removeAttribute("disabled");
     buttonAns.setAttribute("disabled", "");
     anList.style.display = "block";
     newAn.style.display = "none";
     title.innerText = "DUYURULAR"
-})
+}
 
 //brauche ich das hier? ich glaube nicht
 async function getPrayerTimes() {
     const token = localStorage.getItem('token')
-    fetch(`http://localhost:9999/api/getPrayerTimes?token=${token}`)
+    fetch(`${httpsUrl}/api/getPrayerTimes?token=${token}`)
         .then((data) => { return data.json() })
         .then((data) => { console.log(data) })
-    console.log("test3")
 }
 
 async function deletePressed(el) {
-    // console.log(el)
-
     startDate = el.querySelector('.an-item-dates').getAttribute("startDate")
-    console.log(startDate)
     startDateFormated = startDate.substring(6, 10) + "-" + startDate.substring(3, 5) + "-" + startDate.substring(0, 2)
 
-    await fetch('http://localhost:9999/api/deleteAnnouncement', {
+    if (!localStorage.getItem('token')) {
+        loginView.style.display = "block"
+        announcementsView.style.display = "none"
+        return null;
+    }
+
+    const result = await fetch(`${httpsUrl}/api/deleteAnnouncement`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -302,22 +321,34 @@ async function deletePressed(el) {
             token: localStorage.getItem('token'),
             startDate: startDateFormated
         })
-
-    })
-        .then(() => updateTable())
-
+    }).then(response => response.json())
+    if (result.status === 'ok') {
+        updateTable();
+    } else if (result.status === 'expired') {
+        localStorage.removeItem('token')
+        loginView.style.display = "block"
+        announcementsView.style.display = "none"
+    }
 
 }
 
-
 function updateTable() {
+    if (!localStorage.getItem('token')) {
+        loginView.style.display = "block"
+        announcementsView.style.display = "none"
+        return null;
+    }
     const token = localStorage.getItem('token')
-    fetch(`http://localhost:9999/api/get-All-an?token=${token}`)
+    fetch(`${httpsUrl}/api/get-All-an?token=${token}`)
         .then((data) => { return data.json() })
         .then((jsonData) => {
             jsonData = jsonData.result
             let anList = "";
             idx = 0;
+            if (jsonData.length === 0) {
+                document.querySelector('.an-list').innerHTML = '';
+                return;
+            }
             jsonData.map((values) => {
                 idx++
                 start = values.startDate.substring(8, 10) + "." + values.startDate.substring(5, 7) + "." + values.startDate.substring(0, 4)
@@ -378,17 +409,15 @@ function updateTable() {
 
 const buttonLogout = document.querySelector('.logout');
 
-async function sendRequest(url, options) {
-    // Send the request to the given URL with the given options
-    // and return the response as JSON
-    return fetch(url, options)
-        .then((res) => res.json());
-}
-
-
 buttonLogout.addEventListener('click', () => {
 
-    sendRequest('http://localhost:9999/api/logout', {
+    if (!localStorage.getItem('token')) {
+        loginView.style.display = "block"
+        announcementsView.style.display = "none"
+        return null;
+    }
+
+    sendRequest(`${httpsUrl}/api/logout`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -402,36 +431,38 @@ buttonLogout.addEventListener('click', () => {
 })
 
 
-const impressumA = document.querySelector('.a-impressum')
-const impressumContainer = document.querySelector('.impressum-container')
-var containerCollapsed = true
+const impressumA = document.querySelector('.a-impressum');
+const impressumA1 = document.querySelector('.a-impressum-1');
+const impressumA2 = document.querySelector('.a-impressum-2');
+
+const impressumContainer = document.querySelector('.impressum-container');
+const impressumContainer1 = document.querySelector('.impressum-container-1');
+const impressumContainer2 = document.querySelector('.impressum-container-2');
+
+let containerCollapsed = true;
+let containerCollapsed1 = true;
+let containerCollapsed2 = true;
+
 impressumA.addEventListener('click', () => {
-    if (containerCollapsed) {
-        impressumContainer.style.display = "block"
-        containerCollapsed = !containerCollapsed
-    } else {
-        impressumContainer.style.display = "none"
-        containerCollapsed = !containerCollapsed
-    }
-})
+    containerCollapsed = !containerCollapsed;
+    impressumContainer.style.display = containerCollapsed ? 'none' : 'block';
+});
 
-const impressumA1 = document.querySelector('.a-impressum-1')
-const impressumContainer1 = document.querySelector('.impressum-container-1')
-var containerCollapsed1 = true
 impressumA1.addEventListener('click', () => {
-    if (containerCollapsed1) {
-        impressumContainer1.style.display = "block"
-        containerCollapsed1 = !containerCollapsed1
-    } else {
-        impressumContainer1.style.display = "none"
-        containerCollapsed1 = !containerCollapsed1
-    }
-})
+    containerCollapsed1 = !containerCollapsed1;
+    impressumContainer1.style.display = containerCollapsed1 ? 'none' : 'block';
+});
 
-
+impressumA2.addEventListener('click', () => {
+    containerCollapsed2 = !containerCollapsed2;
+    impressumContainer2.style.display = containerCollapsed2 ? 'none' : 'block';
+});
 
 popupContainer.addEventListener('click', event => {
     if (event.target === popupContainer || event.target === popupButton) {
         popupContainer.style.display = 'none';
+        if (window.innerWidth < 830 && newAnSuccessfull === true) {
+            allAnsClicked()
+        }
     }
 });

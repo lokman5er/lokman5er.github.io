@@ -1,88 +1,22 @@
 updateClock();
 
-const data = [];
-const starterDayPrayers = [];
+var data = [];
+var dataCounter = 0;
+
 var now = new Date();
+var monthCounter = now.getMonth();
 
-var prayerTimesForToday = []
-
-
-// fetch('https://ezanvakti.herokuapp.com/vakitler/11023')
-//     .then(res => res.json())
-//     .then(json => {
-//         for (let i = 0; i < json.length; i++) {
-
-//             data.push({
-//                 sabah: json[i]['Imsak'],
-//                 ogle: json[i]['Ogle'],
-//                 ikindi: json[i]['Ikindi'],
-//                 aksam: json[i]['Aksam'],
-//                 yatsi: json[i]['Yatsi'],
-//                 ayinSekli: json[i]['AyinSekliURL'],
-//                 hicriTarih: json[i]['HicriTarihUzun']
-//             })
-
-
-//         }
-//         console.log(`data:`, data)
-//     })
-// .then(() => {
-//     updateText();
-// })
-// .then(() => {
-//     whatIsNextPrayer();
-// })
-//https://ezanvakti.herokuapp.com/vakitler/11023
-
-fetch("prayerTimes.json")
-    .then(response => response.json())
-    .then(json => {
-        data.push(json[0])
-        console.log(`data`, data)
-    })
+var todaysAnnouncement;
+var todayIsAnAnnouncement;
 
 
 
-function whatIsNextPrayer() {
-    var prayerCounter = 0;
-
-
-    currentHours = now.getHours();
-    if (currentHours < 10) {
-        currentHours = "0" + currentHours;
-    }
-    currentMinutes = now.getMinutes();
-    if (currentMinutes < 10) {
-        currentMinutes = "0" + currentMinutes;
-    }
-    currentTime = currentHours + ":" + currentMinutes;
-
-    console.log(`todaysPrayerTimes`, todaysPrayerTimes)
-
-    while (true) {
-        if (currentTime < todaysPrayerTimes[prayerCounter] || prayerCounter == todaysPrayerTimes.length - 1) {
-            //this is the next prayer
-            if (prayerCounter == todaysPrayerTimes.length - 1 && currentTime < todaysPrayerTimes[prayerCounter]) {
-                animateSvg(3)
-
-            } else if (prayerCounter == todaysPrayerTimes.length - 1 && currentTime > todaysPrayerTimes[prayerCounter]) {
-                animateSvg(4)
-
-            } else {
-                if (prayerCounter == 0) {
-                    animateSvg(prayerCounter)
-                } else {
-                    animateSvg(prayerCounter - 1)
-                }
-
-            }
-            break;
-        }
-        prayerCounter++;
-    }
+function getDateString(date) {
+    var year = date.getFullYear();
+    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+    var day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}T00:00:00.000Z`;
 }
-
-
 
 Date.prototype.withoutTime = function () {
     var d = new Date(this);
@@ -90,7 +24,142 @@ Date.prototype.withoutTime = function () {
     return d;
 }
 
-dataCounter = 0;
+
+var todayWithoutTime = getDateString(now);
+
+const url = window.location.search;
+const urlParams = new URLSearchParams(url);
+const urlPara = urlParams.get('urlPara');
+
+var notFirstTimeCalling = false;
+
+function getPrayerTimes() {
+    fetch(`http://localhost:9999/api/getPrayerTimes?urlPara=${urlPara}`)
+        .then(res => {
+            // Check if the status is not 200
+            if (res.status !== 200) {
+                dataCounter++
+                updateText()
+                return Promise.reject(); // Return a rejected Promise to stop executing the rest of the code in this function
+            }
+            return res.json();
+        })
+        .then(json => {
+            data = json['times']
+        })
+        .then(() => {
+            if (notFirstTimeCalling) {
+                updateText();
+            } else {
+                notFirstTimeCalling = true;
+            }
+        })
+        .catch(() => { }); // Catch the rejected Promise
+}
+
+getPrayerTimes()
+
+
+const infoTitle = document.querySelector('.l-4-1 ')
+const infoText = document.querySelector('.l-4-2')
+const infoSource = document.querySelector('.l-4-3')
+
+infoText.innerHTML = ""
+
+const infobox = [infoTitle, infoText, infoSource]
+
+var todaysKnowledge;
+
+function getVersesOrHadiths() {
+    fetch("versesAndHadiths.json")
+        .then(response => response.json())
+        .then(json => {
+            todaysKnowledge = json[0]
+            infoTitle.innerHTML = infoTitleLanguages[todaysKnowledge['type']]['tr']
+            infoText.innerHTML = todaysKnowledge['tr']
+            infoSource.innerHTML = todaysKnowledge['source']
+            autoSizeText();
+        })
+}
+
+var announcements = []
+
+function getAllAnnouncements() {
+    fetch(`http://localhost:9999/api/getAllAnnouncements?urlPara=${urlPara}`)
+        .then(res => {
+            // Check if the status is not 200
+            if (res.status !== 200) {
+                updateInfobox()
+                return Promise.reject(); // Return a rejected Promise to stop executing the rest of the code in this function
+            }
+            return res.json();
+        })
+        .then(json => {
+            announcements = json['result'];
+        })
+        .then(() => updateInfobox())
+        .catch(() => { }); // Catch the rejected Promise
+}
+
+getAllAnnouncements();
+
+function updateInfobox() {
+
+    if (announcements.length > 0) {
+
+        var todayWithoutTime = getDateString(now);
+
+        if (announcements[0]['startDate'] <= todayWithoutTime && announcements[0]['endDate'] >= todayWithoutTime) {
+            //announcement for today, show announcement
+            todayIsAnAnnouncement = true;
+            todaysAnnouncement = announcements[0]['text']
+            infoTitle.innerText = 'BILDIRI'
+            infoText.innerText = todaysAnnouncement['tr']
+            infoSource.style.display = 'none'
+        } else {
+            //no announcements for today, show one hadith or vers
+            todayIsAnAnnouncement = false;
+            getVersesOrHadiths()
+        }
+    } else {
+        getVersesOrHadiths();
+    }
+}
+
+function whatIsNextPrayer() {
+    // Get current time
+    var currentHours = now.getHours();
+    currentHours = currentHours < 10 ? "0" + currentHours : currentHours;
+    var currentMinutes = now.getMinutes();
+    currentMinutes = currentMinutes < 10 ? "0" + currentMinutes : currentMinutes;
+    var currentTime = currentHours + ":" + currentMinutes;
+
+    // Find the next prayer by looping through the prayer times
+    for (var i = 0; i < todaysPrayerTimes.length; i++) {
+
+        // if (i === 0 && currentTime < todaysPrayerTimes[0]) {
+        //     animateSvg(4)
+        //     break;
+        // }
+
+        if (currentTime < todaysPrayerTimes[i] || i === todaysPrayerTimes.length - 1) {
+            if (i === todaysPrayerTimes.length - 1 && currentTime > todaysPrayerTimes[i]) {
+                animateSvg(4);
+            }
+            else if (i === todaysPrayerTimes.length - 1 && currentTime < todaysPrayerTimes[i]) {
+                animateSvg(3);
+            }
+            else {
+                animateSvg(i === 0 ? 4 : i - 1);
+            }
+            break;
+        }
+    }
+}
+
+
+
+
 
 
 
@@ -111,7 +180,6 @@ function runEveryMinute() {
     var now2 = Date.now()
     updateClock();
     checkIfNextPrayer();
-
 
     if (expectedCycleTime == 0) {
         expectedCycleTime = now2 + interval;
@@ -144,7 +212,12 @@ function updateClock() {
     document.querySelector('.l-3-3').innerHTML = minutes
 
     if (hours == "00" && minutes == "00") {
-        updateText();
+        // new day
+        now = new Date();
+        monthCounter = now.getMonth();
+        //datum oben anpassen im html
+        getAllAnnouncements();
+        getPrayerTimes(); //
         updateImportantDates();
     }
 }
@@ -163,8 +236,8 @@ const yearHicri = document.querySelector('.yearHicri');
 var todaysPrayerTimes = []
 
 function updateText() {
-    sabahRaw = calcSabah(data[dataCounter]['sabah']);
-    ogleRaw = data[dataCounter]['ogle'];
+    sabahRaw = calcSabah(data[dataCounter]['imsak']);
+    ogleRaw = data[dataCounter]['oegle'];
     ikindiRaw = data[dataCounter]['ikindi'];
     aksamRaw = data[dataCounter]['aksam'];
     yatsiRaw = data[dataCounter]['yatsi'];
@@ -177,26 +250,19 @@ function updateText() {
     updateTimeSvg(aksamSVG, aksamRaw);
     updateTimeSvg(yatsiSVG, yatsiRaw);
 
-    hicriRaw = data[dataCounter]['hicriTarih'];
-    hicriInt = hicriRaw.match(/\d+/g)
-    hicriStr = hicriRaw.match(/[\u00C0-\u017Fa-zA-Z']+/g).join('')
+    // hicriRaw = data[dataCounter]['hicriTarih'];
+    // hicriInt = hicriRaw.match(/\d+/g)
+    // hicriStr = hicriRaw.match(/[\u00C0-\u017Fa-zA-Z']+/g).join('')
 
     dateNormal.innerText = now.getDate();
-    monthNormal.innerHTML = monthsTurkish[now.getMonth()];
+    monthNormal.innerHTML = months[now.getMonth()]['tr'];
     yearNormal.innerHTML = now.getFullYear();
 
-    dateHicri.innerText = hicriInt[0];
-    monthHicri.innerHTML = hicriStr;
-    yearHicri.innerHTML = hicriInt[1];
+    // dateHicri.innerText = hicriInt[0];
+    // monthHicri.innerHTML = hicriStr;
+    // yearHicri.innerHTML = hicriInt[1];
 
 };
-
-function updateTimeSvg(el, raw) {
-    el.querySelector('.hour1').innerHTML = raw.substring(0, 1)
-    el.querySelector('.hour2').innerHTML = raw.substring(1, 2)
-    el.querySelector('.minute1').innerHTML = raw.substring(3, 4)
-    el.querySelector('.minute2').innerHTML = raw.substring(4, 5)
-}
 
 function calcSabah(time) {
     let hr = parseInt(time.substring(0, 2));
@@ -220,39 +286,120 @@ function calcSabah(time) {
     return hr + ":" + mn;
 }
 
+function updateTimeSvg(el, raw) {
+    el.querySelector('.hour1').innerHTML = raw.substring(0, 1)
+    el.querySelector('.hour2').innerHTML = raw.substring(1, 2)
+    el.querySelector('.minute1').innerHTML = raw.substring(3, 4)
+    el.querySelector('.minute2').innerHTML = raw.substring(4, 5)
+}
+
 monthsDe = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 monthsTurkish = ["Oca‎k", "Şubat‎", "Mart‎", "Nisan‎", "Mayıs‎", "Haziran‎", "Temmuz‎", "Ağustos‎", "Eylül‎", "Ekim‎", "Kasım‎", "Aralık‎"]
 monthsTurkish1 = ["Oca‎", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki‎", "Kas", "Ara"]
-monthsAr = [
-    "الفجر",
-    "الظهر",
-    "العصر",
-    "المغرب",
-    "العشاء"
+
+const months = [
+    {
+        tr: "Oca‎k",
+        de: "Jan",
+        ar: "الفجر"
+    },
+    {
+        tr: "Şub",
+        de: "Feb",
+        ar: "الفجر"
+    },
+    {
+        tr: "‎Mart",
+        de: "März",
+        ar: "الفجر"
+    },
+    {
+        tr: "‎Nis",
+        de: "Apr",
+        ar: "الفجر"
+    },
+    {
+        tr: "‎May",
+        de: "Mai",
+        ar: "الفجر"
+    },
+    {
+        tr: "Haz‎",
+        de: "Juni",
+        ar: "الفجر"
+    },
+    {
+        tr: "‎Tem",
+        de: "Juli",
+        ar: "الفجر"
+    },
+    {
+        tr: "‎Ağu",
+        de: "Aug",
+        ar: "الفجر"
+    },
+    {
+        tr: "‎Eyl",
+        de: "Sep",
+        ar: "الفجر"
+    },
+    {
+        tr: "Ekim‎‎",
+        de: "Okt",
+        ar: "الفجر"
+    },
+    {
+        tr: "Kas‎",
+        de: "Nov",
+        ar: "الفجر"
+    },
+    {
+        tr: "Ara‎",
+        de: "Dez",
+        ar: "الفجر"
+    },
 ]
 
+const prayerNames = [
+    {
+        tr: "SABAH",
+        de: "MORGEN",
+        ar: "الفجر"
+    },
+    {
+        tr: "ÖĞLE",
+        de: "MITTAG",
+        ar: "الظهر"
+    },
+    {
+        tr: "İKİNDİ",
+        de: "NACHM.",
+        ar: "العصر"
+    },
+    {
+        tr: "AKŞAM",
+        de: "ABEND",
+        ar: "المغرب"
+    },
+    {
+        tr: "YATSI",
+        de: "NACHT",
+        ar: "العشاء"
+    }
+]
 
-prayerNames = [{
-    tr: "SABAH",
-    de: "MORGEN",
-    ar: "الفجر"
-}, {
-    tr: "ÖĞLE",
-    de: "MITTAG",
-    ar: "الظهر"
-}, {
-    tr: "İKİNDİ",
-    de: "NACHMITTAG",
-    ar: "العصر"
-}, {
-    tr: "AKŞAM",
-    de: "ABEND",
-    ar: "المغرب"
-}, {
-    tr: "YATSI",
-    de: "NACHT",
-    ar: "العشاء"
-}]
+const infoTitleLanguages = [
+    {
+        "tr": "AYET",
+        "ar": "بيت شعر",
+        "de": "VERS"
+    },
+    {
+        "tr": "HADIS",
+        "ar": "حديث",
+        "de": "HADITH"
+    }
+]
 
 function checkIfNextPrayer() {
     let currentTime = hours + ":" + minutes;
@@ -263,6 +410,12 @@ function checkIfNextPrayer() {
     }
 
 }
+
+
+
+
+
+
 
 
 var importantDatesCounter = 0;
@@ -328,24 +481,7 @@ function updateImportantDates() {
 
 }
 
-//get importantDatesCounter 
-
 updateImportantDates();
-
-
-
-
-//testing for important date animation
-var rndCounter = 0
-setInterval(() => {
-    importantDate1Month.innerText = monthsTurkish1[rndCounter];
-    rndCounter++
-    if (rndCounter == monthsTurkish1.length) rndCounter = 0
-}, 3000)
-
-
-
-
 
 function animateSvg(idx) {
     switch (idx) {
@@ -486,6 +622,7 @@ var namazText = []
 
 //get the text element inside svg for prayer names
 var sabahSVG, ogleSVG, ikindiSVG, aksamSVG, yatsiSVG;
+
 setTimeout(() => {
     const sabahSvg = document.querySelector('.sabah')
     sabahSVG = sabahSvg.contentDocument;
@@ -517,92 +654,104 @@ setTimeout(() => {
 
 }, 4000)
 
-
+const changeLanguages = [importantDate1Text, importantDate2Text, importantDate1Month, importantDate2Month, monthNormal]
 
 prayerLng = 0
 //change text every 20s
+const changeLanguage = (language, fontSize) => {
+    d3.selectAll(namazText)
+        .transition()
+        .duration(750)
+        .style("opacity", "0")
+        .transition()
+        .duration(0)
+        .attr("font-size", fontSize)
+        .transition()
+        .duration(750)
+        .delay(10)
+        .style("opacity", "1");
+
+    d3.selectAll(infobox)
+        .transition()
+        .duration(750)
+        .style("opacity", "0")
+        .transition()
+        .duration(750)
+        .delay(10)
+        .style("opacity", "1");
+
+    d3.selectAll(changeLanguages)
+        .transition()
+        .duration(750)
+        .style("opacity", "0")
+        .transition()
+        .duration(750)
+        .delay(10)
+        .style("opacity", "1");
+
+    setTimeout(() => {
+        namazText.forEach((text, index) => {
+            text.innerHTML = prayerNames[index][language];
+        });
+
+        monthNormal.innerHTML = months[monthCounter][language];
+
+        if (todayIsAnAnnouncement) {
+            infoTitle.innerHTML = language === "ar" ? "رسالة" : language === "tr" ? "DUYURU" : "MITTEILUNG";
+            infoText.innerHTML = todaysAnnouncement[language];
+        } else {
+            infoTitle.innerHTML = infoTitleLanguages[todaysKnowledge['type']][language]
+            infoText.innerHTML = todaysKnowledge[language]
+        }
+
+        if (language === "ar") {
+            infoText.setAttribute("dir", "rtl")
+        } else {
+            infoText.setAttribute("dir", "ltr")
+        }
+
+
+
+        infoText.style.fontSize = "4vh"
+        autoSizeText();
+
+    }, 751);
+};
+
 setInterval(() => {
-
-    if (prayerLng == 0) {
-
-        d3.selectAll(namazText)
-            .transition()
-            .duration(750)
-            .style("opacity", "0")
-
-            .transition()
-            .duration(750)
-            .delay(10)
-            .style("opacity", "1")
-
-        setTimeout(() => {
-            namazText[0].innerHTML = prayerNames[0]["ar"]
-            namazText[1].innerHTML = prayerNames[1]["ar"]
-            namazText[2].innerHTML = prayerNames[2]["ar"]
-            namazText[3].innerHTML = prayerNames[3]["ar"]
-            namazText[4].innerHTML = prayerNames[4]["ar"]
-        }, 751)
-
-        prayerLng++
-    } else if (prayerLng == 1) {
-
-
-
-        d3.selectAll(namazText)
-            .transition()
-            .duration(750)
-            .style("opacity", "0")
-
-            .transition()
-            .duration(0)
-            .attr("font-size", "2.8em")
-
-            .transition()
-            .duration(750)
-            .delay(10)
-            .style("opacity", "1")
-
-        setTimeout(() => {
-            namazText[0].innerHTML = prayerNames[0]["de"]
-            namazText[1].innerHTML = prayerNames[1]["de"]
-            namazText[2].innerHTML = prayerNames[2]["de"]
-            namazText[3].innerHTML = prayerNames[3]["de"]
-            namazText[4].innerHTML = prayerNames[4]["de"]
-
-            namazText[1].setAttribute("letter-spacing", "0.04em")
-            namazText[2].setAttribute("letter-spacing", "0.04em")
-        }, 751)
-
-        prayerLng++
+    if (prayerLng === 0) {
+        changeLanguage("ar", "5em");
+        prayerLng++;
+    } else if (prayerLng === 1) {
+        changeLanguage("de", "4.2em");
+        prayerLng++;
     } else {
-        d3.selectAll(namazText)
-            .transition()
-            .duration(750)
-            .style("opacity", "0")
+        changeLanguage("tr", "5em");
+        prayerLng = 0;
+    }
+}, 50000);
 
-            .transition()
-            .duration(0)
-            .attr("font-size", "5em")
 
-            .transition()
-            .duration(750)
-            .delay(10)
-            .style("opacity", "1")
 
-        setTimeout(() => {
-            namazText[0].innerHTML = prayerNames[0]["tr"]
-            namazText[1].innerHTML = prayerNames[1]["tr"]
-            namazText[2].innerHTML = prayerNames[2]["tr"]
-            namazText[3].innerHTML = prayerNames[3]["tr"]
-            namazText[4].innerHTML = prayerNames[4]["tr"]
+function autoSizeText() {
+    var elements = document.querySelectorAll('.resize');
 
-            namazText[1].setAttribute("letter-spacing", "normal")
-            namazText[2].setAttribute("letter-spacing", "normal")
-        }, 751)
-
-        prayerLng = 0
+    if (elements.length <= 0) {
+        return;
     }
 
+    for (var i = 0; i < elements.length; i++) {
+        (function (el) {
+            var resizeText = function () {
+                var elNewFontSize = (parseInt(window.getComputedStyle(el).fontSize.slice(0, -2)) - 1) + 'px';
+                el.style.fontSize = elNewFontSize;
+            };
 
-}, 20000)
+            while (el.scrollHeight > el.offsetHeight) {
+                resizeText();
+            }
+        })(elements[i]);
+    }
+}
+
 

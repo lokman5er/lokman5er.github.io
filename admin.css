@@ -37,7 +37,7 @@ input {
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
+  height: auto;
 }
 
 #log-form :nth-child(1) {
@@ -90,6 +90,18 @@ input {
   opacity: 0.5;
 }
 
+.impressum-2 {
+  width: 100vw;
+  text-align: center;
+  margin-top: 1.5vh;
+  font-weight: 200;
+  font-size: 1.7vh;
+}
+
+.impressum-container-2 {
+  display: none;
+}
+
 .announcements {
   background-color: #1f4e5e;
   height: 100vh;
@@ -131,12 +143,12 @@ input {
   letter-spacing: 0.04em;
   height: 10vh;
   text-align: center;
-  padding-top: 4vh;
+  padding-top: 3vh;
   position: relative;
 }
 
 .title-tr {
-  font-size: 5vh;
+  font-size: 4.5vh;
   letter-spacing: 0.04em;
   float: center;
   width: 100vw;
@@ -154,7 +166,7 @@ input {
   line-height: 0;
   position: absolute;
   top: 5vh;
-  right: 2vw;
+  right: 5vw;
 }
 
 .an-mid {
@@ -439,6 +451,12 @@ input[type="date"] {
     top: 0;
   }
 
+  #log-form :nth-child(1) {
+    height: 15vh;
+    line-height: 20vh;
+    font-size: 5vh;
+  }
+
   .title {
     background-color: #1f4e5e;
     /* background-color: red; */
@@ -454,13 +472,13 @@ input[type="date"] {
 
   .title-tr {
     padding-top: 3vh;
-    padding-left: 1.5vw;
+    padding-left: 4vw;
   }
 
   .logout {
     background-color: transparent;
     border: none;
-    padding-right: 2vw;
+    padding-right: 5vw;
     color: white;
     position: unset;
   }

@@ -1,3 +1,13 @@
+* {
+  /* overflow-x: hidden; */
+  overflow: hidden;
+}
+/* 
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+} */
+
 body {
   margin: 0;
   background-color: #1f4e5f;
@@ -9,52 +19,9 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
-* {
-  overflow: hidden;
-}
-.intro {
-  position: absolute;
-  z-index: 20;
-  height: 100vh;
-  width: 100vw;
-  background-color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  color: white;
-  animation: preloader 1.5s 2s ease forwards;
-}
-
-.intro-1 {
-  font-size: 10vw;
-  height: 60vh;
-  display: flex;
-  align-items: center;
-}
-
-.intro-1 {
-  font-size: 20vh;
-}
-
-.intro-2 {
-  font-size: 10vh;
-  margin-left: -2.2vw;
-}
-
-.intro-3 {
-  font-size: 10vh;
-}
-
-@keyframes preloader {
-  to {
-    margin-left: -200vw;
-  }
-}
-
 .left {
   width: 50%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,6 +35,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 2vh;
 }
 
 .l-1-1 {
@@ -99,6 +67,7 @@ body {
 .l-1-3 {
   width: 25%;
   height: 100%;
+  overflow: hidden;
 }
 
 .moon3 {
@@ -141,6 +110,30 @@ body {
   align-items: center;
 }
 
+.l-2-1 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 40%;
+}
+
+.dateNormal {
+  width: 30%;
+  text-align: right;
+}
+
+.monthNormal {
+  display: inline;
+  width: 50%;
+  text-align: center;
+  overflow: visible;
+}
+
+.yearNormal {
+  width: 30%;
+  padding-right: 1.5vw;
+}
+
 .l-3 {
   height: 15%;
   width: 80%;
@@ -156,6 +149,7 @@ body {
 
 .l-3-1 {
   padding-right: 4vw;
+  overflow: hidden;
 }
 
 .l-3-2 {
@@ -164,26 +158,44 @@ body {
 
 .l-3-3 {
   padding-left: 4vw;
+  overflow: hidden;
 }
 
 .l-4 {
-  height: 17%;
+  height: 38%;
   width: 80%;
   color: #d5e7ea;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
 }
 
-.l-5 {
-  height: 17%;
-  width: 80%;
-  color: #d5e7ea;
+.l-4-1 {
+  height: 25%;
+  padding-top: 0.5vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  justify-content: center;
+  /* font-size: 3vh; */
+}
+
+.l-4-2 {
+  height: 70%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-wrap: break-word;
+  font-size: 4vh;
+  text-align: justify;
+}
+
+.l-4-3 {
+  height: auto;
+  /* margin-top: 1vh; */
+  text-align: right;
+  width: 100%;
 }
 
 .title {
@@ -192,14 +204,10 @@ body {
   text-transform: uppercase;
 }
 
-.text {
-  font-size: 1.5vw;
-}
-
 .source {
-  font-size: 1.5vw;
+  font-size: 1.3vw;
   font-weight: bold;
-  font-style: italic;
+  font-style: normal;
 }
 
 .l-6 {
@@ -248,7 +256,7 @@ body {
 
 .right {
   width: 50%;
-  height: 100%;
+  height: 100vh;
   background-color: #d5e7ea;
   border-top-left-radius: 100px;
   border-bottom-left-radius: 100px;
@@ -262,6 +270,7 @@ body {
   font-size: 3.5vw;
   line-height: 7vh;
   position: relative;
+  overflow: hidden;
 }
 
 .r-text {
@@ -315,4 +324,19 @@ body {
   transition: 0.65s ease;
 
   /* background-color: red; */
+}
+
+.impressum {
+  position: absolute;
+  height: 10vh;
+  bottom: -10vh;
+  width: 100%;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+  font-size: 2vh;
+}
+
+.impressum > p {
+  margin: 0;
 }

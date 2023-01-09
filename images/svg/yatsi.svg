@@ -17,9 +17,9 @@
    <path id="s4" fill="#1f5260"  d="M337,173.6a65.72,65.72,0,0,1-39.05,12.8H70a66,66,0,0,1,0-132H286.8L257.63,73.21Z"/>
    <path id="s1" fill="#2c7291" d="M293.92,62.37H66a66,66,0,0,0,0,132H293.92a66,66,0,0,0,0-132Z"/>
    <text text-anchor="middle" dominant-baseline="middle" x="180" y="135" font-size="5em" fill="white" font-weight="bold" class="text" style="font-family: Montserrat, sans-serif">YATSI</text> 
-        <text text-anchor="middle" x="535" y="80" font-size="4.5em" fill="white" font-weight="normal" class="hour1" style="font-family: Montserrat, sans-serif">0</text> 
-        <text text-anchor="middle" x="582" y="80" font-size="4.5em" fill="white" font-weight="normal" class="hour2" style="font-family: Montserrat, sans-serif">0</text> 
-        <text x="610" y="75" font-size="4.5em" fill="white" font-weight="normal" class="time" style="font-family: Montserrat, sans-serif">:</text> 
-        <text text-anchor="middle" x="653" y="80" font-size="4.5em" fill="white" font-weight="normal" class="minute1" style="font-family: Montserrat, sans-serif">0</text> 
-        <text text-anchor="middle" x="701" y="80" font-size="4.5em" fill="white" font-weight="normal" class="minute2" style="font-family: Montserrat, sans-serif">0</text>
+   <text text-anchor="middle" x="535" y="80" font-size="4.5em" fill="white" font-weight="normal" class="hour1" style="font-family: Montserrat, sans-serif">0</text> 
+   <text text-anchor="middle" x="582" y="80" font-size="4.5em" fill="white" font-weight="normal" class="hour2" style="font-family: Montserrat, sans-serif">0</text> 
+   <text x="610" y="75" font-size="4.5em" fill="white" font-weight="normal" class="time" style="font-family: Montserrat, sans-serif">:</text> 
+   <text text-anchor="middle" x="653" y="80" font-size="4.5em" fill="white" font-weight="normal" class="minute1" style="font-family: Montserrat, sans-serif">0</text> 
+   <text text-anchor="middle" x="701" y="80" font-size="4.5em" fill="white" font-weight="normal" class="minute2" style="font-family: Montserrat, sans-serif">0</text>
 </svg>
