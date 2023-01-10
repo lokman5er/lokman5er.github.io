@@ -31,7 +31,7 @@ body {
 
 .l-1 {
   height: 17%;
-  width: 80%;
+  width: 85%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -106,32 +106,31 @@ body {
   line-height: 10vh;
   color: #d5e7ea;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
 }
 
 .l-2-1 {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  width: 40%;
+  width: 46%;
+}
+
+.l-2-3 {
+  width: 46%;
 }
 
 .dateNormal {
-  width: 30%;
-  text-align: right;
+  padding-right: 7px;
 }
 
 .monthNormal {
-  display: inline;
-  width: 50%;
-  text-align: center;
-  overflow: visible;
+  padding: 0 7px;
 }
 
 .yearNormal {
-  width: 30%;
-  padding-right: 1.5vw;
+  padding-left: 10px;
 }
 
 .l-3 {
@@ -148,17 +147,18 @@ body {
 }
 
 .l-3-1 {
-  padding-right: 4vw;
   overflow: hidden;
+  width: 47.5%;
 }
 
 .l-3-2 {
   margin-top: -1vh;
+  width: 5%;
 }
 
 .l-3-3 {
-  padding-left: 4vw;
   overflow: hidden;
+  width: 47.5%;
 }
 
 .l-4 {
@@ -245,13 +245,19 @@ body {
 }
 
 .l6-title {
-  font-size: 2.1vw;
+  font-size: 2vw;
 }
 
 .l6-description {
-  font-size: 1.3vw;
+  font-size: 3vw;
   font-style: italic;
   font-weight: light;
+  width: 90%;
+  height: 40%;
+  padding: 0 3vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .right {

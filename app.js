@@ -4,12 +4,11 @@ var data = [];
 var dataCounter = 0;
 
 var now = new Date();
-var monthCounter = now.getMonth();
-
+var month = now.getMonth();
+month++;
+month = month < 10 ? '0' + month : month;
 var todaysAnnouncement;
 var todayIsAnAnnouncement;
-
-
 
 function getDateString(date) {
     var year = date.getFullYear();
@@ -23,7 +22,6 @@ Date.prototype.withoutTime = function () {
     d.setHours(0, 0, 0, 0);
     return d;
 }
-
 
 var todayWithoutTime = getDateString(now);
 
@@ -57,7 +55,6 @@ function getPrayerTimes() {
         .catch(() => { }); // Catch the rejected Promise
 }
 
-getPrayerTimes()
 
 
 const infoTitle = document.querySelector('.l-4-1 ')
@@ -101,7 +98,6 @@ function getAllAnnouncements() {
         .catch(() => { }); // Catch the rejected Promise
 }
 
-getAllAnnouncements();
 
 function updateInfobox() {
 
@@ -158,11 +154,6 @@ function whatIsNextPrayer() {
 }
 
 
-
-
-
-
-
 //needed to start in exact second
 setTimeout(function () {
 
@@ -214,7 +205,8 @@ function updateClock() {
     if (hours == "00" && minutes == "00") {
         // new day
         now = new Date();
-        monthCounter = now.getMonth();
+        month = now.getMonth();
+        month++;
         //datum oben anpassen im html
         getAllAnnouncements();
         getPrayerTimes(); //
@@ -255,7 +247,7 @@ function updateText() {
     // hicriStr = hicriRaw.match(/[\u00C0-\u017Fa-zA-Z']+/g).join('')
 
     dateNormal.innerText = now.getDate();
-    monthNormal.innerHTML = months[now.getMonth()]['tr'];
+    monthNormal.innerHTML = month;
     yearNormal.innerHTML = now.getFullYear();
 
     // dateHicri.innerText = hicriInt[0];
@@ -301,62 +293,62 @@ const months = [
     {
         tr: "Oca‎k",
         de: "Jan",
-        ar: "الفجر"
+        ar: "كانون الثاني"
     },
     {
         tr: "Şub",
         de: "Feb",
-        ar: "الفجر"
+        ar: "شباط"
     },
     {
         tr: "‎Mart",
         de: "März",
-        ar: "الفجر"
+        ar: "آذار"
     },
     {
         tr: "‎Nis",
         de: "Apr",
-        ar: "الفجر"
+        ar: "نيسان"
     },
     {
         tr: "‎May",
         de: "Mai",
-        ar: "الفجر"
+        ar: "أيار"
     },
     {
         tr: "Haz‎",
         de: "Juni",
-        ar: "الفجر"
+        ar: "حزيران"
     },
     {
         tr: "‎Tem",
         de: "Juli",
-        ar: "الفجر"
+        ar: "تموز "
     },
     {
         tr: "‎Ağu",
         de: "Aug",
-        ar: "الفجر"
+        ar: "آب"
     },
     {
         tr: "‎Eyl",
         de: "Sep",
-        ar: "الفجر"
+        ar: "أيلول"
     },
     {
         tr: "Ekim‎‎",
         de: "Okt",
-        ar: "الفجر"
+        ar: "تشرين الأول"
     },
     {
         tr: "Kas‎",
         de: "Nov",
-        ar: "الفجر"
+        ar: "تشرين الثاني"
     },
     {
         tr: "Ara‎",
         de: "Dez",
-        ar: "الفجر"
+        ar: "كانون الأول"
     },
 ]
 
@@ -435,13 +427,15 @@ const importantDate1Year = document.querySelector('#importantDate1Year')
 const importantDate2Year = document.querySelector('#importantDate2Year')
 
 //function to show important dates 
+var importantDates;
 function updateImportantDates() {
 
     importantDate1.style.backgroundColor = '#d5e7ea'
     importantDate1.style.color = '#3b6773'
     fetch("importantDates.json")
         .then(response => response.json())
-        .then(json => getNextImportantDate(json))
+        .then(json => { importantDates = json })
+        .then(() => getNextImportantDate(importantDates))
 
     function getNextImportantDate(arr) {
 
@@ -466,13 +460,15 @@ function updateImportantDates() {
                 let importantDate2Date = arr[i + 1]['date']
 
                 importantDate1Day.innerText = importantDate1Date.slice(0, 2)
-                importantDate1Month.innerText = monthsDe[0]
+                importantDate1Month.innerText = importantDate1Date.slice(3, 5)
                 importantDate1Year.innerText = importantDate1Date.slice(6, 10)
 
                 importantDate2Day.innerText = importantDate2Date.slice(0, 2)
                 importantDate2Month.innerText = importantDate2Date.slice(3, 5)
                 importantDate2Year.innerText = importantDate2Date.slice(6, 10)
 
+
+                //eventuell fontsize resize hier hinzufügen
                 break;
             }
 
@@ -481,7 +477,6 @@ function updateImportantDates() {
 
 }
 
-updateImportantDates();
 
 function animateSvg(idx) {
     switch (idx) {
@@ -654,7 +649,7 @@ setTimeout(() => {
 
 }, 4000)
 
-const changeLanguages = [importantDate1Text, importantDate2Text, importantDate1Month, importantDate2Month, monthNormal]
+const changeLanguages = [importantDate1Text, importantDate2Text]
 
 prayerLng = 0
 //change text every 20s
@@ -694,7 +689,6 @@ const changeLanguage = (language, fontSize) => {
             text.innerHTML = prayerNames[index][language];
         });
 
-        monthNormal.innerHTML = months[monthCounter][language];
 
         if (todayIsAnAnnouncement) {
             infoTitle.innerHTML = language === "ar" ? "رسالة" : language === "tr" ? "DUYURU" : "MITTEILUNG";
@@ -706,13 +700,20 @@ const changeLanguage = (language, fontSize) => {
 
         if (language === "ar") {
             infoText.setAttribute("dir", "rtl")
+            infoSource.style.textAlign = "left"
         } else {
             infoText.setAttribute("dir", "ltr")
+            infoSource.style.textAlign = "right"
         }
+
+        importantDate1Text.innerHTML = language === "ar" ? importantDates[importantDatesCounter]['ar'] : language === "tr" ? importantDates[importantDatesCounter]['tr'] : importantDates[importantDatesCounter]['de']
+        importantDate2Text.innerHTML = language === "ar" ? importantDates[importantDatesCounter + 1]['ar'] : language === "tr" ? importantDates[importantDatesCounter + 1]['tr'] : importantDates[importantDatesCounter + 1]['de']
 
 
 
         infoText.style.fontSize = "4vh"
+        importantDate1Text.style.fontSize = "3vw"
+        importantDate2Text.style.fontSize = "2vw"
         autoSizeText();
 
     }, 751);
@@ -729,7 +730,7 @@ setInterval(() => {
         changeLanguage("tr", "5em");
         prayerLng = 0;
     }
-}, 50000);
+}, 30000);
 
 
 
@@ -752,6 +753,37 @@ function autoSizeText() {
             }
         })(elements[i]);
     }
+
+    if (importantDate1Text.style.fontSize < importantDate2Text.style.fontSize) {
+        importantDate2Text.style.fontSize = importantDate1Text.style.fontSize
+    } else if (importantDate1Text.style.fontSize > importantDate2Text.style.fontSize) {
+        importantDate1Text.style.fontSize = importantDate2Text.style.fontSize
+    }
 }
 
 
+
+getPrayerTimes()
+getAllAnnouncements();
+updateImportantDates();
+
+
+// function getMoonData() {
+
+//     fetch(`http://localhost:9999/api/getMoonPhase`, {})
+//         .then(res => res.json())
+//         .then(json => {
+//             console.log(json['properties']['data']['fracillum']);
+//         });
+// }
+
+// getMoonData()
+
+
+function loadMoonSVGs(input) {
+    return 1 / 30;
+}
+
+console.log(loadMoonSVGs(0.8))
+
+addEventListener("resize", (event) => { autoSizeText() });
