@@ -4,11 +4,37 @@ var data = [];
 var dataCounter = 0;
 
 var now = new Date();
+var year = now.getFullYear();
+
 var month = now.getMonth();
 month++;
 month = month < 10 ? '0' + month : month;
+
+var day = now.getDate();
+day = day < 10 ? '0' + day : day;
+
+var todayHicri;
+
+// updateHicri()
+
+// function updateHicri() {
+//     fetch("hicriCalendarData.json")
+//         .then(response => response.json())
+//         .then(json => {
+//             const todaysDate = `${day}.${month}.${year}`
+//             let result = json.find(date => date.georgDate === todaysDate)
+//             let todayHicri = result.hicriDate.split('.');
+//             dateHicri.innerHTML = todayHicri[0]
+//             monthHicri.innerHTML = todayHicri[1]
+//             yearHicri.innerHTML = todayHicri[2]
+//         })
+// }
+
+
+
 var todaysAnnouncement;
 var todayIsAnAnnouncement;
+
 
 function getDateString(date) {
     var year = date.getFullYear();
@@ -122,36 +148,37 @@ function updateInfobox() {
     }
 }
 
-function whatIsNextPrayer() {
-    // Get current time
-    var currentHours = now.getHours();
-    currentHours = currentHours < 10 ? "0" + currentHours : currentHours;
-    var currentMinutes = now.getMinutes();
-    currentMinutes = currentMinutes < 10 ? "0" + currentMinutes : currentMinutes;
-    var currentTime = currentHours + ":" + currentMinutes;
+// function whatIsNextPrayer() {
+//     // Get current time
+//     var currentHours = now.getHours();
+//     currentHours = currentHours < 10 ? "0" + currentHours : currentHours;
+//     var currentMinutes = now.getMinutes();
+//     currentMinutes = currentMinutes < 10 ? "0" + currentMinutes : currentMinutes;
+//     var currentTime = currentHours + ":" + currentMinutes;
 
-    // Find the next prayer by looping through the prayer times
-    for (var i = 0; i < todaysPrayerTimes.length; i++) {
+//     // Find the next prayer by looping through the prayer times
+//     for (var i = 0; i < todaysPrayerTimes.length; i++) {
 
-        // if (i === 0 && currentTime < todaysPrayerTimes[0]) {
-        //     animateSvg(4)
-        //     break;
-        // }
+//         // if (i === 0 && currentTime < todaysPrayerTimes[0]) {
+//         //     animateSvg(4)
+//         //     break;
+//         // }
 
-        if (currentTime < todaysPrayerTimes[i] || i === todaysPrayerTimes.length - 1) {
-            if (i === todaysPrayerTimes.length - 1 && currentTime > todaysPrayerTimes[i]) {
-                animateSvg(4);
-            }
-            else if (i === todaysPrayerTimes.length - 1 && currentTime < todaysPrayerTimes[i]) {
-                animateSvg(3);
-            }
-            else {
-                animateSvg(i === 0 ? 4 : i - 1);
-            }
-            break;
-        }
-    }
-}
+//         if (currentTime < todaysPrayerTimes[i] || i === todaysPrayerTimes.length - 1) {
+//             if (i === todaysPrayerTimes.length - 1 && currentTime > todaysPrayerTimes[i]) {
+//                 animateSvg(4);
+//             }
+//             else if (i === todaysPrayerTimes.length - 1 && currentTime < todaysPrayerTimes[i]) {
+//                 animateSvg(3);
+//             }
+//             else {
+//                 animateSvg(i === 0 ? 4 : i - 1);
+//             }
+//             break;
+//         }
+//     }
+// }
+
 
 
 //needed to start in exact second
@@ -249,6 +276,7 @@ function updateText() {
     dateNormal.innerText = now.getDate();
     monthNormal.innerHTML = month;
     yearNormal.innerHTML = now.getFullYear();
+
 
     // dateHicri.innerText = hicriInt[0];
     // monthHicri.innerHTML = hicriStr;
@@ -477,53 +505,69 @@ function updateImportantDates() {
 
 }
 
-
+activateFromTop = true;
+deactiveFromTop = true;
 function animateSvg(idx) {
     switch (idx) {
         case 0:
             el = sabahSVG;
             elClass = '.sabah';
-            topVl = '2%'
+            activateFromTop = true;
+            aVal = '2%'
+
             //following are for deactivating the active status
             dEl = yatsiSVG;
             dElClass = '.yatsi';
-            dTopVl = '76.2%'
+            deactiveFromTop = false;
+            dVal = '5%'
             break;
         case 1:
             el = ogleSVG;
             elClass = '.ogle';
-            topVl = '23%'
+            activateFromTop = true;
+            aVal = '23.5%'
 
             dEl = sabahSVG;
             dElClass = '.sabah';
-            dTopVl = '5%'
+            deactiveFromTop = true;
+            dVal = '5%'
             break;
         case 2:
             el = ikindiSVG;
             elClass = '.ikindi';
-            topVl = '43%';
+            activateFromTop = true;
+            aVal = '50%'
 
             dEl = ogleSVG;
             dElClass = '.ogle';
-            dTopVl = '24.7%'
+            deactiveFromTop = true;
+            dVal = '25%'
+
+
             break;
         case 3:
             el = aksamSVG;
             elClass = '.aksam';
-            topVl = '60%';
+            activateFromTop = false;
+            aVal = '23.3%';
 
             dEl = ikindiSVG;
             dElClass = '.ikindi';
-            dTopVl = '44.4%'
+            deactiveFromTop = true;
+            dVal = '50%'
+
             break;
         case 4:
             el = yatsiSVG;
             elClass = '.yatsi';
-            topVl = '77%';
+            activateFromTop = false;
+            aVal = '2.5%';
 
             dEl = aksamSVG;
             dElClass = '.aksam';
-            dTopVl = '61%'
+            deactiveFromTop = false;
+            dVal = '25%'
+
             break;
     }
 
@@ -566,7 +610,12 @@ function animateSvg(idx) {
         .attr("stop-color", "#0c7f82")
 
     document.querySelector(elClass).style.width = "42.5vw"
-    document.querySelector(elClass).style.top = topVl
+    if (activateFromTop) {
+        document.querySelector(elClass).style.top = aVal
+
+    } else {
+        document.querySelector(elClass).style.bottom = aVal
+    }
 
     //deactive animation
     const dS1 = dEl.querySelectorAll('#s1')
@@ -608,7 +657,13 @@ function animateSvg(idx) {
         .attr("stop-color", "#1f5260")
 
     document.querySelector(dElClass).style.width = "37vw"
-    document.querySelector(dElClass).style.top = dTopVl
+
+    if (deactiveFromTop) {
+        document.querySelector(dElClass).style.top = dVal
+
+    } else {
+        document.querySelector(dElClass).style.bottom = dVal
+    }
 }
 
 
@@ -645,7 +700,33 @@ setTimeout(() => {
 
 
     updateText();
-    whatIsNextPrayer();
+    // whatIsNextPrayer();
+    animateSvg(0)
+
+    setTimeout(() => {
+        animateSvg(1)
+
+    }, 3000)
+
+    setTimeout(() => {
+        animateSvg(2)
+
+    }, 6000)
+
+    setTimeout(() => {
+        animateSvg(3)
+
+    }, 9000)
+
+    setTimeout(() => {
+        animateSvg(4)
+
+    }, 12000)
+
+    setTimeout(() => {
+        animateSvg(0)
+
+    }, 14000)
 
 }, 4000)
 
@@ -768,22 +849,17 @@ getAllAnnouncements();
 updateImportantDates();
 
 
-// function getMoonData() {
-
-//     fetch(`http://localhost:9999/api/getMoonPhase`, {})
-//         .then(res => res.json())
-//         .then(json => {
-//             console.log(json['properties']['data']['fracillum']);
-//         });
-// }
-
-// getMoonData()
-
-
-function loadMoonSVGs(input) {
-    return 1 / 30;
-}
-
-console.log(loadMoonSVGs(0.8))
 
 addEventListener("resize", (event) => { autoSizeText() });
+
+
+function getMoon(url) {
+    var regex = /http:\/\/namazvakti\.diyanet\.gov\.tr\/images\/(.*?)\.gif/;
+    var match = url.match(regex);
+    if (match) {
+        return match[1];
+    }
+    return null;
+
+
+}

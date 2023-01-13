@@ -119,17 +119,23 @@ body {
 
 .l-2-3 {
   width: 46%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.dateNormal {
+.dateNormal,
+.dateHicri {
   padding-right: 7px;
 }
 
-.monthNormal {
+.monthNormal,
+.monthHicri {
   padding: 0 7px;
 }
 
-.yearNormal {
+.yearNormal,
+.yearHicri {
   padding-left: 10px;
 }
 
@@ -238,7 +244,7 @@ body {
   background-color: #d5e7ea;
   border-radius: 20px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   color: #3b6773;
@@ -246,6 +252,12 @@ body {
 
 .l6-title {
   font-size: 2vw;
+  height: 30%;
+  margin-top: 7%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .l6-description {
@@ -258,6 +270,21 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#importantDate1Day,
+#importantDate2Day {
+  padding-right: 5px;
+}
+
+#importantDate1Month,
+#importantDate2Month {
+  padding: 0 5px;
+}
+
+#importantDate1Year,
+#importantDate2Year {
+  padding-left: 7px;
 }
 
 .right {
@@ -295,8 +322,10 @@ body {
 .ogle {
   position: absolute;
   width: 37vw;
-  top: 24.7%;
+  top: 25%;
   right: 0%;
+  transform: translateY(-2%);
+
   opacity: 1;
   transition: 0.65s ease;
 
@@ -307,7 +336,8 @@ body {
   position: absolute;
   opacity: 1;
   width: 37vw;
-  top: 44.4%;
+  top: 50%;
+  transform: translateY(-26%);
   /* background-color: rgb(55, 0, 255); */
   transition: 0.65s ease;
 }
@@ -315,7 +345,8 @@ body {
 .aksam {
   position: absolute;
   width: 37vw;
-  top: 61%;
+  bottom: 25%;
+  transform: translateY(35%);
   opacity: 1;
   transition: 0.65s ease;
 
@@ -325,7 +356,8 @@ body {
 .yatsi {
   position: absolute;
   width: 37vw;
-  top: 76.2%;
+  bottom: 5%;
+  transform: translateY(17%);
   opacity: 1;
   transition: 0.65s ease;
 

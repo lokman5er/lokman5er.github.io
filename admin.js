@@ -168,7 +168,7 @@ async function newAnnouncement(event) {
     if (result.status === 'ok') {
         newAnSuccessfull = true
         popupContainer.style.display = "flex"
-        popupTitle.innerText = "SUCCESS"
+        popupTitle.innerText = "BAŞARI"
         popupText.innerText = "Duyuru başarıyla eklendi."
         anTr.value = ""
         anAr.value = ""
@@ -182,7 +182,7 @@ async function newAnnouncement(event) {
         loginView.style.display = "block"
         announcementsView.style.display = "none"
     } else {
-        popupTitle.innerText = "ERROR"
+        popupTitle.innerText = "HATA"
         popupContainer.style.display = "flex"
         popupContainer.style.position = "absolute"
         popupText.innerText = result.error
@@ -294,17 +294,20 @@ function allAnsClicked() {
     title.innerText = "DUYURULAR"
 }
 
-//brauche ich das hier? ich glaube nicht
-async function getPrayerTimes() {
-    const token = localStorage.getItem('token')
-    fetch(`${httpsUrl}/api/getPrayerTimes?token=${token}`)
-        .then((data) => { return data.json() })
-        .then((data) => { console.log(data) })
+var delteGotPressed;
+var deleteStartDate;
+async function deletePressed(el) {
+    delteGotPressed = true;
+
+    startDate = el.querySelector('.an-item-dates').getAttribute("startDate")
+    deleteStartDate = startDate.substring(6, 10) + "-" + startDate.substring(3, 5) + "-" + startDate.substring(0, 2)
+    dateFormated = deleteStartDate.split('-')
+    popupContainer.style.display = "flex"
+    popupTitle.innerText = "DİKKAT"
+    popupText.innerText = `Başlangıç tarihi ${dateFormated[2]}.${dateFormated[1]}.${dateFormated[0]} olan mesajı gerçekten silmek istediğinizden emin misiniz?`
 }
 
-async function deletePressed(el) {
-    startDate = el.querySelector('.an-item-dates').getAttribute("startDate")
-    startDateFormated = startDate.substring(6, 10) + "-" + startDate.substring(3, 5) + "-" + startDate.substring(0, 2)
+async function triggerDeleteAPI(startDate) {
 
     if (!localStorage.getItem('token')) {
         loginView.style.display = "block"
@@ -319,7 +322,7 @@ async function deletePressed(el) {
         },
         body: JSON.stringify({
             token: localStorage.getItem('token'),
-            startDate: startDateFormated
+            startDate: startDate
         })
     }).then(response => response.json())
     if (result.status === 'ok') {
@@ -400,12 +403,12 @@ function updateTable() {
 
                 document.querySelector('.an-list').innerHTML = anList;
 
-
             })
-
 
         })
 }
+
+
 
 const buttonLogout = document.querySelector('.logout');
 
@@ -459,10 +462,24 @@ impressumA2.addEventListener('click', () => {
 });
 
 popupContainer.addEventListener('click', event => {
-    if (event.target === popupContainer || event.target === popupButton) {
+    if (delteGotPressed) {
+        if (event.target === popupButton) {
+            //trigger delete api
+            triggerDeleteAPI(deleteStartDate)
+        }
         popupContainer.style.display = 'none';
         if (window.innerWidth < 830 && newAnSuccessfull === true) {
             allAnsClicked()
         }
+        delteGotPressed = false;
+    } else {
+
+        if (event.target === popupContainer || event.target === popupButton) {
+            popupContainer.style.display = 'none';
+            if (window.innerWidth < 830 && newAnSuccessfull === true) {
+                allAnsClicked()
+            }
+        }
+
     }
 });
