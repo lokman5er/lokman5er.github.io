@@ -1,7 +1,7 @@
 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 775.92 241.73">
    <defs>
         <style type="text/css">@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900');</style>
-    
+        <style type="text/css">@font-face {font-family: "Hafs"; src: url("/hafs.otf");font-weight: normal;}</style>
       <style id="style">.cls-1{fill:#2c7291;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}</style>
       <linearGradient id="linear-gradient" x1="-1846.87" y1="-2586.09" x2="-1846.96" y2="-2361.77" gradientTransform="translate(3368.85 1027.76) rotate(-36.02)" gradientUnits="userSpaceOnUse">
          <stop offset="0" stop-color="#083640"/>

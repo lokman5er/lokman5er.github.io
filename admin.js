@@ -173,6 +173,7 @@ async function newAnnouncement(event) {
         anTr.value = ""
         anAr.value = ""
         anDe.value = ""
+        anSubmit.setAttribute('disabled', true)
         startDateEl.valueAsDate = new Date();
         endDateEl.valueAsDate = new Date();
         startDateEl.setAttribute('min', startDateEl.value);
@@ -258,7 +259,6 @@ function updateSubmitButton() {
         submitButton.setAttribute('disabled', true);
     }
 }
-
 const anTrInput = document.getElementById('new-tr');
 const anArInput = document.getElementById('new-ar');
 const anDeInput = document.getElementById('new-de');
