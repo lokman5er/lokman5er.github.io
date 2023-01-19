@@ -1,5 +1,4 @@
-const httpsUrl = "http://localhost:9999"
-//port 9999
+const serverUrl = "https://namaz-backend.herokuapp.com"
 
 // Get references to the forms on the page
 const loginForm = document.getElementById('log-form');
@@ -32,7 +31,7 @@ if (localStorage.getItem('token')) {
 
 async function checkToken() {
     const token = localStorage.getItem('token')
-    const result = await sendRequest(`${httpsUrl}/api/check-token?token=${token}`, {
+    const result = await sendRequest(`${serverUrl}/api/check-token?token=${token}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -59,13 +58,26 @@ async function sendRequest(url, options) {
         .then((res) => res.json());
 }
 
-// document.getElementById('submit-login').addEventListener('click', () => { loginForm.submit() });
+const showPassword = document.querySelector('.fa-eye')
+const hidePassword = document.querySelector('.fa-eye-slash')
+
+showPassword.addEventListener('click', () => {
+    passwordInput.type = "text"
+    showPassword.style.display = "none"
+    hidePassword.style.display = "inline"
+})
+
+hidePassword.addEventListener('click', () => {
+    passwordInput.type = "password"
+    hidePassword.style.display = "none"
+    showPassword.style.display = "inline"
+})
+
 // Event listener for the login form's submit event
 loginForm.addEventListener('submit', login)
 
 // Function to handle the submission of the login form
 async function login(event) {
-    console.log("test345")
     // Prevent the default form submission behavior
     event.preventDefault()
 
@@ -75,7 +87,7 @@ async function login(event) {
 
 
     // Send a POST request to the server to login
-    const result = await sendRequest(`${httpsUrl}/api/login/`, {
+    const result = await sendRequest(`${serverUrl}/api/login/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -90,6 +102,7 @@ async function login(event) {
     // If the request was successful, store the returned token in local storage
     // Otherwise, show an error with the error message
     if (result.status === 'ok') {
+        document.getElementById('submit-login').setAttribute('disabled', true);
         loginView.style.display = "none"
         announcementsView.style.display = "block"
         localStorage.setItem('token', result.data)
@@ -97,6 +110,7 @@ async function login(event) {
         //load the right announcements data with api
         updateTable()
     } else {
+        document.getElementById('submit-login').setAttribute('disabled', true);
         popupContainer.style.display = "flex"
         popupText.innerText = result.error
     }
@@ -146,7 +160,7 @@ async function newAnnouncement(event) {
 
 
     // Send a POST request to the server to create a new announcement
-    const result = await sendRequest(`${httpsUrl}/api/new-an`, {
+    const result = await sendRequest(`${serverUrl}/api/new-an`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -315,7 +329,7 @@ async function triggerDeleteAPI(startDate) {
         return null;
     }
 
-    const result = await fetch(`${httpsUrl}/api/deleteAnnouncement`, {
+    const result = await fetch(`${serverUrl}/api/deleteAnnouncement`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -342,7 +356,7 @@ function updateTable() {
         return null;
     }
     const token = localStorage.getItem('token')
-    fetch(`${httpsUrl}/api/get-All-an?token=${token}`)
+    fetch(`${serverUrl}/api/get-All-an?token=${token}`)
         .then((data) => { return data.json() })
         .then((jsonData) => {
             jsonData = jsonData.result
@@ -420,7 +434,7 @@ buttonLogout.addEventListener('click', () => {
         return null;
     }
 
-    sendRequest(`${httpsUrl}/api/logout`, {
+    sendRequest(`${serverUrl}/api/logout`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

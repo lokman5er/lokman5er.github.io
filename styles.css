@@ -137,6 +137,7 @@ body {
 .monthNormal,
 .monthHicri {
   padding: 0 7px;
+  font-weight: 800;
 }
 
 .yearNormal,
@@ -219,7 +220,6 @@ body {
 
 .source {
   font-size: 1.3vw;
-  font-weight: bold;
   font-style: normal;
 }
 
@@ -273,7 +273,7 @@ body {
 }
 
 .l6-description {
-  font-size: 3vw;
+  font-size: 2vw;
   font-style: italic;
   font-weight: light;
   width: 90%;

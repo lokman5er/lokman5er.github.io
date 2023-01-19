@@ -271,7 +271,6 @@ var hijriRaw;
 function updateText() {
     isRamadan = false;
     yearHicri.style.display = 'visible'
-    monthHicri.style.fontWeight = 'normal'
 
     let day = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
     let month = (now.getMonth() + 1) < 10 ? '0' + (now.getMonth() + 1) : now.getMonth + 1
@@ -305,9 +304,8 @@ function updateText() {
     //ramadan is true
     if (hijriRaw[1] == '9') {
         isRamadan = true;
-        monthHicri.style.fontWeight = 'bold'
         yearHicri.style.display = 'none'
-        dateHicri.innerHTML = 'Ramadan'
+        dateHicri.innerHTML = 'Ramazan'
         monthHicri.innerHTML = hijriRaw[0]
     } else {
         dateHicri.innerHTML = (parseInt(hijriRaw[0]) < 10) ? `0${hijriRaw[0]}` : hijriRaw[0]
@@ -399,7 +397,7 @@ const prayerNames = [
 const infoTitleLanguages = [
     {
         "tr": "AYET",
-        "ar": "آية الكرسي",
+        "ar": "آية قرآنية",
         "de": "VERS"
     },
     {
@@ -663,38 +661,41 @@ var namazText = []
 //get the text element inside svg for prayer names
 var sabahSVG, ogleSVG, ikindiSVG, aksamSVG, yatsiSVG;
 
-setTimeout(() => {
-    const sabahSvg = document.querySelector('.sabah')
-    sabahSVG = sabahSvg.contentDocument;
-
-    const ogleSvg = document.querySelector('.ogle')
-    ogleSVG = ogleSvg.contentDocument;
-
-    const ikindiSvg = document.querySelector('.ikindi')
-    ikindiSVG = ikindiSvg.contentDocument;
-
-    const aksamSvg = document.querySelector('.aksam')
-    aksamSVG = aksamSvg.contentDocument;
-
-    const yatsiSvg = document.querySelector('.yatsi')
-    yatsiSVG = yatsiSvg.contentDocument;
+function getSvgElements() {
 
 
-    namazText.push(
-        sabahSVG.querySelector('.text'),
-        ogleSVG.querySelector('.text'),
-        ikindiSVG.querySelector('.text'),
-        aksamSVG.querySelector('.text'),
-        yatsiSVG.querySelector('.text')
-    )
+    setTimeout(() => {
+        const sabahSvg = document.querySelector('.sabah')
+        sabahSVG = sabahSvg.contentDocument;
+
+        const ogleSvg = document.querySelector('.ogle')
+        ogleSVG = ogleSvg.contentDocument;
+
+        const ikindiSvg = document.querySelector('.ikindi')
+        ikindiSVG = ikindiSvg.contentDocument;
+
+        const aksamSvg = document.querySelector('.aksam')
+        aksamSVG = aksamSvg.contentDocument;
+
+        const yatsiSvg = document.querySelector('.yatsi')
+        yatsiSVG = yatsiSvg.contentDocument;
 
 
-    updateText();
-    whatIsNextPrayer();
+        namazText.push(
+            sabahSVG.querySelector('.text'),
+            ogleSVG.querySelector('.text'),
+            ikindiSVG.querySelector('.text'),
+            aksamSVG.querySelector('.text'),
+            yatsiSVG.querySelector('.text')
+        )
 
 
-}, 4000)
+        updateText();
+        whatIsNextPrayer();
 
+
+    }, 4000)
+}
 const changeLanguages = [importantDate1Text, importantDate2Text]
 const ramadanLanguages = [dateHicri, monthHicri]
 prayerLng = 0
@@ -777,6 +778,8 @@ const changeLanguage = (language, fontSize) => {
                 text.setAttribute('style', 'font-family: Hafs')
             });
 
+            importantDate1Text.style.fontStyle = 'normal'
+            importantDate2Text.style.fontStyle = 'normal'
         } else if (language === "de") {
             importantDate1Text.style.fontFamily = "'Montserrat', sans-serif"
             importantDate2Text.style.fontFamily = "'Montserrat', sans-serif"
@@ -794,6 +797,10 @@ const changeLanguage = (language, fontSize) => {
             namazText.forEach((text) => {
                 text.setAttribute('style', 'font-family: Montserrat, sans-serif')
             });
+
+            importantDate1Text.style.fontStyle = 'italic'
+            importantDate2Text.style.fontStyle = 'italic'
+
         }
 
         if (isRamadan) {
@@ -819,7 +826,7 @@ const changeLanguage = (language, fontSize) => {
 
 
         if (fontSizeImportantDatesDe === "n" || fontSizeImportantDatesTr === "n" || fontSizeImportantDatesAr === "n") {
-            infoText.style.fontSize = "3.5vh"
+            infoText.style.fontSize = "2.5vw"
             importantDate1Text.style.fontSize = "4vw"
             importantDate2Text.style.fontSize = "4vw"
             autoSizeText();
@@ -943,12 +950,18 @@ function fetchMonthlyData() {
             console.log(data.data);
             monthlyData = data.data;
         })
+        .then(() => getSvgElements())
+        .then(() => {
+
+            if (urlPara) {
+                getAllAnnouncements();
+                updateImportantDates();
+            }
+        })
         .catch((error) => {
             console.log(`API request failed with status code ${error}`);
         })
 
 }
 
-getAllAnnouncements();
-updateImportantDates();
 fetchMonthlyData()
