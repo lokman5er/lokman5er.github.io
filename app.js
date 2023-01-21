@@ -244,8 +244,9 @@ const moonElements = [
 function updateMoonSvgs() {
     var moonUrlToday = monthlyData[monthlyDataPointer]['shapeMoon']
 
-    if (moonUrlToday == 'ictima' || moonUrlToday === 'ruyet') {
+    if (moonUrlToday === "ictima" || moonUrlToday === 'ruyet') {
         moonUrlToday = 'yeniAy'
+        var moonIndex3 = moonDirection.indexOf(moonUrlToday)
     } else {
         var moonIndex3 = moonDirection.indexOf(moonUrlToday)
     }
