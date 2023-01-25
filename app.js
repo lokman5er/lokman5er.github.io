@@ -27,7 +27,7 @@ const url = window.location.search;
 const urlParams = new URLSearchParams(url);
 const urlPara = urlParams.get('urlPara');
 
-var notFirstTimeCalling = false;
+var initalRun = true;
 
 const infoTitle = document.querySelector('.l-4-1 ')
 const infoText = document.querySelector('.l-4-2')
@@ -120,11 +120,6 @@ function whatIsNextPrayer() {
     // Find the next prayer by looping through the prayer times
     for (var i = 0; i < todaysPrayerTimes.length; i++) {
 
-        // if (i === 0 && currentTime < todaysPrayerTimes[0]) {
-        //     animateSvg(4)
-        //     break;
-        // }
-
         if (currentTime < todaysPrayerTimes[i] || i === todaysPrayerTimes.length - 1) {
             if (i === todaysPrayerTimes.length - 1 && currentTime > todaysPrayerTimes[i]) {
                 animateSvg(4);
@@ -145,8 +140,6 @@ function whatIsNextPrayer() {
 //needed to start in exact second
 setTimeout(function () {
 
-    updateClock();
-
     runEveryMinute();
 
 }, (60000 - now.getMilliseconds() - now.getSeconds() * 1000))
@@ -159,7 +152,6 @@ function runEveryMinute() {
     var now2 = Date.now()
     updateClock();
     checkIfNextPrayer();
-
     if (expectedCycleTime == 0) {
         expectedCycleTime = now2 + interval;
     }
@@ -177,7 +169,6 @@ function runEveryMinute() {
 var hours, minutes;
 
 function updateClock() {
-
     now = new Date();
     hours = now.getHours();
     if (hours < 10) {
@@ -196,6 +187,7 @@ function updateClock() {
         fontSizeImportantDatesAr = 'n'
         fontSizeImportantDatesDe = 'n'
         now = new Date();
+        initalRun = false;
         getAllAnnouncements();
         getNextImportantDate(importantDates)
         updateText();
@@ -313,9 +305,6 @@ function updateText() {
         monthHicri.innerHTML = (parseInt(hijriRaw[1]) < 10) ? `0${hijriRaw[1]}` : hijriRaw[1]
         yearHicri.innerHTML = hijriRaw[2]
     }
-
-
-    //RamadanCase hinzufügen
 
 };
 
@@ -950,10 +939,9 @@ function fetchMonthlyData() {
             }
             console.log(data.data);
             monthlyData = data.data;
-        })
-        .then(() => getSvgElements())
-        .then(() => {
-
+            if (initalRun) {
+                getSvgElements()
+            }
             if (urlPara) {
                 getAllAnnouncements();
                 updateImportantDates();
