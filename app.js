@@ -1,7 +1,6 @@
 updateClock();
 
-// const serverUrl = "https://namaz-backend.herokuapp.com"
-const serverUrl = "http://localhost:9999"
+const serverUrl = "https://namaz-backend.herokuapp.com"
 
 var now = new Date();
 
@@ -331,7 +330,7 @@ const prayerNames = [
     {
         tr: "GÜNEŞ",
         de: "SONNENA.",
-        ar: "الفجر"
+        ar: "الصبح"
     },
     {
         tr: "ÖĞLE",
