@@ -17,10 +17,10 @@
    <path id="s3" fill="url(#linear-gradient-2)"   d="M441.09,54.11A54.16,54.16,0,0,0,373.47,1.7h0L277.15,27.38,325.94,149l86.35-47,1-.55.23-.12h0A54.08,54.08,0,0,0,441.09,54.11Z"/>
    <path id="s4" fill="#1f5260"   d="M277.15,27.38,300,21.29c-.7,0-1.39-.05-2.09-.05H70a66,66,0,0,0,0,132H297.92a65.77,65.77,0,0,0,27.35-5.94Z"/>
    <path id="s1" fill="#2c7291"  d="M293.92,25.24c-.46,0-.9,0-1.35,0H67.36c-.45,0-.9,0-1.35,0a66,66,0,0,0,0,132h0v0H293.9v0h0a66,66,0,0,0,0-132Z"/>
-       <text text-anchor="middle" dominant-baseline="middle" x="180" y="97" font-size="5em" fill="white" font-weight="bold" class="text" style="font-family: Montserrat, sans-serif">AKŞAM</text> 
-        <text text-anchor="middle" x="535" y="80" font-size="4.5em" fill="white" font-weight="normal" class="hour1" style="font-family: Montserrat, sans-serif">0</text> 
-        <text text-anchor="middle" x="582" y="80" font-size="4.5em" fill="white" font-weight="normal" class="hour2" style="font-family: Montserrat, sans-serif">0</text> 
-        <text x="610" y="75" font-size="4.5em" fill="white" font-weight="normal" class="time" style="font-family: Montserrat, sans-serif">:</text> 
-        <text text-anchor="middle" x="653" y="80" font-size="4.5em" fill="white" font-weight="normal" class="minute1" style="font-family: Montserrat, sans-serif">0</text> 
-        <text text-anchor="middle" x="701" y="80" font-size="4.5em" fill="white" font-weight="normal" class="minute2" style="font-family: Montserrat, sans-serif">0</text> 
+   <text text-anchor="middle" dominant-baseline="middle" x="180" y="97" font-size="5em" fill="white" font-weight="bold" class="text" style="font-family: Montserrat, sans-serif">AKŞAM</text> 
+   <text text-anchor="middle" x="535" y="80" font-size="4.5em" fill="white" font-weight="normal" class="hour1 time" style="font-family: Montserrat, sans-serif">0</text> 
+   <text text-anchor="middle" x="582" y="80" font-size="4.5em" fill="white" font-weight="normal" class="hour2 time" style="font-family: Montserrat, sans-serif">0</text> 
+   <text x="610" y="75" font-size="4.5em" fill="white" font-weight="normal" class="time" style="font-family: Montserrat, sans-serif">:</text> 
+   <text text-anchor="middle" x="653" y="80" font-size="4.5em" fill="white" font-weight="normal" class="minute1 time" style="font-family: Montserrat, sans-serif">0</text> 
+   <text text-anchor="middle" x="701" y="80" font-size="4.5em" fill="white" font-weight="normal" class="minute2 time" style="font-family: Montserrat, sans-serif">0</text> 
 </svg>

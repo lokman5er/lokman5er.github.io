@@ -1,6 +1,7 @@
 updateClock();
 
-const serverUrl = "https://namaz-backend.herokuapp.com"
+// const serverUrl = "https://namaz-backend.herokuapp.com"
+const serverUrl = "http://localhost:9999"
 
 var now = new Date();
 
@@ -100,16 +101,19 @@ function updateInfobox() {
             infoTitle.innerText = prayerLng === 1 ? "رسالة" : prayerLng === 0 ? "DUYURU" : "MITTEILUNG";
             infoText.innerText = prayerLng == 0 ? todaysAnnouncement['tr'] : prayerLng === 1 ? todaysAnnouncement['ar'] : todaysAnnouncement['de']
             infoSource.style.display = 'none'
+
         } else {
             //no announcements for today, show one hadith or vers
             getVersesOrHadiths()
         }
+        autoSizeText();
     } else {
         getVersesOrHadiths();
+        autoSizeText();
     }
 }
 
-function whatIsNextPrayer() {
+function getCurrentPrayer() {
     // Get current time
     var currentHours = now.getHours();
     currentHours = currentHours < 10 ? "0" + currentHours : currentHours;
@@ -118,17 +122,18 @@ function whatIsNextPrayer() {
     var currentTime = currentHours + ":" + currentMinutes;
 
     // Find the next prayer by looping through the prayer times
+
     for (var i = 0; i < todaysPrayerTimes.length; i++) {
 
         if (currentTime < todaysPrayerTimes[i] || i === todaysPrayerTimes.length - 1) {
             if (i === todaysPrayerTimes.length - 1 && currentTime > todaysPrayerTimes[i]) {
-                animateSvg(4);
+                animateSvg(5);
             }
             else if (i === todaysPrayerTimes.length - 1 && currentTime < todaysPrayerTimes[i]) {
-                animateSvg(3);
+                animateSvg(4);
             }
             else {
-                animateSvg(i === 0 ? 4 : i - 1);
+                animateSvg(i === 0 ? 5 : i - 1);
             }
             break;
         }
@@ -271,18 +276,20 @@ function updateText() {
     let targetDate = `${day}.${month}.${year}`
     monthlyDataPointer = monthlyData.findIndex(element => element.gregorianDateShort === targetDate)
 
-    sabahRaw = calcSabah(monthlyData[monthlyDataPointer]['fajr']);
+    imsakRaw = monthlyData[monthlyDataPointer]['fajr'];
+    gunesRaw = monthlyData[monthlyDataPointer]['sunrise'];
     ogleRaw = monthlyData[monthlyDataPointer]['dhuhr'];
     ikindiRaw = monthlyData[monthlyDataPointer]['asr'];
     aksamRaw = monthlyData[monthlyDataPointer]['maghrib'];
     yatsiRaw = monthlyData[monthlyDataPointer]['isha'];
 
     todaysPrayerTimes = []
-    todaysPrayerTimes.push(sabahRaw, ogleRaw, ikindiRaw, aksamRaw, yatsiRaw);
+    todaysPrayerTimes.push(imsakRaw, gunesRaw, ogleRaw, ikindiRaw, aksamRaw, yatsiRaw);
 
     updateMoonSvgs()
 
-    updateTimeSvg(sabahSVG, sabahRaw);
+    updateTimeSvg(imsakSVG, imsakRaw);
+    updateTimeSvg(gunesSVG, gunesRaw);
     updateTimeSvg(ogleSVG, ogleRaw);
     updateTimeSvg(ikindiSVG, ikindiRaw);
     updateTimeSvg(aksamSVG, aksamRaw);
@@ -308,47 +315,6 @@ function updateText() {
 
 };
 
-function calcSabah(time) {
-    let hr = parseInt(time.substring(0, 2));
-    let mn = parseInt(time.substring(3, 5));
-
-    if (urlPara === '11023') {
-
-        mn = mn + 30;
-
-        if (mn > 59) {
-            hr++;
-            dif = mn - 60;
-            mn = dif;
-        }
-
-        if (mn < 10) {
-            mn = "0" + mn
-        }
-
-        if (hr < 10) {
-            hr = "0" + hr
-        }
-        return hr + ":" + mn;
-
-    } else {
-
-        hr++;
-
-        if (mn < 10) {
-            mn = "0" + mn
-        }
-
-        if (hr < 10) {
-            hr = "0" + hr
-        }
-
-        return hr + ":" + mn;
-
-    }
-
-}
-
 function updateTimeSvg(el, raw) {
     el.querySelector('.hour1').innerHTML = raw.substring(0, 1)
     el.querySelector('.hour2').innerHTML = raw.substring(1, 2)
@@ -358,13 +324,18 @@ function updateTimeSvg(el, raw) {
 
 const prayerNames = [
     {
-        tr: "SABAH",
-        de: "MORGEN",
+        tr: "İMSAK",
+        de: "MORGENS",
+        ar: "الفجر"
+    },
+    {
+        tr: "GÜNEŞ",
+        de: "SONNENA.",
         ar: "الفجر"
     },
     {
         tr: "ÖĞLE",
-        de: "MITTAG",
+        de: "MITTAGS",
         ar: "الظهر"
     },
     {
@@ -374,12 +345,12 @@ const prayerNames = [
     },
     {
         tr: "AKŞAM",
-        de: "ABEND",
+        de: "ABENDS",
         ar: "المغرب"
     },
     {
         tr: "YATSI",
-        de: "NACHT",
+        de: "NACHTS",
         ar: "العشاء"
     }
 ]
@@ -488,63 +459,72 @@ deactiveFromTop = true;
 function animateSvg(idx) {
     switch (idx) {
         case 0:
-            el = sabahSVG;
-            elClass = '.sabah';
+            el = imsakSVG;
+            elClass = '.imsak';
             activateFromTop = true;
-            aVal = '2%'
+            aVal = '1%'
 
             //following are for deactivating the active status
             dEl = yatsiSVG;
             dElClass = '.yatsi';
             deactiveFromTop = false;
-            dVal = '5%'
+            dVal = '2%'
             break;
         case 1:
+            el = gunesSVG;
+            elClass = '.gunes';
+            activateFromTop = true;
+            aVal = '18.5%'
+
+            dEl = imsakSVG;
+            dElClass = '.imsak';
+            deactiveFromTop = true;
+            dVal = '2%'
+            break;
+        case 2:
             el = ogleSVG;
             elClass = '.ogle';
             activateFromTop = true;
-            aVal = '23.5%'
+            aVal = '34%'
 
-            dEl = sabahSVG;
-            dElClass = '.sabah';
+            dEl = gunesSVG;
+            dElClass = '.gunes';
             deactiveFromTop = true;
-            dVal = '5%'
+            dVal = '19.5%'
             break;
-        case 2:
+        case 3:
             el = ikindiSVG;
             elClass = '.ikindi';
-            activateFromTop = true;
-            aVal = '50%'
+            activateFromTop = false;
+            aVal = '33.5%'
 
             dEl = ogleSVG;
             dElClass = '.ogle';
             deactiveFromTop = true;
-            dVal = '25%'
-
-
+            dVal = '35%'
             break;
-        case 3:
+        case 4:
             el = aksamSVG;
             elClass = '.aksam';
             activateFromTop = false;
-            aVal = '23.3%';
+            aVal = '18.5%';
 
             dEl = ikindiSVG;
             dElClass = '.ikindi';
-            deactiveFromTop = true;
-            dVal = '50%'
+            deactiveFromTop = false;
+            dVal = '35%'
 
             break;
-        case 4:
+        case 5:
             el = yatsiSVG;
             elClass = '.yatsi';
             activateFromTop = false;
-            aVal = '2.5%';
+            aVal = '1%';
 
             dEl = aksamSVG;
             dElClass = '.aksam';
             deactiveFromTop = false;
-            dVal = '25%'
+            dVal = '20%'
 
             break;
     }
@@ -556,6 +536,8 @@ function animateSvg(idx) {
 
     const stop1 = el.querySelector('#stop1')
     const stop2 = el.querySelector('#stop2')
+
+    const timeBold = el.querySelectorAll('.time')
 
     d3.selectAll(s1)
         .transition()
@@ -587,6 +569,11 @@ function animateSvg(idx) {
         .duration(1000)
         .attr("stop-color", "#0c7f82")
 
+    d3.selectAll(timeBold)
+        .transition()
+        .duration(1000)
+        .attr("font-weight", "600")
+
     document.querySelector(elClass).style.width = "42.5vw"
     if (activateFromTop) {
         document.querySelector(elClass).style.top = aVal
@@ -603,6 +590,8 @@ function animateSvg(idx) {
 
     const dStop1 = dEl.querySelector('#stop1')
     const dStop2 = dEl.querySelector('#stop2')
+
+    const timeNormal = dEl.querySelectorAll('.time')
 
     d3.selectAll(dS1)
         .transition()
@@ -634,6 +623,11 @@ function animateSvg(idx) {
         .duration(1000)
         .attr("stop-color", "#1f5260")
 
+    d3.selectAll(timeNormal)
+        .transition()
+        .duration(1000)
+        .attr("font-weight", "normal")
+
     document.querySelector(dElClass).style.width = "37vw"
 
     if (deactiveFromTop) {
@@ -649,14 +643,17 @@ function animateSvg(idx) {
 var namazText = []
 
 //get the text element inside svg for prayer names
-var sabahSVG, ogleSVG, ikindiSVG, aksamSVG, yatsiSVG;
+var imsakSVG, gunesSVG, ogleSVG, ikindiSVG, aksamSVG, yatsiSVG;
 
 function getSvgElements() {
 
 
     setTimeout(() => {
-        const sabahSvg = document.querySelector('.sabah')
-        sabahSVG = sabahSvg.contentDocument;
+        const imsakSvg = document.querySelector('.imsak')
+        imsakSVG = imsakSvg.contentDocument;
+
+        const gunesSvg = document.querySelector('.gunes')
+        gunesSVG = gunesSvg.contentDocument;
 
         const ogleSvg = document.querySelector('.ogle')
         ogleSVG = ogleSvg.contentDocument;
@@ -672,7 +669,8 @@ function getSvgElements() {
 
 
         namazText.push(
-            sabahSVG.querySelector('.text'),
+            imsakSVG.querySelector('.text'),
+            gunesSVG.querySelector('.text'),
             ogleSVG.querySelector('.text'),
             ikindiSVG.querySelector('.text'),
             aksamSVG.querySelector('.text'),
@@ -681,7 +679,7 @@ function getSvgElements() {
 
 
         updateText();
-        whatIsNextPrayer();
+        getCurrentPrayer();
 
 
     }, 4000)
@@ -689,7 +687,7 @@ function getSvgElements() {
 const changeLanguages = [importantDate1Text, importantDate2Text]
 const ramadanLanguages = [dateHicri, monthHicri]
 prayerLng = 0
-//change text every 20s
+//change text every 30s
 const changeLanguage = (language, fontSize) => {
     d3.selectAll(namazText)
         .transition()
@@ -817,8 +815,8 @@ const changeLanguage = (language, fontSize) => {
 
         if (fontSizeImportantDatesDe === "n" || fontSizeImportantDatesTr === "n" || fontSizeImportantDatesAr === "n") {
             infoText.style.fontSize = "2.5vw"
-            importantDate1Text.style.fontSize = "4vw"
-            importantDate2Text.style.fontSize = "4vw"
+            importantDate1Text.style.fontSize = "1.5vw"
+            importantDate2Text.style.fontSize = "1.5vw"
             autoSizeText();
         } else {
 
@@ -847,7 +845,7 @@ setInterval(() => {
         changeLanguage("ar", "5em");
         prayerLng++;
     } else if (prayerLng === 1) {
-        changeLanguage("de", "4.2em");
+        changeLanguage("de", "3.7em");
         prayerLng++;
     } else {
         changeLanguage("tr", "5em");

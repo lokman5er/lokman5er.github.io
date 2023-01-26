@@ -268,12 +268,12 @@ body {
   display: flex;
   align-items: flex-end;
   padding: 0;
-  line-height: 2vw;
+  line-height: 1.5vw;
   justify-content: center;
 }
 
 .l6-description {
-  font-size: 2vw;
+  font-size: 1.5vw;
   font-style: italic;
   font-weight: light;
   width: 90%;
@@ -322,10 +322,19 @@ body {
   font-weight: bold;
 }
 
-.sabah {
+.imsak {
   position: absolute;
   width: 37vw;
-  top: 5%;
+  top: 2%;
+  opacity: 1;
+  transition: 0.65s ease;
+  /* background-color: red; */
+}
+
+.gunes {
+  position: absolute;
+  width: 37vw;
+  top: 19.5%;
   opacity: 1;
   transition: 0.65s ease;
   /* background-color: red; */
@@ -334,10 +343,8 @@ body {
 .ogle {
   position: absolute;
   width: 37vw;
-  top: 25%;
+  top: 35%;
   right: 0%;
-  transform: translateY(-2%);
-
   opacity: 1;
   transition: 0.65s ease;
 
@@ -348,8 +355,8 @@ body {
   position: absolute;
   opacity: 1;
   width: 37vw;
-  top: 50%;
-  transform: translateY(-26%);
+  bottom: 35%;
+  transform: translateY(35%);
   /* background-color: rgb(55, 0, 255); */
   transition: 0.65s ease;
 }
@@ -357,8 +364,8 @@ body {
 .aksam {
   position: absolute;
   width: 37vw;
-  bottom: 25%;
-  transform: translateY(35%);
+  bottom: 20%;
+  transform: translateY(32%);
   opacity: 1;
   transition: 0.65s ease;
 
@@ -368,7 +375,7 @@ body {
 .yatsi {
   position: absolute;
   width: 37vw;
-  bottom: 5%;
+  bottom: 2%;
   transform: translateY(17%);
   opacity: 1;
   transition: 0.65s ease;
