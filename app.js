@@ -1,4 +1,3 @@
-updateClock();
 
 const serverUrl = "https://namaz-backend.herokuapp.com"
 
@@ -112,6 +111,8 @@ function updateInfobox() {
     }
 }
 
+var nextPrayer;
+
 function getCurrentPrayer() {
     // Get current time
     var currentHours = now.getHours();
@@ -127,17 +128,43 @@ function getCurrentPrayer() {
         if (currentTime < todaysPrayerTimes[i] || i === todaysPrayerTimes.length - 1) {
             if (i === todaysPrayerTimes.length - 1 && currentTime > todaysPrayerTimes[i]) {
                 animateSvg(5);
+                nextPrayer = 0;
+
             }
             else if (i === todaysPrayerTimes.length - 1 && currentTime < todaysPrayerTimes[i]) {
                 animateSvg(4);
+                nextPrayer = 5;
+                //error
+
             }
             else {
                 animateSvg(i === 0 ? 5 : i - 1);
+                nextPrayer = i
             }
+
             break;
         }
     }
 }
+
+const countdownHour = document.querySelector('.countdown-hour');
+const countdownMinute = document.querySelector('.countdown-minute');
+
+function updateCountdown(startTime, endTime) {
+    const start = new Date("1970-01-01 " + startTime + " UTC").getTime() / 1000;
+    const end = new Date("1970-01-01 " + endTime + " UTC").getTime() / 1000;
+    let difference = end - start;
+    if (difference < 0) {
+        difference += 24 * 3600;
+    }
+    let hours = Math.floor(difference / 3600);
+    let minutes = Math.floor((difference % 3600) / 60);
+    hours = hours < 10 ? "0" + hours : hours;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    countdownHour.innerText = hours;
+    countdownMinute.innerText = minutes;
+}
+
 
 
 
@@ -154,8 +181,18 @@ var expectedCycleTime = 0;
 
 function runEveryMinute() {
     var now2 = Date.now()
+
     updateClock();
+
     checkIfNextPrayer();
+
+    if (nextPrayer === 0 && hours > parseInt(todaysPrayerTimes[nextPrayer].substring(0, 2))) {
+        endTime2 = monthlyData[monthlyDataPointer + 1]['fajr']
+        updateCountdown(timeNow, endTime2)
+    } else {
+        updateCountdown(timeNow, todaysPrayerTimes[nextPrayer])
+    }
+
     if (expectedCycleTime == 0) {
         expectedCycleTime = now2 + interval;
     }
@@ -171,6 +208,7 @@ function runEveryMinute() {
 }
 
 var hours, minutes;
+var timeNow;
 
 function updateClock() {
     now = new Date();
@@ -184,6 +222,10 @@ function updateClock() {
     }
     document.querySelector('.l-3-1').innerHTML = hours
     document.querySelector('.l-3-3').innerHTML = minutes
+
+    timeNow = `${hours}:${minutes}`
+
+
 
     if (hours == "00" && minutes == "00") {
         // new day
@@ -282,6 +324,13 @@ function updateText() {
     aksamRaw = monthlyData[monthlyDataPointer]['maghrib'];
     yatsiRaw = monthlyData[monthlyDataPointer]['isha'];
 
+    // imsakRaw = '19:20';
+    // gunesRaw = '19:25';
+    // ogleRaw = '19:30';
+    // ikindiRaw = '19:35';
+    // aksamRaw = '15:33';
+    // yatsiRaw = '19:22';
+
     todaysPrayerTimes = []
     todaysPrayerTimes.push(imsakRaw, gunesRaw, ogleRaw, ikindiRaw, aksamRaw, yatsiRaw);
 
@@ -321,16 +370,53 @@ function updateTimeSvg(el, raw) {
     el.querySelector('.minute2').innerHTML = raw.substring(4, 5)
 }
 
+const timeLeft = document.querySelector(".timeLeft");
+const countdownText = document.querySelector('.timeLeft-before')
+const timeLeftAfter = document.querySelector(".timeLeft-after");
+
+
+const countdownTextArr = [{
+    tr: 'İMSAKA KALAN SÜRE:',
+    de: 'VERBLEIBENDE ZEIT BIS ZUM MORGENSG.:',
+    ar: 'الوقت المتبقي لصلاة الفجر',
+},
+{
+    tr: 'GÜNEŞE KALAN SÜRE:',
+    de: 'VERBLEIBENDE ZEIT BIS ZUM SONNENA.:',
+    ar: 'الوقت المتبقي لشروق الشمس',
+},
+{
+    tr: 'ÖĞLEYE KALAN SÜRE:',
+    de: 'VERBLEIBENDE ZEIT BIS ZUM MITTAGSG.:',
+    ar: 'الوقت المتبقي لصلاة الظهر',
+},
+{
+    tr: 'İKİNDİYE KALAN SÜRE:',
+    de: 'VERBLEIBENDE ZEIT BIS ZUM NACHM.:',
+    ar: 'الوقت المتبقي لصلاة العصر',
+},
+{
+    tr: 'AKŞAMA KALAN SÜRE:',
+    de: 'VERBLEIBENDE ZEIT BIS ZUM ABENDSG.:',
+    ar: 'الوقت المتبقي لصلاة المغرب',
+},
+{
+    tr: 'YATSIYE KALAN SÜRE:',
+    de: 'VERBLEIBENDE ZEIT BIS ZUM NACHTSG.:',
+    ar: 'الوقت المتبقي لصلاة العشاء',
+},
+];
+
 const prayerNames = [
     {
         tr: "İMSAK",
         de: "MORGENS",
-        ar: "الفجر"
+        ar: "الإمساك"
     },
     {
         tr: "GÜNEŞ",
         de: "SONNENA.",
-        ar: "الصبح"
+        ar: "الأيام الدينة"
     },
     {
         tr: "ÖĞLE",
@@ -368,11 +454,11 @@ const infoTitleLanguages = [
 ]
 
 function checkIfNextPrayer() {
-    let currentTime = hours + ":" + minutes;
+    if (todaysPrayerTimes.indexOf(timeNow) !== -1) {
+        let idx = todaysPrayerTimes.indexOf(timeNow);
 
-    if (todaysPrayerTimes.indexOf(currentTime) !== -1) {
-        let idx = todaysPrayerTimes.indexOf(currentTime);
         animateSvg(idx)
+        nextPrayer = idx === 5 ? 0 : idx + 1
     }
 
 }
@@ -414,7 +500,7 @@ function updateImportantDates() {
 function getNextImportantDate(arr) {
 
     importantDate1.style.backgroundColor = '#d5e7ea'
-    importantDate1.style.color = '#3b6773'
+    importantDate1.style.color = '#1f4e5f'
 
     for (let i = 0; i < arr.length; i++) {
         let jsonYear = arr[i]['date'].slice(6, 10);
@@ -679,12 +765,19 @@ function getSvgElements() {
 
         updateText();
         getCurrentPrayer();
+        updateClock();
+        updateCountdown(timeNow, todaysPrayerTimes[nextPrayer])
 
+
+        countdownText.innerHTML = countdownTextArr[nextPrayer]['tr']
 
     }, 4000)
 }
-const changeLanguages = [importantDate1Text, importantDate2Text]
+
+const countdownContainer = document.querySelector('.timeLeft')
+const changeLanguages = [importantDate1Text, importantDate2Text, countdownContainer]
 const ramadanLanguages = [dateHicri, monthHicri]
+
 prayerLng = 0
 //change text every 30s
 const changeLanguage = (language, fontSize) => {
@@ -735,6 +828,7 @@ const changeLanguage = (language, fontSize) => {
             text.innerHTML = prayerNames[index][language];
         });
 
+        countdownText.innerHTML = countdownTextArr[nextPrayer][language]
 
         if (todayIsAnAnnouncement) {
             infoTitle.innerHTML = language === "ar" ? "رسالة" : language === "tr" ? "DUYURU" : "MITTEILUNG";
@@ -767,6 +861,12 @@ const changeLanguage = (language, fontSize) => {
 
             importantDate1Text.style.fontStyle = 'normal'
             importantDate2Text.style.fontStyle = 'normal'
+
+            timeLeft.removeChild(timeLeftAfter);
+            timeLeft.insertBefore(timeLeftAfter, countdownText);
+
+
+
         } else if (language === "de") {
             importantDate1Text.style.fontFamily = "'Montserrat', sans-serif"
             importantDate2Text.style.fontFamily = "'Montserrat', sans-serif"
@@ -787,6 +887,10 @@ const changeLanguage = (language, fontSize) => {
 
             importantDate1Text.style.fontStyle = 'italic'
             importantDate2Text.style.fontStyle = 'italic'
+
+
+            timeLeft.removeChild(countdownText);
+            timeLeft.insertBefore(countdownText, timeLeftAfter);
 
         }
 
@@ -811,7 +915,7 @@ const changeLanguage = (language, fontSize) => {
 
 
 
-
+        // for resize 
         if (fontSizeImportantDatesDe === "n" || fontSizeImportantDatesTr === "n" || fontSizeImportantDatesAr === "n") {
             infoText.style.fontSize = "2.5vw"
             importantDate1Text.style.fontSize = "1.5vw"
@@ -839,6 +943,7 @@ const changeLanguage = (language, fontSize) => {
 
     }, 1000);
 };
+
 setInterval(() => {
     if (prayerLng === 0) {
         changeLanguage("ar", "5em");
@@ -943,6 +1048,7 @@ function fetchMonthlyData() {
                 getAllAnnouncements();
                 updateImportantDates();
             }
+
         })
         .catch((error) => {
             console.log(`API request failed with status code ${error}`);
