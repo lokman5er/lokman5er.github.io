@@ -24,7 +24,10 @@ var todayWithoutTime = getDateString(now);
 
 const url = window.location.search;
 const urlParams = new URLSearchParams(url);
-const urlPara = urlParams.get('urlPara');
+let urlPara = urlParams.get('urlPara');
+urlPara = urlPara === '11023' ? 'muenster' : urlPara
+
+console.log(urlPara)
 
 var initalRun = true;
 
