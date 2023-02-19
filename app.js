@@ -27,7 +27,6 @@ const urlParams = new URLSearchParams(url);
 let urlPara = urlParams.get('urlPara');
 urlPara = urlPara === '11023' ? 'muenster' : urlPara
 
-console.log(urlPara)
 
 var initalRun = true;
 
@@ -171,7 +170,7 @@ function updateCountdown(startTime, endTime) {
 
 
 
-//needed to start in exact second
+// needed to start in exact second
 setTimeout(function () {
 
     runEveryMinute();
@@ -239,7 +238,7 @@ function updateClock() {
         initalRun = false;
         getAllAnnouncements();
         getNextImportantDate(importantDates)
-        updateText();
+        updateTimes();
 
         setTimeout(() => {
             fetchMonthlyData();
@@ -310,7 +309,7 @@ function updateMoonSvgs() {
 var todaysPrayerTimes = []
 var isRamadan = false;
 var hijriRaw;
-function updateText() {
+function updateTimes() {
     isRamadan = false;
     yearHicri.style.display = 'visible'
 
@@ -728,7 +727,9 @@ function animateSvg(idx) {
 
 
 
-var namazText = []
+let namazTextTr = []
+let namazTextAr = []
+let namazTextDe = []
 
 //get the text element inside svg for prayer names
 var imsakSVG, gunesSVG, ogleSVG, ikindiSVG, aksamSVG, yatsiSVG;
@@ -756,17 +757,35 @@ function getSvgElements() {
         yatsiSVG = yatsiSvg.contentDocument;
 
 
-        namazText.push(
-            imsakSVG.querySelector('.text'),
-            gunesSVG.querySelector('.text'),
-            ogleSVG.querySelector('.text'),
-            ikindiSVG.querySelector('.text'),
-            aksamSVG.querySelector('.text'),
-            yatsiSVG.querySelector('.text')
+        namazTextTr.push(
+            imsakSVG.querySelector('#tr'),
+            gunesSVG.querySelector('#tr'),
+            ogleSVG.querySelector('#tr'),
+            ikindiSVG.querySelector('#tr'),
+            aksamSVG.querySelector('#tr'),
+            yatsiSVG.querySelector('#tr')
+        )
+
+        namazTextAr.push(
+            imsakSVG.querySelector('#ar'),
+            gunesSVG.querySelector('#ar'),
+            ogleSVG.querySelector('#ar'),
+            ikindiSVG.querySelector('#ar'),
+            aksamSVG.querySelector('#ar'),
+            yatsiSVG.querySelector('#ar')
+        )
+
+        namazTextDe.push(
+            imsakSVG.querySelector('#de'),
+            gunesSVG.querySelector('#de'),
+            ogleSVG.querySelector('#de'),
+            ikindiSVG.querySelector('#de'),
+            aksamSVG.querySelector('#de'),
+            yatsiSVG.querySelector('#de')
         )
 
 
-        updateText();
+        updateTimes();
         getCurrentPrayer();
         updateClock();
         updateCountdown(timeNow, todaysPrayerTimes[nextPrayer])
@@ -783,18 +802,44 @@ const ramadanLanguages = [dateHicri, monthHicri]
 
 prayerLng = 0
 //change text every 30s
-const changeLanguage = (language, fontSize) => {
-    d3.selectAll(namazText)
-        .transition()
-        .duration(1000)
-        .style("opacity", "0")
-        .transition()
-        .duration(0)
-        .attr("font-size", fontSize)
-        .transition()
-        .duration(1000)
-        .delay(50)
-        .style("opacity", "1");
+const changeLanguage = (language) => {
+    if (language === "ar") {
+        d3.selectAll(namazTextTr)
+            .transition()
+            .duration(1000)
+            .attr("opacity", "0")
+
+        d3.selectAll(namazTextAr)
+            .transition()
+            .duration(1000)
+            .delay(1000)
+            .attr("opacity", "1")
+
+    } else if (language === "de") {
+
+        d3.selectAll(namazTextAr)
+            .transition()
+            .duration(1000)
+            .attr("opacity", "0")
+
+        d3.selectAll(namazTextDe)
+            .transition()
+            .duration(1000)
+            .delay(1000)
+            .attr("opacity", "1")
+
+    } else {
+        d3.selectAll(namazTextDe)
+            .transition()
+            .duration(1000)
+            .attr("opacity", "0")
+
+        d3.selectAll(namazTextTr)
+            .transition()
+            .duration(1000)
+            .delay(1000)
+            .attr("opacity", "1")
+    }
 
     d3.selectAll(infobox)
         .transition()
@@ -827,9 +872,9 @@ const changeLanguage = (language, fontSize) => {
     }
 
     setTimeout(() => {
-        namazText.forEach((text, index) => {
-            text.innerHTML = prayerNames[index][language];
-        });
+        // namazText.forEach((text, index) => {
+        //     text.innerHTML = prayerNames[index][language];
+        // });
 
         countdownText.innerHTML = countdownTextArr[nextPrayer][language]
 
@@ -858,16 +903,16 @@ const changeLanguage = (language, fontSize) => {
 
             infoTitle.style.fontFamily = 'Hafs'
 
-            namazText.forEach((text) => {
-                text.setAttribute('style', 'font-family: Hafs')
-            });
+            // namazText.forEach((text) => {
+            //     text.setAttribute('style', 'font-family: Hafs')
+            // });
 
             importantDate1Text.style.fontStyle = 'normal'
             importantDate2Text.style.fontStyle = 'normal'
 
             timeLeft.removeChild(timeLeftAfter);
             timeLeft.insertBefore(timeLeftAfter, countdownText);
-
+            countdownText.style.fontFamily = "Hafs"
 
 
         } else if (language === "de") {
@@ -884,9 +929,9 @@ const changeLanguage = (language, fontSize) => {
             }
 
             infoTitle.style.fontFamily = "'Montserrat', sans-serif"
-            namazText.forEach((text) => {
-                text.setAttribute('style', 'font-family: Montserrat, sans-serif')
-            });
+            // namazText.forEach((text) => {
+            //     text.setAttribute('style', 'font-family: Montserrat, sans-serif')
+            // });
 
             importantDate1Text.style.fontStyle = 'italic'
             importantDate2Text.style.fontStyle = 'italic'
@@ -894,6 +939,7 @@ const changeLanguage = (language, fontSize) => {
 
             timeLeft.removeChild(countdownText);
             timeLeft.insertBefore(countdownText, timeLeftAfter);
+            countdownText.style.fontFamily = "'Montserrat', sans-serif"
 
         }
 
@@ -949,13 +995,13 @@ const changeLanguage = (language, fontSize) => {
 
 setInterval(() => {
     if (prayerLng === 0) {
-        changeLanguage("ar", "5em");
+        changeLanguage("ar");
         prayerLng++;
     } else if (prayerLng === 1) {
-        changeLanguage("de", "3.7em");
+        changeLanguage("de");
         prayerLng++;
     } else {
-        changeLanguage("tr", "5em");
+        changeLanguage("tr");
         prayerLng = 0;
     }
 }, 30000);
@@ -1042,7 +1088,6 @@ function fetchMonthlyData() {
             if (data.status !== 200) {
                 return Promise.reject(); // Return a rejected Promise to stop executing the rest of the code in this function
             }
-            console.log(data.data);
             monthlyData = data.data;
             if (initalRun) {
                 getSvgElements()
